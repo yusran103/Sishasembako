@@ -1,0 +1,11 @@
+{% extends "layout/pengunjung/base_pengunjung.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% if request.session.nama %}
+<h3>SELAMAT DATANG {{request.session.nama}}</h3>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+        {% include "layout/header.html" %}
+        {% block extracss %}
+        {% endblock %}
+</head>
+<body id="page">
+        <ul class="cb-slideshow">
+            <li><span>Image 01</span></li>
+            <li><span>Image 02</span></li>
+            <li><span>Image 03</span></li>
+            <li><span>Image 04</span></li>
+            <li><span>Image 05</span></li>
+            <li><span>Image 06</span></li>
+        </ul>
+        <div class="container">
+                <header>
+                        {% block content %}
+
+                        {% endblock %}
+                </header>
+        </div>
+        {% include "layout/js-login.html" %}
+        {% block extrajs %}
+        {% endblock %}
+</body>
+</html>
