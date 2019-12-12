@@ -33,7 +33,7 @@ class Harga(models.Model):
     nama_sembako = models.ForeignKey(Sembako, db_column='nama_barang', on_delete=models.CASCADE)
     nominal = models.IntegerField()
     nama_pasar = models.ForeignKey(Pasar,db_column='nama_pasar', on_delete=models.CASCADE)
-    Tanggal = models.DateField()
+    Tanggal = models.DateTimeField(auto_now=True)
     validasi = models.BooleanField(default=False)
 
     class Meta:

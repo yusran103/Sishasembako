@@ -4,8 +4,11 @@
 
 {% block content %}
 
+<div style="text-align: center;">
 {% if request.session.nama %}
 <h3>SELAMAT DATANG {{request.session.nama}}</h3>
+{% else %}
+<h3>SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
 {% endif %}
-
+</div>
 {% endblock content %}

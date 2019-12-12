@@ -21,5 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login', pasar.Login, name="login"),
     path('', pasar.index, name="index"),
-    path('logout', pasar.Logout, name="logout")
+    path('logout', pasar.Logout, name="logout"),
+    # CHANGE PASSWORD
+    path('changepassword/<int:pk>', pasar.changepassword , name='changepassword'),
+    path('changeprofile/<int:pk>', pasar.changeprofile, name='changeprofile'),
+    path('harga', pasar.view_harga , name='list_harga_sembako'),
 ]

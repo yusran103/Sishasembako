@@ -1,0 +1,87 @@
+{% extends  "layout/pengunjung/base_pengunjung.html" %}
+
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap-select.css">
+{% endblock%}
+
+{% block page_content %}
+
+<section class="content-header">
+    <!-- Horizontal Form -->
+    <div class="box box-primary col-md-12">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-user"></i> Profil <b> - {{ request.session.nama }}</b></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <div class="col-md-9 col-xs-9 col-lg-9">        
+            <form class="form-horizontal" action="{% url 'changeprofile' pk=user.pk %}" method="POST">
+                {% csrf_token %}
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="nama" class="col-sm-2 control-label">{{form.nama.label}}: </label>
+                        <div class="col-sm-10">
+                            {{form.nama}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.alamat.label}}: </label>
+                        <div class="col-sm-10">
+                            {{form.alamat}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.nama_bapak.label}}: </label>
+                        <div class="col-sm-10">
+                            {{form.nama_bapak}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.nama_ibu.label}}: </label>
+                        <div class="col-sm-10">
+                            {{form.nama_ibu}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.sekolah.label}}: </label>
+                        <div class="col-sm-10">
+                            {{form.sekolah}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.angkatan.label}}: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="angkatan" id="angkatan_id" value="{{user.angkatan}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.kelas.label}}: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="kelas" id="kelas_id" value="{{user.kelas}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name" class="col-sm-2 control-label">{{form.alamat_sekolah.label}}: </label>
+                        <div class="col-sm-10">
+                            {{form.alamat_sekolah}}
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-offset-3 col-xs-offset-3 col-lg-offset-3"> -->
+                        <div class="form-group pull-right">
+                            <a href="{% url 'index' %}" type="button" class="btn btn-primary">Kembali</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+    {% block extrajs%}
+    <script src="/static/assets/bootstrap/js/bootstrap-select.js"></script>
+    <script>
+        $('input').attr('readonly',true);
+        $('textarea').attr('readonly',true);
+    </script>
+    {% endblock %}
