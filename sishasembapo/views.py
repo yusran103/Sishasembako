@@ -9,6 +9,9 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.template import context
 from django.views.generic.edit import CreateView
+import datetime
+from django.db.models import Q
+from django.utils import translation
 
 # Create your views here.
 def Login(request):
@@ -20,7 +23,7 @@ def Login(request):
                     profil = PetugasPasar.objects.get(akun_id=user.id)
                     login(request, user)
                     request.session['nama'] = profil.nama
-                    request.session['pasar'] = profil.pasar.nama
+                    request.session['pasar'] = profil.pasar.nama_pasar
                     request.session['id'] = user.id
                     for key, value in request.session.items():
                         print('{} => {}'.format(key, value))
@@ -34,9 +37,12 @@ def Login(request):
     return render(request, 'login.html')
 
 def index(request):
+    ambilsembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
+    jumlahjenis = Sembako.objects.filter(nama_sembako__isnull=True).order_by('-nama_sembako')
+    ambilsembakosemua = Sembako.objects.all()
     for key, value in request.session.items():
         print('{} => {}'.format(key, value))
-    return render(request, 'pengunjung/index.html')
+    return render(request, 'pengunjung/index.html',{'sembako':ambilsembako,'sembakosemua':ambilsembako})
 
 def Logout(request):
     logout(request)
@@ -99,8 +105,10 @@ def changeprofile(request,pk):
 
 @login_required(login_url='/login')
 def view_harga(request):
-    ambil_pasar = Pasar.objects.get(nama=request.session['pasar'])
+    ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
+    # list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal = datetime.date.today())
     list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id)
+    translation.activate('id')
     if request.method == "POST":
         form = Harga_form(request.POST)
         if form.is_valid():
@@ -110,6 +118,7 @@ def view_harga(request):
                 nama_sembako = Sembako.objects.get(pk=request.POST.get('nama_sembako')),
                 nominal = request.POST['nominal'],
                 nama_pasar = ambil_pasar,
+                tanggal = request.POST['tanggal'],
                 validasi = False
             )
             hargasembako.save()

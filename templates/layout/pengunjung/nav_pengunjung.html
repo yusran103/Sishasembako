@@ -27,7 +27,7 @@
             {% if request.session.nama %}
             <li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                    Hi, {{request.session.nama}}
+                    Hi, {{request.session.nama.split | first}} !
                 </a>
             </li>
             {% else %}

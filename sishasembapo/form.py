@@ -46,10 +46,11 @@ class User_form(ModelForm):
 
 class Harga_form(ModelForm):
     nama_sembako = forms.ModelChoiceField(
-        queryset = Sembako.objects.all(),
+        queryset = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako'),
         widget = Select(
             attrs = {
-                'class':'form-control',
+                'class':'form-control selectpicker',
+                'data-live-search':'true',
             }
         )
     )
@@ -62,9 +63,40 @@ class Harga_form(ModelForm):
             ),
             required=True
         )
+    tanggal = forms.DateField(
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Tanggal',
+                'autocomplete':'off',
+                }
+            ),
+        )
     class Meta:
         model = Harga
         fields = [
             'nama_sembako',
-            'nominal'
+            'nominal',
+            'tanggal'
         ]
+
+class Harga_form_admin(ModelForm):
+    class Meta:
+        model = Harga
+        fields = [
+            'validasi'
+        ]
+
+class sembako_form_admin(ModelForm):
+    nama_sembako = forms.ModelChoiceField(
+        queryset = Sembako.objects.filter(nama_sembako__isnull=True),
+        widget = Select(
+            attrs = {
+                'class':'form-control',
+            }
+        ),
+        required=False
+    )
+    class Meta:
+        model = Sembako
+        fields = "__all__"

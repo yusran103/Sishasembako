@@ -6,19 +6,6 @@
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
-<style>   
-    @media screen and (max-width: 600px) {
-        section.content-header {
-            font-size: 10px;
-        }
-        h4.box-title{
-            font-size: 13px;
-        }
-        button.btns{
-            font-size: 13px;
-        }
-    }
-</style>
 {% endblock extrastyle %}
 
 {% block content %}
@@ -53,15 +40,19 @@
                     {% if harga %}
                     {% for list_harga in harga %}
                     <tr>
-                        <td>{{list_harga.Tanggal}}</td>                        
+                        <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
                         <td>{{list_harga.nama_sembako}}</td>
-                        <td>{{list_harga.nominal|intcomma}}</td>
-                        <td>{{list_harga.validasi}}</td>
+                        <td>Rp. {{list_harga.nominal|intcomma}}</td>
+                        {% if list_harga.validasi == 0 %}
+                        <td>Belum di validasi</td>
+                        {% else %}
+                        <td>Sudah di validasi</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="5"><center>Tidak ada data harga di {{request.session.pasar}} saat ini</center></td>
+                        <td colspan="5"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
                     </tr>
                     {% endif %}
                 </tbody>
@@ -96,15 +87,23 @@
 {% endblock content %}
 
 {% block extrajs %}
-<script src="{% static 'DataTables/datatables.min.js' %}"></script>
-<script src="{% static 'assets_page/plugins/toastr/toastr.min.js'%}"></script>
+{% comment %} <script src="{% static 'DataTables/datatables.min.js' %}"></script> {% endcomment %}
+<script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
+<script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
 <script>
     $(document).ready( function () {
-        $('#myTable').DataTable();
+        $('#myTable').DataTable({
+            "pageLength": 9,
+        });
+        $('#id_nama_sembako').select2({
+            theme: 'bootstrap4'
+        })
     });
-    $.each($('select'),function(index,data){
-        var id = $(data).attr('id');
-        $('#'+id).addClass('form-control')
+
+    $('#id_tanggal').datepicker({
+        format : "yyyy-mm-dd",
+        autoclose: true
     });
+
 </script>
 {% endblock extrajs %}

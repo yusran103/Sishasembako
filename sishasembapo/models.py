@@ -1,17 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 # Create your models here.
 class Pasar(models.Model):
-    nama = models.CharField(max_length=100)
-    alamat = models.TextField()
+    nama_pasar = models.CharField(max_length=100)
+    alamat_pasar = models.TextField()
     
     class Meta:
         db_table = "Tb_Pasar"
         verbose_name_plural = "Pasar"
     
     def __str__(self):
-        return self.nama
+        return self.nama_pasar
 
 class Sembako(models.Model):
     PILIHAN_CHOICES = [
@@ -19,7 +20,8 @@ class Sembako(models.Model):
         ('Bungkus', 'Bungkus'),
         ('Liter', 'Liter'),
     ]
-    nama = models.CharField(max_length=50)
+    nama_sembako = models.ForeignKey('self',null = True,blank=True,on_delete=models.CASCADE)
+    jenis_sembako = models.CharField(max_length=50)
     satuan = models.CharField(max_length=7, choices=PILIHAN_CHOICES, default='kg')
 
     class Meta:
@@ -27,13 +29,16 @@ class Sembako(models.Model):
         verbose_name_plural = "Sembako"
     
     def __str__(self):
-        return "%s"%(self.nama)
+        if not self.nama_sembako:
+            return "%s"%(self.jenis_sembako)
+        else:
+            return "%s - %s"%(self.nama_sembako,self.jenis_sembako)
 
 class Harga(models.Model):
-    nama_sembako = models.ForeignKey(Sembako, db_column='nama_barang', on_delete=models.CASCADE)
+    tanggal = models.DateField()
+    nama_sembako = models.ForeignKey(Sembako,on_delete=models.CASCADE)
+    nama_pasar = models.ForeignKey(Pasar,on_delete=models.CASCADE)
     nominal = models.IntegerField()
-    nama_pasar = models.ForeignKey(Pasar,db_column='nama_pasar', on_delete=models.CASCADE)
-    Tanggal = models.DateTimeField(auto_now=True)
     validasi = models.BooleanField(default=False)
 
     class Meta:
@@ -41,11 +46,12 @@ class Harga(models.Model):
         verbose_name_plural = "Harga"
 
     @property
-    def price_display(self):
-        return "Rp. %s" % self.nominal
+    def harga(self):
+        natural = intcomma(self.nominal)
+        return "Rp. %s" % natural
 
     def __str__(self):
-        return self.nama_sembako.nama
+        return "%s - %s"%(self.nama_sembako.nama_sembako,self.nama_sembako.jenis_sembako)
 
 class PetugasPasar(models.Model):
     JK_CHOICES = [

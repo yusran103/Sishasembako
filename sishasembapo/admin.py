@@ -6,17 +6,26 @@ from sishasembapo.form import *
 admin.site.index_title = 'ADMIN PD. PASAR'
 
 class hargaAdmin(admin.ModelAdmin):
-    list_display = ['nama_sembako','price_display','nama_pasar','validasi']
+    readonly_fields = ('tanggal','nama_sembako','nama_pasar','harga')
+    list_display = ['nama_sembako','harga','nama_pasar','validasi']
+    list_filter = ['nama_pasar__nama_pasar']
+    form = Harga_form_admin
 
 class pasarAdmin(admin.ModelAdmin):
-    list_display = ['nama','alamat']
+    list_display = ['nama_pasar','alamat_pasar']
 
 class sembakoAdmin(admin.ModelAdmin):
-    list_display = ['nama','satuan']
+    list_display = ['daftar_sembako','satuan']
+    form = sembako_form_admin
+    def daftar_sembako(self, obj):
+        if not obj.nama_sembako:
+            return obj.jenis_sembako
+        else:
+            return '%s - %s'%(obj.nama_sembako,obj.jenis_sembako)
 
 class formadminpasar(admin.ModelAdmin):
     list_display = ['nama','pasar']
-    list_filter = ['pasar__nama']
+    list_filter = ['pasar__nama_pasar']
     form = AdminPasarForm
 
 admin.site.register(Pasar,pasarAdmin)

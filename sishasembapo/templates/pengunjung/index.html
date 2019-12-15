@@ -3,12 +3,79 @@
 {% load static %}
 
 {% block content %}
-
-<div style="text-align: center;">
-{% if request.session.nama %}
-<h3>SELAMAT DATANG {{request.session.nama}}</h3>
-{% else %}
-<h3>SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
-{% endif %}
-</div>
+<section class="content-header">
+    <div style="text-align: center;">
+        {% if request.session.nama %}
+        <h3>SELAMAT DATANG {{request.session.nama}}</h3>
+        {% else %}
+        <h3>SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
+        {% endif %}
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="form-group">
+                <label>Pilih Nama Sembako</label>
+                <div class="input-group">
+                    <select class="form-control selectpicker" data-live-search="True">
+                        <option value="">-------</option>
+                        {% for list_sembako in sembako %}
+                        <option value="{{list_sembako.id}}">{{list_sembako.nama_sembako}} - {{list_sembako.jenis_sembako}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+                <label>Pilih Tanggal</label>
+                <div class="input-group">
+                    <input type="text" name="tanggal" readonly class="form-control" placeholder="Tanggal" autocomplete="off" required="" id="id_tanggal">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <div class="input-group">
+                    <button class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr valign="top" style="text-align: center;">
+                <th>Nama Bahan Pokok</th>
+                <th>Satuan</th>
+                <th>Harga Kemarin</th>
+                <th>Harga Sekarang</th>
+                <th>Perubahan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for list_sembako1 in sembakosemua %}
+            <tr>
+                {% if not list_sembako1.nama_sembako %}
+                <td colspan = "5"><b>{{ list_sembako1.jenis_sembako }}</b></td>
+                {% else %}
+                <td><b>{{ list_sembako1.nama_sembako }}</b> - {{ list_sembako1.jenis_sembako }}</td>
+                <td>{{ list_sembako1.satuan }}</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 {% endblock content %}
+{% block extrajs %}
+<script>
+    $('#id_tanggal').datepicker({
+        format : "yyyy-mm-dd",
+        autoclose: true
+    });
+</script>
+{% endblock extrajs %}

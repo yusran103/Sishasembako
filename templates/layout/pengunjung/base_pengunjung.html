@@ -16,9 +16,26 @@
   <link rel="stylesheet" href="{% static 'assets_page/plugins/fontawesome-free/css/all.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'assets_page/dist/css/adminlte.min.css'%}">
+  <link rel="stylesheet" href="{% static 'assets_page/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'assets_page/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'assets_page/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="icon" href="http://pdpasar.kedirikota.go.id/assets/img/logokediri.png">
+  <style>   
+    @media screen and (max-width: 600px) {
+        section.content-header {
+            font-size: 10px;
+        }
+        h4.box-title{
+            font-size: 13px;
+        }
+        button.btns{
+            font-size: 13px;
+        }
+    }
+</style>
   {% block extrastyle %}
   {% endblock %}
 </head>
@@ -70,10 +87,14 @@
   
   <!-- jQuery -->
   <script src="{% static 'assets_page/plugins/jquery/jquery.min.js'%}"></script>
+  <script src="{% static 'assets_page/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
   <!-- Bootstrap 4 -->
   <script src="{% static 'assets_page/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
   <!-- AdminLTE App -->
   <script src="{% static 'assets_page/dist/js/adminlte.min.js'%}"></script>
+  <script src="{% static 'assets_page/plugins/select2/js/select2.full.min.js'%}"></script>
+  <script src="{% static 'assets_page/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.js' %}"></script>
   {% block extrajs %}
   {% endblock %}
 </body>
