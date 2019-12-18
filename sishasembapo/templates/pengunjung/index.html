@@ -12,37 +12,40 @@
         {% endif %}
     </div>
     <br>
+    <form action="{% url 'index' %}" method="POST">
+    {% csrf_token %}
     <div class="row">
         <div class="col-sm-5">
             <div class="form-group">
-                <label>Pilih Nama Sembako</label>
+                <label>Pilih Nama Pasar</label>
                 <div class="input-group">
                     <select class="form-control selectpicker" data-live-search="True">
                         <option value="">-------</option>
-                        {% for list_sembako in sembako %}
-                        <option value="{{list_sembako.id}}">{{list_sembako.nama_sembako}} - {{list_sembako.jenis_sembako}}</option>
+                        {% for list_pasar in pasar %}
+                        <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
         </div>
-        <div class="col-sm-5">
-            <div class="form-group">
-                <label>Pilih Tanggal</label>
-                <div class="input-group">
-                    <input type="text" name="tanggal" readonly class="form-control" placeholder="Tanggal" autocomplete="off" required="" id="id_tanggal">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label>Pilih Tanggal</label>
+                    <div class="input-group">
+                        <input type="text" name="tanggal" readonly class="form-control" placeholder="Tanggal" autocomplete="off" required="" id="id_tanggal">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-2">
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <div class="input-group">
-                    <button class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </form>
     <table class="table table-bordered">
         <thead>
             <tr valign="top" style="text-align: center;">
@@ -56,14 +59,14 @@
         <tbody>
             {% for list_sembako1 in sembakosemua %}
             <tr>
-                {% if not list_sembako1.nama_sembako %}
-                <td colspan = "5"><b>{{ list_sembako1.jenis_sembako }}</b></td>
+                {% if not list_sembako1.induk %}
+                <td colspan = "5" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
                 {% else %}
-                <td><b>{{ list_sembako1.nama_sembako }}</b> - {{ list_sembako1.jenis_sembako }}</td>
-                <td>{{ list_sembako1.satuan }}</td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
+                <td id="{{ list_sembako1.induk}}">-{{ list_sembako1.jenis }}</td>
+                <td id = "satuan">{{ list_sembako1.jenis }}</td>
+                <td id = "hargakemarin">{{ list_sembako1.kemarin }}</td>
+                <td id = "hargasekarang">{{ list_sembako1.sekarang }}</td>
+                <td id = "hargaperubahan">X</td>
                 {% endif %}
             </tr>
             {% endfor %}

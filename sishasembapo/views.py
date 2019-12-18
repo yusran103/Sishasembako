@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 import datetime
 from django.db.models import Q
 from django.utils import translation
+from django.db.models.functions import Coalesce
 
 # Create your views here.
 def Login(request):
@@ -29,7 +30,7 @@ def Login(request):
                         print('{} => {}'.format(key, value))
                     return redirect('/')
                 except PetugasPasar.DoesNotExist:
-                    messages.add_message(request, messages.INFO, 'Akun Tersebut Belum Terintegrasi dengan Petugas Pasar, Silahkan Hubungi Admin PD. Pasar')  
+                    messages.add_message(request, messages.INFO, 'Akun Tersebut Belum Terintegrasi Dengan Petugas Pasar Manapun, Silahkan Hubungi Admin PD. Pasar')  
             else:
                messages.add_message(request, messages.INFO, 'Akun Tersebut Bukan Termasuk Akun Petugas Pasar') 
         else:
@@ -37,12 +38,44 @@ def Login(request):
     return render(request, 'login.html')
 
 def index(request):
-    ambilsembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
-    jumlahjenis = Sembako.objects.filter(nama_sembako__isnull=True).order_by('-nama_sembako')
-    ambilsembakosemua = Sembako.objects.all()
+
+    ambilpasar = Pasar.objects.all()
+    ambilsembakosemua = Sembako.objects.annotate(induk=Coalesce('nama_sembako','id')).order_by('induk','id')
+    #ambilsembakosemua = Harga.objects.annotate(induk=Coalesce('nama_sembako__nama_sembako','nama_sembako__id')).order_by('induk','nama_sembako__id')
+
     for key, value in request.session.items():
         print('{} => {}'.format(key, value))
-    return render(request, 'pengunjung/index.html',{'sembako':ambilsembako,'sembakosemua':ambilsembako})
+
+    date_isi = []
+    if request.method == "POST":
+        ambiltanggal = request.POST['tanggal']
+        tanggal = datetime.datetime.strptime(ambiltanggal,'%Y-%m-%d')
+        kemarin = datetime.timedelta(days=1)
+        date_isi.append({ "kemarin":tanggal - kemarin, "tanggal":tanggal})
+    # print(ambilsembakosemua)
+   
+    data = [];
+    for sem in ambilsembakosemua:
+        sekarang = 0
+        kemarin = 0
+        if sem.nama_sembako:
+            # print(sem.id)
+            for dd in date_isi:
+                ambilsembakos = Harga.objects.filter(tanggal=dd['tanggal'],nama_sembako__id=sem.id,validasi=True).first()
+                if ambilsembakos:
+                    sekarang = ambilsembakos.nominal
+                else:
+                    sekarang = 0
+
+                ambilkemarin = Harga.objects.filter(tanggal=dd['kemarin'],nama_sembako__id=sem.id,validasi=True).first()
+                if ambilkemarin:
+                    kemarin = ambilkemarin.nominal
+                else:
+                    kemarin = 0
+        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin})
+    # print(data)
+
+    return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data})
 
 def Logout(request):
     logout(request)
@@ -119,7 +152,7 @@ def view_harga(request):
                 nominal = request.POST['nominal'],
                 nama_pasar = ambil_pasar,
                 tanggal = request.POST['tanggal'],
-                validasi = False
+                validasi = True
             )
             hargasembako.save()
             messages.add_message(request, messages.INFO, 'Berhasil Menambah Data') 

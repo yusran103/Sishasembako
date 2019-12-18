@@ -7,7 +7,7 @@ admin.site.index_title = 'ADMIN PD. PASAR'
 
 class hargaAdmin(admin.ModelAdmin):
     readonly_fields = ('tanggal','nama_sembako','nama_pasar','harga')
-    list_display = ['nama_sembako','harga','nama_pasar','validasi']
+    list_display = ['tanggal','nama_sembako','harga','nama_pasar','validasi']
     list_filter = ['nama_pasar__nama_pasar']
     form = Harga_form_admin
 
