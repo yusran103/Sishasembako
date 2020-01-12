@@ -6,76 +6,71 @@
 <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap-select.css">
 {% endblock%}
 
-{% block page_content %}
+{% block content %}
 
 <section class="content-header">
     <!-- Horizontal Form -->
-    <div class="box box-primary col-md-12">
-        <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-user"></i> Profil <b> - {{ request.session.nama }}</b></h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <div class="col-md-9 col-xs-9 col-lg-9">        
-            <form class="form-horizontal" action="{% url 'changeprofile' pk=user.pk %}" method="POST">
-                {% csrf_token %}
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="nama" class="col-sm-2 control-label">{{form.nama.label}}: </label>
-                        <div class="col-sm-10">
-                            {{form.nama}}
+    <center>
+        <div class="card col-md-5" style="text-align: left;">
+            <div class="card-body">
+                <div class="box box-primary col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i> Profil <b> - {{ request.session.nama }}</b></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="col-md-12 col-xs-12 col-lg-12">     
+                        <br>   
+                        <form class="form-horizontal" method="POST">
+                            {% csrf_token %}
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="nama" class="col-sm-6 control-label">Nama: </label>
+                                    <div class="col-sm-10">
+                                        {{user.nama}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name" class="col-sm-6 control-label">Jenis Kelamin: </label>
+                                    <div class="col-sm-10">
+                                        {{user.get_jenis_kelamin_display}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name" class="col-sm-6 control-label">Tempat Tanggal lahir: </label>
+                                    <div class="col-sm-10">
+                                        {{user.tempat_lahir}}, {{user.Tanggal_lahir|date:"j F Y"}} 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name" class="col-sm-6 control-label">Alamat: </label>
+                                    <div class="col-sm-10">
+                                        {{user.alamat}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name" class="col-sm-6 control-label">Pasar: </label>
+                                    <div class="col-sm-10">
+                                        {{user.pasar.nama_pasar}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name" class="col-sm-6 control-label">Nomor Telepon: </label>
+                                    <div class="col-sm-10">
+                                        {{user.No_hp}}
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-offset-3 col-xs-offset-3 col-lg-offset-3"> -->
+                                    <div class="form-group" style="text-align: center;">
+                                        <a href="{% url 'index' %}" type="button" class="btn btn-primary">Kembali</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.alamat.label}}: </label>
-                        <div class="col-sm-10">
-                            {{form.alamat}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.nama_bapak.label}}: </label>
-                        <div class="col-sm-10">
-                            {{form.nama_bapak}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.nama_ibu.label}}: </label>
-                        <div class="col-sm-10">
-                            {{form.nama_ibu}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.sekolah.label}}: </label>
-                        <div class="col-sm-10">
-                            {{form.sekolah}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.angkatan.label}}: </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="angkatan" id="angkatan_id" value="{{user.angkatan}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.kelas.label}}: </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="kelas" id="kelas_id" value="{{user.kelas}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name" class="col-sm-2 control-label">{{form.alamat_sekolah.label}}: </label>
-                        <div class="col-sm-10">
-                            {{form.alamat_sekolah}}
-                        </div>
-                    </div>
-                    <!-- <div class="col-md-offset-3 col-xs-offset-3 col-lg-offset-3"> -->
-                        <div class="form-group pull-right">
-                            <a href="{% url 'index' %}" type="button" class="btn btn-primary">Kembali</a>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </center>
     </section>
     {% endblock %}
     {% block extrajs%}

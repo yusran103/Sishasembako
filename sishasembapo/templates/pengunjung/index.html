@@ -1,7 +1,7 @@
 {% extends "layout/pengunjung/base_pengunjung.html" %}
 
 {% load static %}
-
+{% load humanize %}
 {% block content %}
 <section class="content-header">
     <div style="text-align: center;">
@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label>Pilih Nama Pasar</label>
                 <div class="input-group">
-                    <select class="form-control selectpicker" data-live-search="True">
+                    <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
                         <option value="">-------</option>
                         {% for list_pasar in pasar %}
                         <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label>Pilih Tanggal</label>
                     <div class="input-group">
-                        <input type="text" name="tanggal" readonly class="form-control" placeholder="Tanggal" autocomplete="off" required="" id="id_tanggal">
+                        <input type="text" name="tanggal" class="form-control" placeholder="Tanggal" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tanggal">
                     </div>
                 </div>
             </div>
@@ -64,8 +64,16 @@
                 {% else %}
                 <td id="{{ list_sembako1.induk}}">-{{ list_sembako1.jenis }}</td>
                 <td id = "satuan">{{ list_sembako1.jenis }}</td>
-                <td id = "hargakemarin">{{ list_sembako1.kemarin }}</td>
-                <td id = "hargasekarang">{{ list_sembako1.sekarang }}</td>
+                {% if not list_sembako1.kemarin == 0 %}
+                <td id = "hargakemarin">Rp. {{list_sembako1.kemarin|intcomma}}</td>
+                {% else %}
+                <td id = "hargakemarin"> - </td>
+                {% endif %}
+                {% if not list_sembako1.sekarang == 0 %}
+                <td id = "hargasekarang">Rp. {{ list_sembako1.sekarang|intcomma}}</td>
+                {% else %}
+                <td id = "hargasekarang"> - </td>
+                {% endif %}
                 <td id = "hargaperubahan">X</td>
                 {% endif %}
             </tr>

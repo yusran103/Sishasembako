@@ -3,6 +3,64 @@ from django.forms import ModelForm,Select
 from sishasembapo.models import *
 
 YEARS= [x for x in range(1940,2021)]
+class Profile_form(ModelForm):
+    nama = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Isikan nama'
+                }
+            ),
+            required=True
+        )
+    jenis_kelamin = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Isikan nama'
+                }
+            ),
+            required=True
+        )
+    tempat_lahir = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Isikan nama bapak'
+                }
+            ),
+            required=True
+        )
+    Tanggal_lahir = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Isikan username'
+                }
+            ),
+            required=True
+        )
+    alamat = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Isikan nama sekolah'
+                }
+            ),
+            required=True
+        )
+    No_hp = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Isikan nama angkatan'
+                }
+            ),
+            required=True
+        )
+    class Meta:
+        model = PetugasPasar
+        exclude=('akun','pasar')
 class AdminPasarForm(ModelForm):
     akun = forms.ModelChoiceField(
         queryset = User.objects.filter(is_staff=False),

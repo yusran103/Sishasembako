@@ -49,9 +49,10 @@ def index(request):
     date_isi = []
     if request.method == "POST":
         ambiltanggal = request.POST['tanggal']
+        ambilpasar1 = request.POST.get('nama_pasar')
         tanggal = datetime.datetime.strptime(ambiltanggal,'%Y-%m-%d')
         kemarin = datetime.timedelta(days=1)
-        date_isi.append({ "kemarin":tanggal - kemarin, "tanggal":tanggal})
+        date_isi.append({ "kemarin":tanggal - kemarin, "tanggal":tanggal,'pasar':ambilpasar1})
     # print(ambilsembakosemua)
    
     data = [];
@@ -61,13 +62,13 @@ def index(request):
         if sem.nama_sembako:
             # print(sem.id)
             for dd in date_isi:
-                ambilsembakos = Harga.objects.filter(tanggal=dd['tanggal'],nama_sembako__id=sem.id,validasi=True).first()
+                ambilsembakos = Harga.objects.filter(tanggal=dd['tanggal'],nama_sembako__id=sem.id,validasi=True,nama_pasar__id=dd['pasar']).order_by('-id').first()
                 if ambilsembakos:
                     sekarang = ambilsembakos.nominal
                 else:
                     sekarang = 0
 
-                ambilkemarin = Harga.objects.filter(tanggal=dd['kemarin'],nama_sembako__id=sem.id,validasi=True).first()
+                ambilkemarin = Harga.objects.filter(tanggal=dd['kemarin'],nama_sembako__id=sem.id,validasi=True,nama_pasar__id=dd['pasar']).order_by('-id').first()
                 if ambilkemarin:
                     kemarin = ambilkemarin.nominal
                 else:
@@ -91,7 +92,7 @@ def changepassword(request,pk):
     if request.method == "POST":
         form = User_form(request.POST, instance=user)
         if form.is_valid():
-            url = '/'
+            url = '/login'
             resp_body = '<script>alert("Password user %s Berhasil di rubah, Silahkan Login Kembali");\
             window.location="%s"</script>' % (user.username , url)
             cursor = connection.cursor()
@@ -103,38 +104,10 @@ def changepassword(request,pk):
     return render(request, 'changepassword.html', {'form': form, 'user' : user,'messages':messages})
 
 @login_required(login_url='/login')
-def changeprofile(request,pk):
+def profile(request,pk):
     user = PetugasPasar.objects.filter(akun_id = request.session['id']).first()
-    if request.method == "POST":
-        form = Profile_form(request.POST, instance=user)
-        if form.is_valid():
-            url = '/'
-            resp_body = '<script>alert("Profil user %s Berhasil di rubah");\
-            window.location="%s"</script>' % (user.nama , url)
-            cursor = connection.cursor()
-            cursor.execute(
-                """update tb_siswa set 
-                    nama='%s',
-                    alamat='%s',
-                    nama_bapak='%s',
-                    nama_ibu='%s',
-                    sekolah='%s',
-                    alamat_sekolah='%s' where akun_id ='%s' """
-                    %(
-                        request.POST['nama'],
-                        request.POST['alamat'],
-                        request.POST['nama_bapak'],
-                        request.POST['nama_ibu'],
-                        request.POST['sekolah'],
-                        request.POST['alamat_sekolah'],
-                        user.akun_id
-                    )
-                )
-            request.session['nama'] = user.nama
-            return HttpResponse(resp_body)
-    else:
-        form = Profile_form(instance=user)
-    return render(request, 'changeprofile.html', {'form': form, 'user' : user,'messages':messages})
+    translation.activate('id')
+    return render(request, 'changeprofile.html', {'user' : user,'messages':messages})
 
 @login_required(login_url='/login')
 def view_harga(request):

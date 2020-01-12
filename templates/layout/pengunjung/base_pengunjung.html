@@ -64,7 +64,7 @@
       <div class="p-3">
           <a href="{% url 'changepassword' request.session.id %}">Ubah Password</a>
           <br>
-          <a href="#">Profil</a>
+          <a href="{% url 'profile' pk=request.session.id %}">Profil</a>
           <br>
           <a href="{% url 'logout' %}">Logout</a>
       </div>

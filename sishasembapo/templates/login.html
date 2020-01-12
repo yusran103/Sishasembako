@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block content %}
-    <section class="login-form" style="opacity: 0.8;">
+    <section class="login-form">
         <form method="POST" action="{% url 'login' %}" role="login">
             {% csrf_token %}
             {% if messages %}

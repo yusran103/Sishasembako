@@ -65,7 +65,7 @@ class PetugasPasar(models.Model):
     nama = models.CharField(max_length=100)
     jenis_kelamin = models.CharField(max_length=20, choices=JK_CHOICES, default='LK')
     tempat_lahir = models.CharField(max_length=100)
-    Tanggal_lahir = models.CharField(max_length=100)
+    Tanggal_lahir = models.DateField()
     alamat = models.TextField()
     pasar = models.ForeignKey(Pasar,on_delete=models.CASCADE)
     No_hp = models.CharField(max_length=100)
