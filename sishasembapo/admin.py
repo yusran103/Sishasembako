@@ -1,11 +1,10 @@
 from django.contrib import admin
 from sishasembapo.models import *
 from sishasembapo.form import *
-from django.utils import translation
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
-translation.activate('id')
+
 class hargaAdmin(admin.ModelAdmin):
     readonly_fields = ('Tanggal','nama_sembako','nama_pasar','harga')
     list_display = ['Tanggal','nama_sembako','harga','nama_pasar','validasi']
