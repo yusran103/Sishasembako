@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from sishasembapo import views as pasar
+from django.conf.urls.i18n import i18n_patterns
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('login', pasar.Login, name="login"),
     path('', pasar.index, name="index"),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('changepassword/<int:pk>', pasar.changepassword , name='changepassword'),
     path('profile/<int:pk>', pasar.profile, name='profile'),
     path('harga', pasar.view_harga , name='list_harga_sembako'),
-]
+    prefix_default_language=False
+)

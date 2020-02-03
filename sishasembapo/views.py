@@ -78,6 +78,7 @@ def index(request):
 
     return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data})
 
+@login_required(login_url='/login')
 def Logout(request):
     logout(request)
     for key in request.session.keys():

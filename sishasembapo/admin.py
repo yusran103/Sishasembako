@@ -1,15 +1,19 @@
 from django.contrib import admin
 from sishasembapo.models import *
 from sishasembapo.form import *
+from django.utils import translation
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
-
+translation.activate('id')
 class hargaAdmin(admin.ModelAdmin):
-    readonly_fields = ('tanggal','nama_sembako','nama_pasar','harga')
-    list_display = ['tanggal','nama_sembako','harga','nama_pasar','validasi']
+    readonly_fields = ('Tanggal','nama_sembako','nama_pasar','harga')
+    list_display = ['Tanggal','nama_sembako','harga','nama_pasar','validasi']
     list_filter = ['nama_pasar__nama_pasar']
     form = Harga_form_admin
+    
+    def Tanggal(self, obj):
+        return obj.tanggal.strftime('%A, %d %B %Y')
 
 class pasarAdmin(admin.ModelAdmin):
     list_display = ['nama_pasar','alamat_pasar']
