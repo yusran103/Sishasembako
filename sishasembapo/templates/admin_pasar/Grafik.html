@@ -1,0 +1,106 @@
+{% extends "layout/pengunjung/base_pengunjung.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+{% endblock extrastyle %}
+
+{% block content %}
+<section class="content-header">
+    <div style="text-align: center;">
+        {% if request.session.nama %}
+        <h3>SELAMAT DATANG {{request.session.nama}}</h3>
+        {% else %}
+        <h3>SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
+        {% endif %}
+    </div>
+    <br>
+    <form action="{% url 'index' %}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="form-group">
+                <label>Pilih Nama Pasar</label>
+                <div class="input-group">
+                    <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
+                        <option value="">-------</option>
+                        {% for list_pasar in pasar %}
+                        <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label>Pilih Tanggal</label>
+                    <div class="input-group">
+                        <input type="text" name="tanggal" class="form-control" placeholder="Tanggal" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tanggal">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+<canvas id="myChart" width="200" height="200"></canvas>
+
+</section>
+{% endblock content %}
+{% block extrajs %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+<script>
+    $('#id_tanggal').datepicker({
+        format : "yyyy-mm-dd",
+        autoclose: true
+    });
+</script>
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,99,132,1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+</script>
+{% endblock extrajs %}

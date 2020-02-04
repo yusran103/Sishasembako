@@ -134,3 +134,8 @@ def view_harga(request):
     else:
         form = Harga_form()
     return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga})
+
+@login_required(login_url='/login')
+def view_grafik(request):
+    return render(request,'admin_pasar/Grafik.html')
+
