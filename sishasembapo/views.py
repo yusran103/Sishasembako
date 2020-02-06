@@ -41,7 +41,6 @@ def index(request):
 
     ambilpasar = Pasar.objects.all()
     ambilsembakosemua = Sembako.objects.annotate(induk=Coalesce('nama_sembako','id')).order_by('induk','id')
-    #ambilsembakosemua = Harga.objects.annotate(induk=Coalesce('nama_sembako__nama_sembako','nama_sembako__id')).order_by('induk','nama_sembako__id')
 
     for key, value in request.session.items():
         print('{} => {}'.format(key, value))
@@ -53,7 +52,7 @@ def index(request):
         tanggal = datetime.datetime.strptime(ambiltanggal,'%Y-%m-%d')
         kemarin = datetime.timedelta(days=1)
         date_isi.append({ "kemarin":tanggal - kemarin, "tanggal":tanggal,'pasar':ambilpasar1})
-    # print(ambilsembakosemua)
+    print(ambilsembakosemua)
    
     data = [];
     for sem in ambilsembakosemua:
@@ -73,7 +72,7 @@ def index(request):
                     kemarin = ambilkemarin.nominal
                 else:
                     kemarin = 0
-        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin})
+        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan})
     # print(data)
 
     return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data})
@@ -126,7 +125,7 @@ def view_harga(request):
                 nominal = request.POST['nominal'],
                 nama_pasar = ambil_pasar,
                 tanggal = request.POST['tanggal'],
-                validasi = True
+                validasi = False
             )
             hargasembako.save()
             messages.add_message(request, messages.INFO, 'Berhasil Menambah Data') 
@@ -135,7 +134,8 @@ def view_harga(request):
         form = Harga_form()
     return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga})
 
-@login_required(login_url='/login')
 def view_grafik(request):
-    return render(request,'admin_pasar/Grafik.html')
+    ambil_pasar = Pasar.objects.all()
+    ambil_Sembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
+    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako})
 
