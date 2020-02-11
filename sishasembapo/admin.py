@@ -10,16 +10,19 @@ class hargaAdmin(admin.ModelAdmin):
     list_display = ['Tanggal','nama_sembako','harga','nama_pasar','validasi']
     list_filter = ['nama_pasar__nama_pasar']
     form = Harga_form_admin
+    list_per_page = 10
     
     def Tanggal(self, obj):
         return obj.tanggal.strftime('%A, %d %B %Y')
 
 class pasarAdmin(admin.ModelAdmin):
     list_display = ['nama_pasar','alamat_pasar']
+    list_per_page = 10
 
 class sembakoAdmin(admin.ModelAdmin):
     list_display = ['daftar_sembako','satuan']
     form = sembako_form_admin
+    list_per_page = 10
     def daftar_sembako(self, obj):
         if not obj.nama_sembako:
             return obj.jenis_sembako
@@ -30,8 +33,10 @@ class formadminpasar(admin.ModelAdmin):
     list_display = ['nama','pasar']
     list_filter = ['pasar__nama_pasar']
     form = AdminPasarForm
+    list_per_page = 10
 
 admin.site.register(Pasar,pasarAdmin)
 admin.site.register(Sembako,sembakoAdmin)
 admin.site.register(Harga,hargaAdmin)
 admin.site.register(PetugasPasar,formadminpasar)
+admin.site.register(Satuan)

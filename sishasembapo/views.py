@@ -52,7 +52,7 @@ def index(request):
         tanggal = datetime.datetime.strptime(ambiltanggal,'%Y-%m-%d')
         kemarin = datetime.timedelta(days=1)
         date_isi.append({ "kemarin":tanggal - kemarin, "tanggal":tanggal,'pasar':ambilpasar1})
-    print(ambilsembakosemua)
+    # print(ambilsembakosemua)
    
     data = [];
     for sem in ambilsembakosemua:
@@ -83,7 +83,6 @@ def Logout(request):
     for key in request.session.keys():
         del request.session[key]
     return redirect('/')
-
 
 # CHANGEPASSWORD 
 @login_required(login_url='/login')
@@ -137,5 +136,35 @@ def view_harga(request):
 def view_grafik(request):
     ambil_pasar = Pasar.objects.all()
     ambil_Sembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
+    
+    data = []
+    if request.method == "POST":
+        nama_pasar = request.POST['nama_pasar'] 
+        nama_bahan = request.POST.get('nama_bahan')
+        tahun = request.POST['tahun']
+
+        for i in Harga.objects.raw("SELECT id ,nama_pasar_id,nama_sembako_id, tanggal, AVG(nominal) FROM tb_harga WHERE nama_sembako_id=%s AND nama_pasar_id=%s AND YEAR(tanggal)=%s GROUP BY YEAR(tanggal), MONTH(tanggal), nama_sembako_id",[nama_bahan,nama_pasar,tahun]):
+            jan = 0
+            feb = 0
+            mar = 0
+            apr = 0
+            mei = 0
+            jun = 0
+            jul = 0
+            aug = 0
+            sep = 0
+            okt = 0
+            nov = 0
+            des = 0
+            nominal = 0
+            
+            ambil_bulan = i.tanggal.strftime("%m")
+            if ambil_bulan == 1:
+                jan = i.nominal
+            else:
+                jan = 0
+
+
+
     return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako})
 

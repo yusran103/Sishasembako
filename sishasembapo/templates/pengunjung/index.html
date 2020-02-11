@@ -62,7 +62,7 @@
                 {% if not list_sembako1.induk %}
                 <td colspan = "5" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
                 {% else %}
-                <td id="{{ list_sembako1.induk}}">-{{ list_sembako1.jenis }}</td>
+                <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
                 <td id = "satuan">{{ list_sembako1.satuan }}</td>
                 {% if not list_sembako1.kemarin == 0 %}
                 <td id = "hargakemarin">Rp. {{list_sembako1.kemarin|intcomma}}</td>
