@@ -16,20 +16,16 @@
             <button class="btn btn-primary float-right btns" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah</button>
         </div>
         <br>
-        {% if messages %}
-        <div class="col-md-12">
-            {% for message in messages %}
-            <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h6 {% if message.tags %} class="{{ message.tags }}"{% endif %}><i class="icon fa fa-check"></i> {{ message }}</h6>
-            </div>
-            {% endfor %}
-        </div>
+        {% if penambahan %}
+        {% for i in penambahan %}
+        <p class="alert alert-success" style="text-align: center;" >Berhasil Menambah Data Harga {{i.sembako}} di tanggal {{i.tanggal|date:"j F Y"}} </p>
+        {% endfor %}
         {% endif %}
         <div style="width: 100%;">
             <table class="table table-bordered" id ="myTable">
                 <thead>
-                    <tr> 
+                    <tr>
+                        <th style="text-align:center;"> No </th>
                         <th style="text-align:center;"> Tanggal </th>
                         <th style="text-align:center;"> Nama Barang</th> 
                         <th style="text-align:center;"> Harga </th> 
@@ -40,6 +36,7 @@
                     {% if harga %}
                     {% for list_harga in harga %}
                     <tr>
+                        <td>{{forloop.counter}}</td>
                         <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
                         <td>{{list_harga.nama_sembako}}</td>
                         <td>Rp. {{list_harga.nominal|intcomma}}</td>

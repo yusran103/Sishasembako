@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.template.defaultfilters import date
 
 # Create your models here.
 class Pasar(models.Model):

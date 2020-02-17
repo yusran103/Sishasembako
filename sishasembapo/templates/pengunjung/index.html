@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load humanize %}
+{% load mathfilters %}
 {% block content %}
 <section class="content-header">
     <div style="text-align: center;">
@@ -46,6 +47,11 @@
             </div>
         </div>
     </form>
+    {% if pencarian != None %}
+    {% for i in pencarian %}
+    <p class="alert alert-success" style="text-align: center;" >Menampilkan data di {{i.pasar}} pada {{i.tanggal|date:"j F Y"}}</p>
+    {% endfor %}
+    {% endif %}
     <table class="table table-bordered">
         <thead>
             <tr valign="top" style="text-align: center;">
@@ -74,7 +80,15 @@
                 {% else %}
                 <td id = "hargasekarang"> - </td>
                 {% endif %}
-                <td id = "hargaperubahan">X</td>
+                {% with list_sembako1.perubahan|abs as perubahan %}
+                {% if list_sembako1.perubahan > 0 %}
+                <td id = "hargaperubahan"><i class="fas fa-angle-up" style="color: red;" ></i> Rp. {{perubahan|intcomma}}</td>
+                {% elif list_sembako1.perubahan < 0 %}
+                <td id = "hargaperubahan"><i class="fas fa-angle-down" style="color: green;"></i> Rp. {{perubahan|intcomma}}</td>
+                {% else %}
+                <td id = "hargaperubahan"> - </td>
+                {% endif %}
+                {% endwith %}
                 {% endif %}
             </tr>
             {% endfor %}

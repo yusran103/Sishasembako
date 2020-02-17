@@ -4,7 +4,7 @@
 {% load humanize %}
 
 {% block extrastyle %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+<link rel="stylesheet" href="{% static 'assets_page/plugins/chart.js/Chart.min.css'%}">
 {% endblock extrastyle %}
 
 {% block content %}
@@ -63,15 +63,22 @@
                 </div>
             </div>
         </div>
-    </form>
+	</form>
+	
+    {% if pencarian1 != None %}
+    {% for i in pencarian1 %}
+    <p class="alert alert-success" style="text-align: center;" >Menampilkan data {{i.nama_bahan}} {{i.nama_jenis}} di {{i.pasar}} pada tahun {{i.tahun}}</p>
+    {% endfor %}
+	{% endif %}
+	
     <div style="width: 400px;height: 400px;" >
         <canvas id="myChart" width="200" height="200"></canvas>
     </div>
 </section>
 {% endblock content %}
 {% block extrajs %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+<script src="{% static 'assets_page/plugins/chart.js/Chart.min.js'%}"></script>
+<script src="{% static 'assets_page/plugins/chart.js/Chart.bundle.min.js'%}"></script>
 <script>
     $('#id_tahun').datepicker({
 		format: "yyyy",
@@ -104,9 +111,16 @@
 		data: {
 			labels: MONTHS,
 			datasets: [{
-				data: [],
+                label: 'Rata - rata Harga',
+				data: [{% for i in data %}{{i}},{% endfor %}],
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
 					'rgba(255, 206, 86, 0.2)',
 					'rgba(75, 192, 192, 0.2)',
@@ -115,6 +129,12 @@
 				],
 				borderColor: [
 					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
 					'rgba(54, 162, 235, 1)',
 					'rgba(255, 206, 86, 1)',
 					'rgba(75, 192, 192, 1)',

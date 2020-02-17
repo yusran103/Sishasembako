@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import context
 from django.views.generic.edit import CreateView
 import datetime
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.utils import translation
 from django.db.models.functions import Coalesce
 
@@ -45,6 +45,7 @@ def index(request):
     for key, value in request.session.items():
         print('{} => {}'.format(key, value))
 
+    pencarian = []
     date_isi = []
     if request.method == "POST":
         ambiltanggal = request.POST['tanggal']
@@ -52,14 +53,21 @@ def index(request):
         tanggal = datetime.datetime.strptime(ambiltanggal,'%Y-%m-%d')
         kemarin = datetime.timedelta(days=1)
         date_isi.append({ "kemarin":tanggal - kemarin, "tanggal":tanggal,'pasar':ambilpasar1})
-    # print(ambilsembakosemua)
+        pencarian.append({ "pasar":Pasar.objects.get(id=ambilpasar1).nama_pasar,"tanggal":tanggal})
+    else:
+        ambiltanggal = datetime.datetime.now().date()
+        ambiltanggal1 = datetime.datetime.strftime(ambiltanggal,'%Y-%m-%d')
+        ambilpasar1 = 1
+        kemarin = datetime.timedelta(days=1)
+        date_isi.append({ "kemarin":ambiltanggal - kemarin, "tanggal":ambiltanggal,'pasar':ambilpasar1})
+        pencarian.append({ "pasar":Pasar.objects.get(id=ambilpasar1).nama_pasar,"tanggal":ambiltanggal})
    
     data = [];
     for sem in ambilsembakosemua:
         sekarang = 0
         kemarin = 0
+        perubahan = 0
         if sem.nama_sembako:
-            # print(sem.id)
             for dd in date_isi:
                 ambilsembakos = Harga.objects.filter(tanggal=dd['tanggal'],nama_sembako__id=sem.id,validasi=True,nama_pasar__id=dd['pasar']).order_by('-id').first()
                 if ambilsembakos:
@@ -72,10 +80,10 @@ def index(request):
                     kemarin = ambilkemarin.nominal
                 else:
                     kemarin = 0
-        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan})
-    # print(data)
-
-    return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data})
+                
+                perubahan = sekarang - kemarin
+        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan,"perubahan":perubahan})
+    return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data,"pencarian":pencarian})
 
 @login_required(login_url='/login')
 def Logout(request):
@@ -110,61 +118,61 @@ def profile(request,pk):
 
 @login_required(login_url='/login')
 def view_harga(request):
+    penambahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
     # list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal = datetime.date.today())
-    list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id)
+    list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id).order_by('-id')
     translation.activate('id')
     if request.method == "POST":
         form = Harga_form(request.POST)
+        sembako = Sembako.objects.get(pk=request.POST.get('nama_sembako'))
+        tanggal = request.POST['tanggal']
         if form.is_valid():
             url = '/harga'
-            resp_body = '<script>window.location="%s"</script>' % (url)
             hargasembako = Harga(
-                nama_sembako = Sembako.objects.get(pk=request.POST.get('nama_sembako')),
+                nama_sembako = sembako,
                 nominal = request.POST['nominal'],
                 nama_pasar = ambil_pasar,
-                tanggal = request.POST['tanggal'],
+                tanggal = tanggal,
                 validasi = False
             )
             hargasembako.save()
-            messages.add_message(request, messages.INFO, 'Berhasil Menambah Data') 
-            return HttpResponse(resp_body)
+            Tanggal = datetime.datetime.strptime(tanggal,'%Y-%m-%d')
+            penambahan.append({"tanggal":Tanggal,"sembako":sembako})
+            print(penambahan)
     else:
         form = Harga_form()
-    return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga})
+    return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan})
 
 def view_grafik(request):
     ambil_pasar = Pasar.objects.all()
     ambil_Sembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
+    x = datetime.datetime.now()
+    # print(ambil_harga1)
     
-    data = []
+    data_isi1 = []
+    pencarian1 = []
     if request.method == "POST":
         nama_pasar = request.POST['nama_pasar'] 
         nama_bahan = request.POST.get('nama_bahan')
         tahun = request.POST['tahun']
+        data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})
+        pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako})
+    else:
+        nama_pasar = 1 
+        nama_bahan = 28
+        tahun = x.year
+        data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})
+        pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako})
 
-        for i in Harga.objects.raw("SELECT id ,nama_pasar_id,nama_sembako_id, tanggal, AVG(nominal) FROM tb_harga WHERE nama_sembako_id=%s AND nama_pasar_id=%s AND YEAR(tanggal)=%s GROUP BY YEAR(tanggal), MONTH(tanggal), nama_sembako_id",[nama_bahan,nama_pasar,tahun]):
-            jan = 0
-            feb = 0
-            mar = 0
-            apr = 0
-            mei = 0
-            jun = 0
-            jul = 0
-            aug = 0
-            sep = 0
-            okt = 0
-            nov = 0
-            des = 0
-            nominal = 0
-            
-            ambil_bulan = i.tanggal.strftime("%m")
-            if ambil_bulan == 1:
-                jan = i.nominal
+    jan = 0
+    data1 = []
+    for i in data_isi1:
+        for a in range(1,13):
+            b = '%02d' % a
+            isi = Harga.objects.filter(nama_sembako=i['nama_bahan'],nama_pasar=i['nama_pasar'],tanggal__month=b,tanggal__year=i['tahun']).annotate(Avg('nominal')).first()
+            if isi:
+                data1.append(isi.nominal)
             else:
-                jan = 0
-
-
-
-    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako})
-
+                data1.append(0)
+    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako,'data':data1,'pencarian1':pencarian1})

@@ -1,17 +1,40 @@
 from django.contrib import admin
 from sishasembapo.models import *
 from sishasembapo.form import *
+from django.db.models import F
+from django.utils.translation import ugettext_lazy as _
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
 
+class SembakoListFilter(admin.SimpleListFilter):
+    title = ('Nama Sembako')
+    parameter_name = 'Sembako'
+
+    def lookups(self, request, model_admin):
+        return [(c.id, ("{} - {}").format(c.nama_sembako,c.jenis_sembako)) for c in Sembako.objects.filter(nama_sembako__isnull=False)]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(nama_sembako=self.value())
+        else:
+            return queryset
+
 class hargaAdmin(admin.ModelAdmin):
     readonly_fields = ('Tanggal','nama_sembako','nama_pasar','harga')
     list_display = ['Tanggal','nama_sembako','harga','nama_pasar','validasi']
-    list_filter = ['nama_pasar__nama_pasar']
+    list_filter = ['nama_pasar__nama_pasar',SembakoListFilter]
     form = Harga_form_admin
     list_per_page = 10
+    date_hierarchy = 'tanggal'
+    actions = ['validasi_harga',]
     
+    def validasi_harga(self, request, queryset):
+        for harga in queryset:
+            harga.validasi = True
+            harga.save()
+    validasi_harga.short_description = 'Validasi Harga Bahan Pokok'
+
     def Tanggal(self, obj):
         return obj.tanggal.strftime('%A, %d %B %Y')
 

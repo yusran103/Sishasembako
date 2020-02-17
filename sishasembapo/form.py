@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm,Select
 from sishasembapo.models import *
+from django.db.models import Q
 
 YEARS= [x for x in range(1940,2021)]
 class Profile_form(ModelForm):
@@ -63,7 +64,7 @@ class Profile_form(ModelForm):
         exclude=('akun','pasar')
 class AdminPasarForm(ModelForm):
     akun = forms.ModelChoiceField(
-        queryset = User.objects.filter(is_staff=False),
+        queryset = User.objects.filter(~Q(id__in=PetugasPasar.objects.all()),Q(is_staff=False)),
         widget = Select(
             attrs = {
                 'class':'form-control',
@@ -127,6 +128,8 @@ class Harga_form(ModelForm):
                 'class':'form-control',
                 'placeholder':'Tanggal',
                 'autocomplete':'off',
+                'onkeypress':'return false;',
+                 'onkeydown':'return false;',
                 }
             ),
         )
