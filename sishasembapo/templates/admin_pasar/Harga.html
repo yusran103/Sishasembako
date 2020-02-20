@@ -6,6 +6,15 @@
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
+
+<style>
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+      }
+</style>
 {% endblock extrastyle %}
 
 {% block content %}
@@ -21,6 +30,7 @@
         <p class="alert alert-success" style="text-align: center;" >Berhasil Menambah Data Harga {{i.sembako}} di tanggal {{i.tanggal|date:"j F Y"}} </p>
         {% endfor %}
         {% endif %}
+        <div id="perubahan" ></div>
         <div style="width: 100%;">
             <table class="table table-bordered" id ="myTable">
                 <thead>
@@ -29,78 +39,90 @@
                         <th style="text-align:center;"> Tanggal </th>
                         <th style="text-align:center;"> Nama Barang</th> 
                         <th style="text-align:center;"> Harga </th> 
-                        <th style="text-align:center;"> Status </th> 
+                        <th style="text-align:center;"> Status </th>
+                        <th style="text-align:center;"> Aksi </th> 
                     </tr>
                 </thead>
                 <tbody>
                     {% if harga %}
                     {% for list_harga in harga %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td style="text-align: center;">{{forloop.counter}}</td>
                         <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
                         <td>{{list_harga.nama_sembako}}</td>
                         <td>Rp. {{list_harga.nominal|intcomma}}</td>
                         {% if list_harga.validasi == 0 %}
                         <td>Belum di validasi</td>
+                        <td style="text-align: center;"><a class="btn btn-warning btn-sm" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
                         {% else %}
                         <td>Sudah di validasi</td>
+                        <td style="text-align: center;"><a class="btn btn-warning btn-sm isDisabled" > <i class="fa fa-edit"></i> Ubah</a></td>
                         {% endif %}
-                    </tr>
-                    {% endfor %}
-                    {% else %}
-                    <tr>
-                        <td colspan="5"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
-                    </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-<!-- Button trigger modal -->
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Harga Bahan Pokok</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="6"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
-            <div class="modal-body">
-                <form method="POST" action="{% url 'list_harga_sembako' %}">
-                    {% csrf_token %}
-                    {{form.as_p}}
+        </div>
+    </section>
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Harga Bahan Pokok</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                    <button type="input" class="btn btn-primary">Simpan</button>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'list_harga_sembako' %}">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                            <button type="input" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
-{% endblock content %}
-
-{% block extrajs %}
-{% comment %} <script src="{% static 'DataTables/datatables.min.js' %}"></script> {% endcomment %}
-<script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
-<script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable({
-            "pageLength": 9,
+    {% endblock content %}
+    
+    {% block extrajs %}
+    {% comment %} <script src="{% static 'DataTables/datatables.min.js' %}"></script> {% endcomment %}
+    <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
+    <script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable({
+                "pageLength": 9,
+            });
+            $('#id_nama_sembako').select2({
+                theme: 'bootstrap4'
+            })
         });
-        $('#id_nama_sembako').select2({
-            theme: 'bootstrap4'
-        })
-    });
-
-    $('#id_tanggal').datepicker({
-        format : "yyyy-mm-dd",
-        autoclose: true
-    });
-
-</script>
-{% endblock extrajs %}
+        
+        $('#id_tanggal').datepicker({
+            format : "yyyy-mm-dd",
+            autoclose: true
+        });
+        
+        function windowpop(url, width, height) {
+            var leftPosition, topPosition;
+            //Allow for borders.
+            leftPosition = (window.screen.width / 2) - ((width / 2) + 10);
+            //Allow for title and status bars.
+            topPosition = (window.screen.height / 2) - ((height / 2) + 50);
+            //Open the window.
+            window.open(url, "Window2", "status=no,height=" + height + ",width=" + width + ",left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no");
+            event.preventDefault();
+        }
+    </script>
+    {% endblock extrajs %}

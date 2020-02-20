@@ -27,7 +27,7 @@ class hargaAdmin(admin.ModelAdmin):
     form = Harga_form_admin
     list_per_page = 10
     date_hierarchy = 'tanggal'
-    actions = ['validasi_harga',]
+    actions = ['validasi_harga','hapuspilih']
     
     def validasi_harga(self, request, queryset):
         for harga in queryset:
@@ -35,8 +35,13 @@ class hargaAdmin(admin.ModelAdmin):
             harga.save()
     validasi_harga.short_description = 'Validasi Harga Bahan Pokok'
 
+    def hapuspilih(self, request, queryset):
+        for harga in queryset:
+            harga.delete()
+    hapuspilih.short_description = 'Hapus yang dipilih'
+
     def Tanggal(self, obj):
-        return obj.tanggal.strftime('%A, %d %B %Y')
+        return obj.tanggal.strftime('%d-%m-%Y')
 
 class pasarAdmin(admin.ModelAdmin):
     list_display = ['nama_pasar','alamat_pasar']
@@ -57,6 +62,12 @@ class formadminpasar(admin.ModelAdmin):
     list_filter = ['pasar__nama_pasar']
     form = AdminPasarForm
     list_per_page = 10
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj: #This is the case when obj is already created i.e. it's an edit
+            return ['akun']
+        else:
+            return []
 
 admin.site.register(Pasar,pasarAdmin)
 admin.site.register(Sembako,sembakoAdmin)

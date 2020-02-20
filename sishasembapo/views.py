@@ -13,6 +13,7 @@ import datetime
 from django.db.models import Q, Avg
 from django.utils import translation
 from django.db.models.functions import Coalesce
+from django.db import connection
 
 # Create your views here.
 def Login(request):
@@ -121,7 +122,8 @@ def view_harga(request):
     penambahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
     # list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal = datetime.date.today())
-    list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id).order_by('-id')
+    list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal__year=datetime.datetime.now().year,tanggal__month=datetime.datetime.now().month).order_by('-id')
+
     translation.activate('id')
     if request.method == "POST":
         form = Harga_form(request.POST)
@@ -139,10 +141,29 @@ def view_harga(request):
             hargasembako.save()
             Tanggal = datetime.datetime.strptime(tanggal,'%Y-%m-%d')
             penambahan.append({"tanggal":Tanggal,"sembako":sembako})
-            print(penambahan)
     else:
         form = Harga_form()
     return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan})
+
+def update_harga(request,pk):
+    perubahan = []
+    ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
+    harga = Harga.objects.get(pk=pk)
+    sembako = Sembako.objects.get(pk=harga.nama_sembako.id)
+    if request.method == "POST":
+        Tanggal = request.POST['tanggal']
+        form = Harga_form(request.POST, instance=harga)
+        if form.is_valid():
+            hargas = form.save(commit=False)
+            nama_sembako = sembako,
+            nominal = request.POST['nominal'],
+            nama_pasar = ambil_pasar,
+            tanggal = Tanggal,
+            hargas.save()
+            tanggals = datetime.datetime.strptime(Tanggal,'%Y-%m-%d')
+    else:
+        form = Harga_form(instance=harga)
+    return render(request,'admin_pasar/edit_harga.html',{'form':form,'perubahan':perubahan,'harga':harga})
 
 def view_grafik(request):
     ambil_pasar = Pasar.objects.all()

@@ -27,6 +27,7 @@ urlpatterns = i18n_patterns(
     path('changepassword/<int:pk>', pasar.changepassword , name='changepassword'),
     path('profile/<int:pk>', pasar.profile, name='profile'),
     path('harga', pasar.view_harga , name='list_harga_sembako'),
+    path('harga/<int:pk>', pasar.update_harga , name='update_harga'),
     path('grafik', pasar.view_grafik , name='grafik'),
     prefix_default_language=False
 )

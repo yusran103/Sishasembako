@@ -34,6 +34,7 @@
         button.btns{
             font-size: 13px;
         }
+
     }
 </style>
   {% block extrastyle %}
@@ -44,7 +45,6 @@
     
     <!-- Navbar -->
     {% include "layout/pengunjung/nav_pengunjung.html" %}
-    
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -72,7 +72,7 @@
     {% endif %}
     <!-- /.control-sidebar -->
     <!-- Main Footer -->
-    <footer class="main-footer">
+    <footer class="main-footer" id="navbar-hide">
       <!-- To the right -->
       <div class="float-right d-none d-sm-inline">
         By Anasztaz Dev Team

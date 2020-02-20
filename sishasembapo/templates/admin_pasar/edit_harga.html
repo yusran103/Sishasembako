@@ -1,0 +1,49 @@
+    {% extends "layout/pengunjung/base_pengunjung.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
+<style type="text/css">
+    #navbar-hide{ display:none; }
+  </style>
+{% endblock extrastyle %}
+
+{% block content %}
+<section class="content-header">
+    <div class="box box-primary col-md-12 col-xs-12">
+        <div class="box-header with-border" style="text-align: left;">
+            <h4 class="box-title" style="text-align: center; font-size: 14px;"><b>Ubah Harga Bahan Pokok {{harga.nama_sembako}}</b></h4>
+        </div>
+        <form method="POST" action="{% url 'update_harga' pk=harga.pk %}">
+            {% csrf_token %}
+            {{form.as_p}}
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-warning" onclick="return window.close();">Batal</button>
+                <button type="input" class="btn btn-primary" onclick="return btn_simpan();">Simpan</button>
+            </div>
+            </form>
+        </div>
+    </section>
+    {% endblock content %}
+    
+    {% block extrajs %}
+    {% comment %} <script src="{% static 'DataTables/datatables.min.js' %}"></script> {% endcomment %}
+    <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
+    <script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
+    <script>
+        $('#id_tanggal').datepicker({
+            format : "yyyy-mm-dd",
+            autoclose: true
+        });
+
+        function btn_simpan() {
+            window.onunload = refreshParent;
+            function refreshParent() {
+                window.opener.location.replace("{% url 'list_harga_sembako' %}");
+            }
+            window.close()
+        }
+    </script>
+    {% endblock extrajs %}
