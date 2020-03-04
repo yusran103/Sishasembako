@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.137.1','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'django.contrib.auth',
     'sishasembapo',
     'django.contrib.admin',

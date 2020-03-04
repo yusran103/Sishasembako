@@ -5,141 +5,157 @@
 
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'assets_page/plugins/chart.js/Chart.min.css'%}">
+
 {% endblock extrastyle %}
 
 {% block content %}
 <section class="content-header">
     <div style="text-align: center;">
         {% if request.session.nama %}
-        <h3>SELAMAT DATANG {{request.session.nama}}</h3>
+        <h3 class="judul">SELAMAT DATANG {{request.session.nama}}</h3>
         {% else %}
-        <h3>SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
+        <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
         {% endif %}
     </div>
-    <br>
-    <form action="{% url 'grafik' %}" method="POST">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label>Pilih Nama Pasar</label>
-                <div class="input-group">
-                    <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
-                        <option value="">-------</option>
-                        {% for list_pasar in pasar %}
-                        <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
+	<br>
+	<form action="{% url 'grafik' %}" method="POST">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label>Pilih Nama Pasar</label>
+					<div class="input-group">
+						<select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
+							<option value="">-------</option>
+							{% for list_pasar in pasar %}
+							<option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label>Pilih Nama Bahan Pokok</label>
+					<div class="input-group">
+						<select class="form-control selectpicker" name="nama_bahan" required data-live-search="True">
+							<option value="">-------</option>
+							{% for list_sembako in sembako %}
+							<option value="{{list_sembako.id}}">{{list_sembako.nama_sembako}} - {{list_sembako.jenis_sembako}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label>Pilih Tahun</label>
+					<div class="input-group">
+						<input type="text" name="tahun" class="form-control" placeholder="Tahun" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tahun">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label>&nbsp;</label>
+					<div class="input-group">
+						<button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-sm-4">
-            <div class="form-group">
-                <label>Pilih Nama Bahan Pokok</label>
-                <div class="input-group">
-                    <select class="form-control selectpicker" name="nama_bahan" required data-live-search="True">
-                        <option value="">-------</option>
-                        {% for list_sembako in sembako %}
-                        <option value="{{list_sembako.id}}">{{list_sembako.nama_sembako}} - {{list_sembako.jenis_sembako}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Pilih Tahun</label>
-                    <div class="input-group">
-                        <input type="text" name="tahun" class="form-control" placeholder="Tahun" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tahun">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <div class="input-group">
-                        <button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 	</form>
-	
-    {% if pencarian1 != None %}
-    {% for i in pencarian1 %}
-    <p class="alert alert-success" style="text-align: center;" >Menampilkan data {{i.nama_bahan}} {{i.nama_jenis}} di {{i.pasar}} pada tahun {{i.tahun}}</p>
-    {% endfor %}
+	{% if pencarian1 != None %}
+	{% for i in pencarian1 %}
+	<p class="alert alert-success" style="text-align: center;" >Menampilkan data {{i.nama_bahan}} {{i.nama_jenis}} di {{i.pasar}} perbulan pada tahun {{i.tahun}}</p>
+	{% endfor %}
 	{% endif %}
-	
-    <div style="width: 400px;height: 400px;" >
-        <canvas id="myChart" width="200" height="200"></canvas>
-    </div>
+		<div class="col-md-12" style="display: inline-block;">
+			<canvas class="col-md-8 float-left" id="myChart"></canvas>
+			<div class="col-md-4 float-right" style="width: 100%; display: inline-block;">
+				<p>*rata-rata harga seluruh pasar hari ini</p>
+				<table class="table table-bordered">
+					<thead>
+						<tr valign="top" style="text-align: center; font-size: small;">
+							<th>Nama Bahan Pokok</th>
+							<th>Harga</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>x</td>
+							<td>x</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 </section>
 {% endblock content %}
 {% block extrajs %}
 <script src="{% static 'assets_page/plugins/chart.js/Chart.min.js'%}"></script>
 <script src="{% static 'assets_page/plugins/chart.js/Chart.bundle.min.js'%}"></script>
 <script>
-    $('#id_tahun').datepicker({
+	$('#id_tahun').datepicker({
 		format: "yyyy",
 		weekStart: 1,
 		orientation: "bottom",
 		keyboardNavigation: false,
 		viewMode: "years",
 		minViewMode: "years",
-        autoclose: true
-    });
+		autoclose: true
+	});
 </script>
 <script>
 	var ctx = document.getElementById('myChart');
 	var MONTHS = [
-		'Januari',
-		'Februari',
-		'Maret',
-		'April',
-		'Mei',
-		'Juni',
-		'Juli',
-		'Agustus',
-		'September',
-		'Oktober',
-		'November',
-		'Desember'
+	'Januari',
+	'Februari',
+	'Maret',
+	'April',
+	'Mei',
+	'Juni',
+	'Juli',
+	'Agustus',
+	'September',
+	'Oktober',
+	'November',
+	'Desember'
 	];
 	var myChart = new Chart(ctx, {
 		type: 'line',
 		data: {
 			labels: MONTHS,
 			datasets: [{
-                label: 'Rata - rata Harga',
+				label: 'Rata - rata Harga',
 				data: [{% for i in data %}{{i}},{% endfor %}],
 				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
+				'rgba(255, 99, 132, 0.2)',
+				'rgba(54, 162, 235, 0.2)',
+				'rgba(255, 206, 86, 0.2)',
+				'rgba(75, 192, 192, 0.2)',
+				'rgba(153, 102, 255, 0.2)',
+				'rgba(255, 159, 64, 0.2)',
+				'rgba(255, 99, 132, 0.2)',
+				'rgba(54, 162, 235, 0.2)',
+				'rgba(255, 206, 86, 0.2)',
+				'rgba(75, 192, 192, 0.2)',
+				'rgba(153, 102, 255, 0.2)',
+				'rgba(255, 159, 64, 0.2)'
 				],
 				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
+				'rgba(255, 99, 132, 1)',
+				'rgba(54, 162, 235, 1)',
+				'rgba(255, 206, 86, 1)',
+				'rgba(75, 192, 192, 1)',
+				'rgba(153, 102, 255, 1)',
+				'rgba(255, 159, 64, 1)',
+				'rgba(255, 99, 132, 1)',
+				'rgba(54, 162, 235, 1)',
+				'rgba(255, 206, 86, 1)',
+				'rgba(75, 192, 192, 1)',
+				'rgba(153, 102, 255, 1)',
+				'rgba(255, 159, 64, 1)'
 				],
 				borderWidth: 1
 			}]

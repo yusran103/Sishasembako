@@ -3,33 +3,57 @@
 {% load static %}
 {% load humanize %}
 {% load mathfilters %}
+{% block extrastyle %}
+<style>
+    @media screen and (max-width: 600px) {
+        .tableBodyScroll tbody {
+            display: block;
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+        
+        .tableBodyScroll thead,
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        th{
+            font-size: 7px;
+          }
+          td{
+            font-size: 7px;
+          }
+    }
+</style>
+{% endblock extrastyle %}
 {% block content %}
 <section class="content-header">
     <div style="text-align: center;">
         {% if request.session.nama %}
-        <h3>SELAMAT DATANG {{request.session.nama}}</h3>
+        <h3 class="judul">SELAMAT DATANG {{request.session.nama}}</h3>
         {% else %}
-        <h3>SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
+        <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
         {% endif %}
     </div>
     <br>
     <form action="{% url 'index' %}" method="POST">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="form-group">
-                <label>Pilih Nama Pasar</label>
-                <div class="input-group">
-                    <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
-                        <option value="">-------</option>
-                        {% for list_pasar in pasar %}
-                        <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
-                        {% endfor %}
-                    </select>
+        {% csrf_token %}
+        <div class="row" class="col-md-12" style="width: 100%;">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Pilih Nama Pasar</label>
+                    <div class="input-group">
+                        <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
+                            <option value="">-------</option>
+                            {% for list_pasar in pasar %}
+                            <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
-            <div class="col-sm-5">
+            <div class="col-md-5">
                 <div class="form-group">
                     <label>Pilih Tanggal</label>
                     <div class="input-group">
@@ -37,9 +61,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-md-1" style="display: inline-block;">
                 <div class="form-group">
-                    <label>&nbsp;</label>
+                    <label class="kosong">&nbsp;</label>
                     <div class="input-group">
                         <button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
                     </div>
@@ -52,41 +76,51 @@
     <p class="alert alert-success" style="text-align: center;" >Menampilkan data di {{i.pasar}} pada {{i.tanggal|date:"j F Y"}}</p>
     {% endfor %}
     {% endif %}
-    <table class="table table-bordered">
+    <table class="table table-bordered tableBodyScroll">
         <thead>
-            <tr valign="top" style="text-align: center;">
+            <tr valign="middle" style="text-align: center;">
                 <th>Nama Bahan Pokok</th>
                 <th>Satuan</th>
                 <th>Harga Kemarin</th>
                 <th>Harga Sekarang</th>
-                <th>Perubahan</th>
+                <th>Perubahan (Rp)</th>
+                <th>Perubahan (%)</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="width: 100%;">
             {% for list_sembako1 in sembakosemua %}
             <tr>
                 {% if not list_sembako1.induk %}
-                <td colspan = "5" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
+                <td colspan = "6" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
                 {% else %}
                 <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
                 <td id = "satuan">{{ list_sembako1.satuan }}</td>
                 {% if not list_sembako1.kemarin == 0 %}
-                <td id = "hargakemarin">Rp. {{list_sembako1.kemarin|intcomma}}</td>
+                <td id = "hargakemarin" style="text-align: right;">Rp. {{list_sembako1.kemarin|intcomma}}</td>
                 {% else %}
-                <td id = "hargakemarin"> - </td>
+                <td id = "hargakemarin" style="text-align: right;"> - </td>
                 {% endif %}
                 {% if not list_sembako1.sekarang == 0 %}
-                <td id = "hargasekarang">Rp. {{ list_sembako1.sekarang|intcomma}}</td>
+                <td id = "hargasekarang" style="text-align: right;">Rp. {{ list_sembako1.sekarang|intcomma}}</td>
                 {% else %}
-                <td id = "hargasekarang"> - </td>
+                <td id = "hargasekarang" style="text-align: right;"> - </td>
                 {% endif %}
                 {% with list_sembako1.perubahan|abs as perubahan %}
                 {% if list_sembako1.perubahan > 0 %}
-                <td id = "hargaperubahan"><i class="fas fa-angle-up" style="color: red;" ></i> Rp. {{perubahan|intcomma}}</td>
+                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-up" style="color: red;" ></i></td>
                 {% elif list_sembako1.perubahan < 0 %}
-                <td id = "hargaperubahan"><i class="fas fa-angle-down" style="color: green;"></i> Rp. {{perubahan|intcomma}}</td>
+                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-down" style="color: green;"></i></td>
                 {% else %}
-                <td id = "hargaperubahan"> - </td>
+                <td id = "hargaperubahan" style="text-align: right;"> - </td>
+                {% endif %}
+                {% endwith %}
+                {% with list_sembako1.persen|abs as persen %}
+                {% if list_sembako1.persen > 0 %}
+                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-up" style="color: red;" ></i></td>
+                {% elif list_sembako1.perubahan < 0 %}
+                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-down" style="color: green;" ></i></td>
+                {% else %}
+                <td style="text-align: right;"> - </td>
                 {% endif %}
                 {% endwith %}
                 {% endif %}

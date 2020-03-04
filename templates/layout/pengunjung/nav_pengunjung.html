@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="main-header navbar navbar-expand-md navbar-light navbar-white" id="navbar-hide">
+<nav class="main-header navbar sticky-top navbar-expand-md navbar-light navbar-white" id="navbar-hide">
     <div class="container">
         <a href="/" class="navbar-brand">
             <img src="{% static "Images/download.jpg" %}" alt="PD.Pasar Logo" class="brand-image">
@@ -15,6 +15,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'index' %}" class="nav-link">Tabel</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'grafik' %}" class="nav-link">Grafik</a>

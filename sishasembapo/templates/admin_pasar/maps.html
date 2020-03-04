@@ -1,0 +1,126 @@
+{% extends "layout/pengunjung/base_pengunjung.html" %}
+
+{% block extrastyle %}
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
+{% endblock extrastyle %}
+
+{% block content %}
+<section class="content-header">
+    <div style="text-align: center;">
+        {% if request.session.nama %}
+        <h3 class="judul">SELAMAT DATANG {{request.session.nama}}</h3>
+        {% else %}
+        <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
+        {% endif %}
+    </div>
+    <div id='map' style='width: 100%; height: 600px;'></div>
+</section>
+{% endblock content %}
+
+{% block extrajs %}
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
+<script>
+    var options = {
+        enableHighAccuracy: true
+    };
+    
+    function success(pos) {
+        crd = pos.coords;
+        loadMap(crd.longitude,crd.latitude);
+    };
+    
+    function error(err) {
+        console.log('ERROR');
+        loadMap(112.042269, -7.831181);
+    };
+    
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    
+    function loadMap(lng,lat) {
+        mapboxgl.accessToken = 'pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+            center: [lng,lat], // starting position [lng, lat]
+            zoom: 9 // starting zoom
+        });
+        map.on('load', function() {
+            map.addSource('places', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description':
+                            '<strong>Make it Mount Pleasant</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+                            'icon': 'shop'
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [111.999459 ,-7.817126]
+                        }
+                    }
+                    ]
+                }
+            });
+            
+            // Add a layer showing the places.
+            map.addLayer({
+                'id': 'places',
+                'type': 'symbol',
+                'source': 'places',
+                'layout': {
+                    'icon-image': '{icon}-15',
+                    'icon-allow-overlap': true
+                }
+            });
+            
+            // Create a popup, but don't add it to the map yet.
+            var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+            
+            map.on('mouseenter', 'places', function(e) {
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
+                
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+                
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+            
+            map.on('mouseleave', 'places', function() {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+                map.scrollZoom.disable();
+            });
+        });
+        map.addControl(new mapboxgl.FullscreenControl());
+        map.addControl(
+        new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+        })
+        );
+    }
+    // Add geolocate control to the map.
+</script>
+{% endblock extrajs %}

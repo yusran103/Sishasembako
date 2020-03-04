@@ -20,8 +20,9 @@ from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
+    path('',pasar.maps, name="maps"),
     path('login', pasar.Login, name="login"),
-    path('', pasar.index, name="index"),
+    path('tabel', pasar.index, name="index"),
     path('logout', pasar.Logout, name="logout"),
     # CHANGE PASSWORD
     path('changepassword/<int:pk>', pasar.changepassword , name='changepassword'),

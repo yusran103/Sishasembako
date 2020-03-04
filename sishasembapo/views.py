@@ -68,6 +68,7 @@ def index(request):
         sekarang = 0
         kemarin = 0
         perubahan = 0
+        persen = 0
         if sem.nama_sembako:
             for dd in date_isi:
                 ambilsembakos = Harga.objects.filter(tanggal=dd['tanggal'],nama_sembako__id=sem.id,validasi=True,nama_pasar__id=dd['pasar']).order_by('-id').first()
@@ -81,9 +82,13 @@ def index(request):
                     kemarin = ambilkemarin.nominal
                 else:
                     kemarin = 0
-                
+
                 perubahan = sekarang - kemarin
-        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan,"perubahan":perubahan})
+                if sekarang and kemarin:
+                    persen = round(((sekarang-kemarin)/kemarin)*100,2)
+                else:
+                    persen = 0
+        data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan,"perubahan":perubahan,"persen":persen})
     return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data,"pencarian":pencarian})
 
 @login_required(login_url='/login')
@@ -123,7 +128,6 @@ def view_harga(request):
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
     # list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal = datetime.date.today())
     list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal__year=datetime.datetime.now().year,tanggal__month=datetime.datetime.now().month).order_by('-id')
-
     translation.activate('id')
     if request.method == "POST":
         form = Harga_form(request.POST)
@@ -170,7 +174,6 @@ def view_grafik(request):
     ambil_Sembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
     x = datetime.datetime.now()
     # print(ambil_harga1)
-    
     data_isi1 = []
     pencarian1 = []
     if request.method == "POST":
@@ -197,3 +200,7 @@ def view_grafik(request):
             else:
                 data1.append(0)
     return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako,'data':data1,'pencarian1':pencarian1})
+
+def maps(request):
+    api_key = "pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg"
+    return render(request,'admin_pasar/maps.html')
