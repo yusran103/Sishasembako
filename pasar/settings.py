@@ -42,7 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django_extensions',
     'mathfilters',
+    'location_field.apps.DefaultConfig'
 ]
+
+LOCATION_FIELD = {
+    'map.provider':'mapbox',
+    'provider.mapbox.access_token': 'pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg',
+    'provider.mapbox.max_zoom': 18,
+    'provider.mapbox.id': 'mapbox.streets',
+}
 
 GRAPH_MODELS = {
   'all_applications': True,

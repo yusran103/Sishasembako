@@ -2,6 +2,7 @@
 
 {% block extrastyle %}
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
 {% endblock extrastyle %}
 
 {% block content %}
@@ -13,12 +14,15 @@
         <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
         {% endif %}
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
     <div id='map' style='width: 100%; height: 600px;'></div>
 </section>
 {% endblock content %}
 
 {% block extrajs %}
 <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
 <script>
     var options = {
         enableHighAccuracy: true
@@ -37,7 +41,7 @@
     navigator.geolocation.getCurrentPosition(success, error, options);
     
     function loadMap(lng,lat) {
-        mapboxgl.accessToken = 'pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg';
+        mapboxgl.accessToken = '{{api}}';
         var map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
@@ -50,18 +54,20 @@
                 'data': {
                     'type': 'FeatureCollection',
                     'features': [
+                    {% for list in pasar %}
                     {
                         'type': 'Feature',
                         'properties': {
                             'description':
-                            '<strong>Make it Mount Pleasant</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-                            'icon': 'shop'
+                            '<strong>{{list.nama_pasar}}</strong><marquee scrollamount="4">Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</marquee>',
+                            'icon': 'grocery'
                         },
                         'geometry': {
                             'type': 'Point',
-                            'coordinates': [111.999459 ,-7.817126]
+                            'coordinates': [{{list.lng}},{{list.lat}}]//(longitude,lalitude)
                         }
-                    }
+                    },
+                    {% endfor %}
                     ]
                 }
             });
@@ -112,10 +118,14 @@
                 map.scrollZoom.disable();
             });
         });
+        map.addControl(new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        })
+        );
         map.addControl(new mapboxgl.FullscreenControl());
         map.addControl(new mapboxgl.NavigationControl());
-        map.addControl(
-        new mapboxgl.GeolocateControl({
+        map.addControl(new mapboxgl.GeolocateControl({
             positionOptions: {
                 enableHighAccuracy: true
             },

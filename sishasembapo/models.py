@@ -2,11 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.defaultfilters import date
+from location_field.models.plain import PlainLocationField
 
 # Create your models here.
 class Pasar(models.Model):
     nama_pasar = models.CharField(max_length=100)
     alamat_pasar = models.TextField()
+    lokasi = PlainLocationField(based_fields=['nama_pasar'], zoom=7,null=True)
     
     class Meta:
         db_table = "Tb_Pasar"

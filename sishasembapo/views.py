@@ -203,4 +203,12 @@ def view_grafik(request):
 
 def maps(request):
     api_key = "pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg"
-    return render(request,'admin_pasar/maps.html')
+    pasar =[]
+    list_pasar = Pasar.objects.all()
+    for pasar1 in list_pasar:
+        koordinat = pasar1.lokasi
+        pecah = koordinat.split(',')
+        lat = pecah[0]
+        lng = pecah[1]
+        pasar.append({"nama_pasar":pasar1.nama_pasar,"lat":lat,"lng":lng})
+    return render(request,'admin_pasar/maps.html',{'api':api_key,'pasar':pasar})
