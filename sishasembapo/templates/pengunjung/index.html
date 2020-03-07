@@ -96,36 +96,44 @@
                 {% if not list_sembako1.induk %}
                 <td colspan = "6" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
                 {% else %}
-                <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
-                <td id = "satuan">{{ list_sembako1.satuan }}</td>
-                {% if not list_sembako1.kemarin == 0 %}
-                <td id = "hargakemarin" style="text-align: right;">Rp. {{list_sembako1.kemarin|intcomma}}</td>
-                {% else %}
-                <td id = "hargakemarin" style="text-align: right;"> - </td>
-                {% endif %}
-                {% if not list_sembako1.sekarang == 0 %}
-                <td id = "hargasekarang" style="text-align: right;">Rp. {{ list_sembako1.sekarang|intcomma}}</td>
-                {% else %}
-                <td id = "hargasekarang" style="text-align: right;"> - </td>
-                {% endif %}
-                {% with list_sembako1.perubahan|abs as perubahan %}
-                {% if list_sembako1.perubahan > 0 %}
-                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-up" style="color: red;" ></i></td>
-                {% elif list_sembako1.perubahan < 0 %}
-                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-down" style="color: green;"></i></td>
-                {% else %}
-                <td id = "hargaperubahan" style="text-align: right;"> - </td>
-                {% endif %}
-                {% endwith %}
-                {% with list_sembako1.persen|abs as persen %}
-                {% if list_sembako1.persen > 0 %}
-                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-up" style="color: red;" ></i></td>
-                {% elif list_sembako1.perubahan < 0 %}
-                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-down" style="color: green;" ></i></td>
-                {% else %}
-                <td style="text-align: right;"> - </td>
-                {% endif %}
-                {% endwith %}
+                    <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
+                    <td id = "satuan">{{ list_sembako1.satuan }}</td>
+                    {% if not list_sembako1.kemarin == 0 %}
+                        <td id = "hargakemarin" style="text-align: right;">Rp. {{list_sembako1.kemarin|intcomma}}</td>
+                    {% else %}
+                        <td id = "hargakemarin" style="text-align: right;"> - </td>
+                    {% endif %}
+                    {% if not list_sembako1.sekarang == 0 %}
+                        <td id = "hargasekarang" style="text-align: right;">Rp. {{ list_sembako1.sekarang|intcomma}}</td>
+                    {% else %}
+                        <td id = "hargasekarang" style="text-align: right;"> - </td>
+                    {% endif %}
+                    {% if list_sembako1.sekarang and list_sembako1.kemarin %}
+                        {% with list_sembako1.perubahan|abs as perubahan %}
+                            {% if list_sembako1.perubahan > 0 %}
+                                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-up" style="color: red;" ></i></td>
+                            {% elif list_sembako1.perubahan == 0 %}
+                                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-equals" style="color: grey;"></i></td>
+                            {% elif list_sembako1.perubahan < 0 %}
+                                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-down" style="color: green;"></i></td>
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        <td id = "hargaperubahan" style="text-align: right;"> - </td>
+                    {% endif %}
+                    {% if list_sembako1.sekarang and list_sembako1.kemarin %}
+                        {% with list_sembako1.persen|abs as persen %}
+                            {% if list_sembako1.persen > 0 %}
+                                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-up" style="color: red;" ></i></td>
+                            {% elif list_sembako1.perubahan == 0 %}
+                                <td style="text-align: right;">{{persen}} % <i class="fas fa-equals" style="color: grey;" ></i></td>
+                            {% elif list_sembako1.perubahan < 0 %}
+                                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-down" style="color: green;" ></i></td>
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        <td style="text-align: right;"> - </td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}

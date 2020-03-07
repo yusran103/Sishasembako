@@ -89,6 +89,7 @@ def index(request):
                 else:
                     persen = 0
         data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan,"perubahan":perubahan,"persen":persen})
+    print(data)
     return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data,"pencarian":pencarian})
 
 @login_required(login_url='/login')
