@@ -99,23 +99,23 @@
                     <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
                     <td id = "satuan">{{ list_sembako1.satuan }}</td>
                     {% if not list_sembako1.kemarin == 0 %}
-                        <td id = "hargakemarin" style="text-align: right;">Rp. {{list_sembako1.kemarin|intcomma}}</td>
+                        <td id = "hargakemarin" style="text-align: right;">Rp{{list_sembako1.kemarin|intcomma}},00.</td>
                     {% else %}
                         <td id = "hargakemarin" style="text-align: right;"> - </td>
                     {% endif %}
                     {% if not list_sembako1.sekarang == 0 %}
-                        <td id = "hargasekarang" style="text-align: right;">Rp. {{ list_sembako1.sekarang|intcomma}}</td>
+                        <td id = "hargasekarang" style="text-align: right;">Rp{{ list_sembako1.sekarang|intcomma}},00.</td>
                     {% else %}
                         <td id = "hargasekarang" style="text-align: right;"> - </td>
                     {% endif %}
                     {% if list_sembako1.sekarang and list_sembako1.kemarin %}
                         {% with list_sembako1.perubahan|abs as perubahan %}
                             {% if list_sembako1.perubahan > 0 %}
-                                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-up" style="color: red;" ></i></td>
+                                <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-angle-up" style="color: red;" ></i></td>
                             {% elif list_sembako1.perubahan == 0 %}
-                                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-equals" style="color: grey;"></i></td>
+                                <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-equals" style="color: grey;"></i></td>
                             {% elif list_sembako1.perubahan < 0 %}
-                                <td id = "hargaperubahan" style="text-align: right;">Rp. {{perubahan|intcomma}} <i class="fas fa-angle-down" style="color: green;"></i></td>
+                                <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-angle-down" style="color: green;"></i></td>
                             {% endif %}
                         {% endwith %}
                     {% else %}

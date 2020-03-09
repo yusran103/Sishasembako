@@ -58,7 +58,7 @@
                         <td style="text-align: center;">{{forloop.counter}}</td>
                         <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
                         <td>{{list_harga.nama_sembako}}</td>
-                        <td>Rp. {{list_harga.nominal|intcomma}}</td>
+                        <td>Rp{{list_harga.nominal|intcomma}},00.</td>
                         {% if list_harga.validasi == 0 %}
                         <td>Belum di validasi</td>
                         <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>

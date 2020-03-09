@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, logout, login
 from sishasembapo.models import *
 from sishasembapo.form import *
 from django.db import connection
-from django.http import HttpResponse,FileResponse, Http404
+from django.http import HttpResponse,FileResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.template import context
@@ -89,7 +89,6 @@ def index(request):
                 else:
                     persen = 0
         data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan,"perubahan":perubahan,"persen":persen})
-    print(data)
     return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data,"pencarian":pencarian})
 
 @login_required(login_url='/login')
@@ -97,7 +96,7 @@ def Logout(request):
     logout(request)
     for key in request.session.keys():
         del request.session[key]
-    return redirect('/')
+    return redirect(request.META['HTTP_REFERER']) 
 
 # CHANGEPASSWORD 
 @login_required(login_url='/login')
@@ -174,7 +173,6 @@ def view_grafik(request):
     ambil_pasar = Pasar.objects.all()
     ambil_Sembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
     x = datetime.datetime.now()
-    # print(ambil_harga1)
     data_isi1 = []
     pencarian1 = []
     if request.method == "POST":
@@ -190,17 +188,24 @@ def view_grafik(request):
         data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})
         pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako})
 
-    jan = 0
     data1 = []
     for i in data_isi1:
         for a in range(1,13):
             b = '%02d' % a
-            isi = Harga.objects.filter(nama_sembako=i['nama_bahan'],nama_pasar=i['nama_pasar'],tanggal__month=b,tanggal__year=i['tahun']).annotate(Avg('nominal')).first()
-            if isi:
-                data1.append(isi.nominal)
-            else:
+            isi = Harga.objects.filter(nama_sembako=i['nama_bahan'],nama_pasar=i['nama_pasar'],tanggal__month=b,tanggal__year=i['tahun'],validasi=True).aggregate(Avg('nominal'))
+            if isi['nominal__avg'] == None:
                 data1.append(0)
-    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako,'data':data1,'pencarian1':pencarian1})
+            else:
+                data1.append(round(isi['nominal__avg']))
+
+    tabel = []
+    for a in ambil_Sembako:
+        rata_rata = Harga.objects.filter(nama_sembako=a,tanggal=x,validasi=True).aggregate(Avg('nominal'))
+        if rata_rata:
+            tabel.append({"sembako":a,"harga":rata_rata['nominal__avg']})
+        else:
+            tabel.append({"sembako":a,"harga":0})    
+    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako,'data':data1,'pencarian1':pencarian1,'tabel':tabel})
 
 def maps(request):
     api_key = "pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg"

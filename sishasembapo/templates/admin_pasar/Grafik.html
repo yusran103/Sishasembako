@@ -82,10 +82,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for nama in sembako %}
+						{% for nama in tabel %}
 						<tr>
-							<td>{{nama}}</td>
-							<td>x</td>
+							<td>{{nama.sembako}}</td>
+							{% if nama.harga %}
+							<td>Rp{{nama.harga|intcomma}},00.</td>
+							{% else %}
+							<td> - </td>
+							{% endif %}
 						</tr>
 						{% endfor %}
 					</tbody>
