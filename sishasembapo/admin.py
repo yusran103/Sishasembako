@@ -3,9 +3,10 @@ from sishasembapo.models import *
 from sishasembapo.form import *
 from django.db.models import F
 from django.utils.translation import ugettext_lazy as _
-import csv
+import xlwt
 import datetime
 from django.http import HttpResponse
+from sishasembapo.actions import export_as_xls
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
@@ -30,7 +31,7 @@ class hargaAdmin(admin.ModelAdmin):
     form = Harga_form_admin
     list_per_page = 10
     date_hierarchy = 'tanggal'
-    actions = ['validasi_harga','hapuspilih',"export_as_csv"]
+    actions = ['validasi_harga','hapuspilih',export_as_xls]
     
     def validasi_harga(self, request, queryset):
         for harga in queryset:
@@ -45,21 +46,6 @@ class hargaAdmin(admin.ModelAdmin):
 
     def Tanggal(self, obj):
         return obj.tanggal.strftime('%d-%m-%Y')
-    
-    def export_as_csv(self, request, queryset):
-        meta = self.model._meta
-        field_names = [field.name for field in meta.fields if field.name not in ['id', 'validasi']]
-
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={} - {}.csv'.format("Harga",datetime.datetime.now().date())
-        writer = csv.writer(response)
-
-        writer.writerow(field_names)
-        for obj in queryset.order_by('tanggal'):
-            row = writer.writerow([getattr(obj, field) for field in field_names])
-        return response
-
-    export_as_csv.short_description = "Export yang dipilih"
 
 class pasarAdmin(admin.ModelAdmin):
     list_display = ['nama_pasar','alamat_pasar']

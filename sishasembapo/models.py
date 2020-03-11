@@ -8,7 +8,10 @@ from location_field.models.plain import PlainLocationField
 class Pasar(models.Model):
     nama_pasar = models.CharField(max_length=100)
     alamat_pasar = models.TextField()
-    lokasi = PlainLocationField(based_fields=['nama_pasar'], zoom=7,null=True)
+    kelurahan = models.CharField(max_length=100,null=True)
+    kecamatan = models.CharField(max_length=100,null=True)
+    notlp = models.CharField(max_length=13,null=True)
+    lokasi = PlainLocationField(help_text='(Latitude,Longtitude)',based_fields=['nama_pasar'], zoom=7,null=True)
     
     class Meta:
         db_table = "Tb_Pasar"

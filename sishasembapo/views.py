@@ -27,8 +27,6 @@ def Login(request):
                     request.session['nama'] = profil.nama
                     request.session['pasar'] = profil.pasar.nama_pasar
                     request.session['id'] = user.id
-                    for key, value in request.session.items():
-                        print('{} => {}'.format(key, value))
                     return redirect('/')
                 except PetugasPasar.DoesNotExist:
                     messages.add_message(request, messages.INFO, 'Akun Tersebut Belum Terintegrasi Dengan Petugas Pasar Manapun, Silahkan Hubungi Admin PD. Pasar')  
@@ -39,15 +37,11 @@ def Login(request):
     return render(request, 'login.html')
 
 def index(request):
-
     ambilpasar = Pasar.objects.all()
     ambilsembakosemua = Sembako.objects.annotate(induk=Coalesce('nama_sembako','id')).order_by('induk','id')
-
-    for key, value in request.session.items():
-        print('{} => {}'.format(key, value))
-
     pencarian = []
     date_isi = []
+
     if request.method == "POST":
         ambiltanggal = request.POST['tanggal']
         ambilpasar1 = request.POST.get('nama_pasar')
@@ -216,5 +210,5 @@ def maps(request):
         pecah = koordinat.split(',')
         lat = pecah[0]
         lng = pecah[1]
-        pasar.append({"nama_pasar":pasar1.nama_pasar,"lat":lat,"lng":lng})
+        pasar.append({"nama_pasar":pasar1.nama_pasar,"lat":lat,"lng":lng,"alamat":pasar1.alamat_pasar,"kel":pasar1.kelurahan,"kec":pasar1.kecamatan,"tlp":pasar1.notlp})
     return render(request,'admin_pasar/maps.html',{'api':api_key,'pasar':pasar})

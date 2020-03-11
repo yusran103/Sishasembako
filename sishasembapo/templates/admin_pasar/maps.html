@@ -59,7 +59,7 @@
                         'type': 'Feature',
                         'properties': {
                             'description':
-                            '<strong>{{list.nama_pasar}}</strong><marquee scrollamount="4">Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</marquee>',
+                            '<strong>{{list.nama_pasar}}</strong><br>{{list.alamat}}, Kel.{{list.kel}}, Kec.{{list.kec}}. {{list.tlp}} <br><strong>Harga Bahan Pokok Hari Ini</strong><marquee scrollamount="4">Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</marquee>',
                             'icon': 'grocery'
                         },
                         'geometry': {
@@ -86,8 +86,10 @@
             // Create a popup, but don't add it to the map yet.
             var popup = new mapboxgl.Popup({
                 closeButton: false,
-                closeOnClick: false
-            });
+                closeOnClick: false,
+                minWidth: 80,
+                maxWidth: window.innerWidth - 300,
+            }).setMaxWidth("350px");
             
             map.on('mouseenter', 'places', function(e) {
                 // Change the cursor style as a UI indicator.
