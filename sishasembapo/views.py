@@ -203,12 +203,16 @@ def view_grafik(request):
 
 def maps(request):
     api_key = "pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg"
-    pasar =[]
+    pasar = []
+    harga = []
+    x = datetime.datetime.now()
     list_pasar = Pasar.objects.all()
+    nominal = 0
     for pasar1 in list_pasar:
+        rata_rata = Harga.objects.filter(nama_pasar = pasar1,tanggal=x,validasi=True)
         koordinat = pasar1.lokasi
         pecah = koordinat.split(',')
         lat = pecah[0]
         lng = pecah[1]
-        pasar.append({"nama_pasar":pasar1.nama_pasar,"lat":lat,"lng":lng,"alamat":pasar1.alamat_pasar,"kel":pasar1.kelurahan,"kec":pasar1.kecamatan,"tlp":pasar1.notlp})
-    return render(request,'admin_pasar/maps.html',{'api':api_key,'pasar':pasar})
+        pasar.append({"id":pasar1.id,"nama_pasar":pasar1.nama_pasar,"lat":lat,"lng":lng,"alamat":pasar1.alamat_pasar,"kel":pasar1.kelurahan,"kec":pasar1.kecamatan,"tlp":pasar1.notlp,"harga":rata_rata})
+    return render(request,'admin_pasar/maps.html',{'api':api_key,'pasar':pasar,'time':x.date()})
