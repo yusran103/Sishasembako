@@ -1,4 +1,5 @@
 {% extends "layout/pengunjung/base_pengunjung.html" %}
+{% load static %}
 {% load humanize %}
 
 {% block extrastyle %}
@@ -9,11 +10,7 @@
 {% block content %}
 <section class="content-header">
     <div style="text-align: center;">
-        {% if request.session.nama %}
-        <h3 class="judul">SELAMAT DATANG {{request.session.nama}}</h3>
-        {% else %}
         <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
-        {% endif %}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
@@ -47,39 +44,41 @@
     
     navigator.geolocation.getCurrentPosition(success, error, options);
     var geojson = {
-                'type': 'FeatureCollection',
-                'features': [
-                {% for list in pasar %}
-                {
-                    'type': 'Feature',
-                    'properties': {
-                        'id_pasar':'{{list.id}}',
-                        'description':
-                        '<strong>{{list.nama_pasar}}</strong><br>{{list.alamat}}, Kel.{{list.kel}}, Kec.{{list.kec}}. <br>{{list.tlp}} <br><strong>Harga Bahan Pokok Hari Ini</strong><marquee scrollamount="4">{% if not list.harga %}<p>Tidak ada data harga sembako hari ini</p>{% else %}{% for a in list.harga %}({{a.nama_sembako}} <=> {{a.harga|intcomma}},00.),{% endfor %}{% endif %}</marquee>',
-                        'icon': 'grocery'
-                    },
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [{{list.lng}},{{list.lat}}]//(longitude,lalitude)
-                    }
-                },
-                {% endfor %}
-                ]
-        };
+        'type': 'FeatureCollection',
+        'features': [
+        {% for list in pasar %}
+        {
+            'type': 'Feature',
+            'properties': {
+                'id_pasar':'{{list.id}}',
+                'nama_pasar':'{{list.nama_pasar}}',
+                'description':
+                '<br>{{list.alamat}}, Kel.{{list.kel}}, Kec.{{list.kec}}. <br>{{list.tlp}} <br><strong>Harga Bahan Pokok Hari Ini</strong><marquee scrollamount="4">{% if not list.harga %}Tidak ada data harga sembako hari ini{% else %}{% for a in list.harga %}({{a.nama_sembako}} <=> {{a.harga|intcomma}},00.), {% endfor %}{% endif %}</marquee><br>',
+                'icon': 'grocery'
+                
+            },
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [{{list.lng}},{{list.lat}}]//(longitude,lalitude)
+            }
+        },
+        {% endfor %}
+        ]
+    };
     function loadMap(lng,lat) {
         mapboxgl.accessToken = '{{api}}';
         var map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
             center: [lng,lat], // starting position [lng, lat]
-            zoom: 9 // starting zoom
+            zoom: 13 // starting zoom
         });
         map.on('load', function() {
             map.addSource(
-                'places', {
+            'places', {
                 'type': 'geojson',
                 'data': geojson
-                }
+            }
             ),
             
             // Add a layer showing the places.
@@ -88,6 +87,10 @@
                 'type': 'symbol',
                 'source': 'places',
                 'layout': {
+                    'text-field': ['get', 'nama_pasar'],
+                    'text-size': 10,
+                    'text-offset': [0, 0.6],
+                    'text-anchor': 'top',
                     'icon-image': '{icon}-15',
                     'icon-allow-overlap': true
                 }
@@ -96,17 +99,23 @@
             // Create a popup, but don't add it to the map yet.
             var popup = new mapboxgl.Popup({
                 closeButton: false,
-                closeOnClick: false,
+                closeOnClick: true,
                 minWidth: 80,
                 maxWidth: window.innerWidth - 300,
             }).setMaxWidth("350px");
             
+            //console.log(screen.width);
             map.on('mouseenter', 'places', function(e) {
-                // Change the cursor style as a UI indicator.
                 map.getCanvas().style.cursor = 'pointer';
-                
+                map.scrollZoom.enable();
+            });
+
+            map.on('click', 'places', function(e) {
+                map.flyTo({ center: e.features[0].geometry.coordinates ,zoom: 15 });
+                // Change the cursor style as a UI indicator.
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var description = e.features[0].properties.description;
+                var id = e.features[0].properties.id_pasar;
                 
                 // Ensure that if the map is zoomed out such that multiple
                 // copies of the feature are visible, the popup appears
@@ -119,22 +128,26 @@
                 // based on the feature found.
                 popup
                 .setLngLat(coordinates)
-                .setHTML(description)
+                .setHTML(Objects(e))
                 .addTo(map);
-                map.scrollZoom.enable();
+
+                document.getElementById('btn-submit').addEventListener('click', function() {
+                    document.getElementById("nama_pasar").setAttribute("value",id)
+                    document.getElementsByName("submit").onclick = document.forms[0].submit();
+                });
             });
             
             map.on('mouseleave', 'places', function() {
                 map.getCanvas().style.cursor = '';
-                popup.remove();
                 map.scrollZoom.disable();
-            });
-            
+            });     
         });
-        map.on('click', 'places', function(e) {
-            document.getElementById("nama_pasar").setAttribute("value",e.features[0].properties.id_pasar.slice())
-            document.getElementsByName("submit").onclick = document.forms[0].submit();
-        });
+        function Objects(e) {
+            var html = '';
+            html += "<strong><center><font size='3'>" + e.features[0].properties.nama_pasar + "</font></center></strong>" + e.features[0].properties.description;
+            html += "<button class='btn btn-secondary btn-block' id='btn-submit' value='Detail'>Detail</button>";
+            return html;
+        }
         map.addControl(new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
             mapboxgl: mapboxgl

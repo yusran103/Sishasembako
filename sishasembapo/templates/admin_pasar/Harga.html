@@ -6,75 +6,93 @@
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 
 <style>
+    .dataTables_filter {
+        float: left !important;
+    }
+    .table th {  white-space: nowrap; }
+    .table td {  white-space: nowrap; }
     .isDisabled {
         color: currentColor;
         cursor: not-allowed;
         opacity: 0.5;
         text-decoration: none;
     }
-    @media screen and (max-width: 600px) {
-    th{
-        font-size: 9px;
-      }
-      td{
-        font-size: 9px;
-      }
+    @media screen and (max-width: 450px) {
+        th{
+            font-size: 9px;
+        }
+        td{
+            font-size: 9px;
+        }
+    }
+
+    @media screen and (max-width: 750px) {
+        th{
+            font-size: 9px;
+        }
+        td{
+            font-size: 9px;
+        }
     }
 </style>
 {% endblock extrastyle %}
 
 {% block content %}
 <section class="content-header">
-    <div class="box box-primary col-md-12 col-xs-12">
-        <div class="box-header with-border" style="text-align: left;">
-            <h4 class="box-title" style="display: inline-block;"><b>List Harga Bahan Pokok di {{request.session.pasar}}</b></h4>
-            <button class="btn btn-primary float-right btns" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah</button>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title"><b>List Harga Bahan Pokok di {{request.session.pasar}}</b></h3>
+                <button class="btn btn-primary float-right btn-xs" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah</button>
+            </div>
         </div>
-        <br>
-        {% if penambahan %}
-        {% for i in penambahan %}
-        <p class="alert alert-success" style="text-align: center;" >Berhasil Menambah Data Harga {{i.sembako}} di tanggal {{i.tanggal|date:"j F Y"}} </p>
-        {% endfor %}
-        {% endif %}
-        <div id="perubahan"></div>
-        <div style="width: 100%;">
-            <table class="table table-bordered" id ="myTable">
-                <thead>
-                    <tr>
-                        <th style="text-align:center;"> No </th>
-                        <th style="text-align:center;"> Tanggal </th>
-                        <th style="text-align:center;"> Nama Barang</th> 
-                        <th style="text-align:center;"> Harga </th> 
-                        <th style="text-align:center;"> Status </th>
-                        <th style="text-align:center;"> Aksi </th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if harga %}
-                    {% for list_harga in harga %}
-                    <tr>
-                        <td style="text-align: center;">{{forloop.counter}}</td>
-                        <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
-                        <td>{{list_harga.nama_sembako}}</td>
-                        <td>Rp{{list_harga.nominal|intcomma}},00.</td>
-                        {% if list_harga.validasi == 0 %}
-                        <td>Belum di validasi</td>
-                        <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
+        <div class="card-body">
+            {% if penambahan %}
+            {% for i in penambahan %}
+            <h5 class="alert alert-success" style="text-align: center;" >Berhasil Menambah Data Harga {{i.sembako}} di tanggal {{i.tanggal|date:"j F Y"}} </h5>
+            {% endfor %}
+            {% endif %}
+            <div id="perubahan"></div>
+            <div class="table-responsive" style="width: 100%;">
+                <table class="table cell-border" id ="myTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;"> No </th>
+                            <th style="text-align:center;"> Tanggal </th>
+                            <th style="text-align:center;"> Nama Barang</th> 
+                            <th style="text-align:center;"> Harga </th> 
+                            <th style="text-align:center;"> Status </th>
+                            <th style="text-align:center;"> Aksi </th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if harga %}
+                        {% for list_harga in harga %}
+                        <tr>
+                            <td style="text-align: center;">{{forloop.counter}}</td>
+                            <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
+                            <td>{{list_harga.nama_sembako}}</td>
+                            <td>Rp{{list_harga.nominal|intcomma}},00.</td>
+                            {% if list_harga.validasi == 0 %}
+                            <td>Belum di validasi</td>
+                            <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
+                            {% else %}
+                            <td>Sudah di validasi</td>
+                            <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs isDisabled" > <i class="fa fa-edit"></i> Ubah</a></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                         {% else %}
-                        <td>Sudah di validasi</td>
-                        <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs isDisabled" > <i class="fa fa-edit"></i> Ubah</a></td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                    {% else %}
-                    <tr>
-                        <td colspan="6"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
-                    </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                        <tr>
+                            <td colspan="6"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>
@@ -84,7 +102,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Harga Bahan Pokok</h5>
+                <h4 class="modal-title" id="exampleModalLabel">Tambah Harga Bahan Pokok</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,17 +123,22 @@
 {% endblock content %}
 
 {% block extrajs %}
-{% comment %} <script src="{% static 'DataTables/datatables.min.js' %}"></script> {% endcomment %}
+<script src="{% static 'DataTables/datatables.min.js' %}"></script>
 <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
-<script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script>
-    $(document).ready( function () {
-        $('#myTable').DataTable({
-            "pageLength": 9,
-        });
-        $('#id_nama_sembako').select2({
-            theme: 'bootstrap4'
-        })
+    //alert(screen.width)
+    $('#myTable').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": false,
+          "info": true,
+          "autoWidth": true,
+          responsive: true,
+    });
+    $('#id_nama_sembako').select2({
+        theme: 'bootstrap4'
     });
     
     $('#id_tanggal').datepicker({

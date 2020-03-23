@@ -27,21 +27,25 @@ def Login(request):
                     request.session['nama'] = profil.nama
                     request.session['pasar'] = profil.pasar.nama_pasar
                     request.session['id'] = user.id
-                    return redirect('/')
+                    # if request.session['url'] == None:
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    else:
+                        return redirect(request.session['url'])
                 except PetugasPasar.DoesNotExist:
                     messages.add_message(request, messages.INFO, 'Akun Tersebut Belum Terintegrasi Dengan Petugas Pasar Manapun, Silahkan Hubungi Admin PD. Pasar')  
             else:
-               messages.add_message(request, messages.INFO, 'Akun Tersebut Bukan Termasuk Akun Petugas Pasar') 
+                messages.add_message(request, messages.INFO, 'Akun Tersebut Bukan Termasuk Akun Petugas Pasar') 
         else:
             messages.add_message(request, messages.INFO, 'Username atau password Anda salah')
     return render(request, 'login.html')
 
 def index(request):
+    request.session['url'] = request.get_full_path()
     ambilpasar = Pasar.objects.all()
     ambilsembakosemua = Sembako.objects.annotate(induk=Coalesce('nama_sembako','id')).order_by('induk','id')
     pencarian = []
     date_isi = []
-
     if request.method == "POST":
         ambiltanggal = request.POST['tanggal']
         ambilpasar1 = request.POST.get('nama_pasar')
@@ -112,6 +116,7 @@ def changepassword(request,pk):
 
 @login_required(login_url='/login')
 def profile(request,pk):
+    request.session['url'] = request.get_full_path()
     user = PetugasPasar.objects.filter(akun_id = request.session['id']).first()
     translation.activate('id')
     return render(request, 'changeprofile.html', {'user' : user,'messages':messages})
@@ -143,6 +148,7 @@ def view_harga(request):
         form = Harga_form()
     return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan})
 
+@login_required(login_url='/login')
 def update_harga(request,pk):
     perubahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
@@ -164,6 +170,7 @@ def update_harga(request,pk):
     return render(request,'admin_pasar/edit_harga.html',{'form':form,'perubahan':perubahan,'harga':harga})
 
 def view_grafik(request):
+    request.session['url'] = request.get_full_path()
     ambil_pasar = Pasar.objects.all()
     ambil_Sembako = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako')
     x = datetime.datetime.now()
@@ -174,13 +181,13 @@ def view_grafik(request):
         nama_bahan = request.POST.get('nama_bahan')
         tahun = request.POST['tahun']
         data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})
-        pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako})
+        pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako,"satuan":Sembako.objects.get(id=nama_bahan).satuan})
     else:
         nama_pasar = 1 
         nama_bahan = 28
         tahun = x.year
         data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})
-        pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako})
+        pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako,"satuan":Sembako.objects.get(id=nama_bahan).satuan})
 
     data1 = []
     for i in data_isi1:
@@ -199,9 +206,118 @@ def view_grafik(request):
             tabel.append({"sembako":a,"harga":rata_rata['nominal__avg']})
         else:
             tabel.append({"sembako":a,"harga":0})    
-    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako,'data':data1,'pencarian1':pencarian1,'tabel':tabel})
+    
+    past30day = []
+    for i in reversed(range(0,31)):
+        kemarin = datetime.timedelta(days=i)
+        a = x - kemarin
+        past30day.append({"tanggal":a.date()})
+    
+    induk = [19,23,24,25]
+    induk1 = []
+    for j in induk:
+        ibu = Sembako.objects.filter(pk=j)
+        for y in ibu:
+            induk1.append({"id":y.pk,"nama_sembako":y.jenis_sembako,"satuan":y.satuan})
+    
+    beras = []
+    bramo = []
+    bengawan = []
+    menthik = []
+    ir = []
+    
+    telur = []
+    bloiler = []
+    kampung = []
+
+    cabe = []
+    besar = []
+    kriting = []
+    rawit = []
+    
+    bawang = []
+    merah = []
+    putih = []
+
+    for z in induk:
+        sembako1 = Sembako.objects.filter(nama_sembako_id=z)
+        for e in sembako1:
+            for a in past30day:
+                ambilinduk = Harga.objects.filter(tanggal=a['tanggal'],nama_sembako=e.pk,validasi=True).aggregate(Avg('nominal'))
+                if e.pk == 28:
+                    if ambilinduk['nominal__avg'] == None:
+                        bramo.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        bramo.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+
+                elif e.pk == 29:
+                    if ambilinduk['nominal__avg'] == None:
+                        bengawan.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        bengawan.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+
+                elif e.pk == 30:
+                    if ambilinduk['nominal__avg'] == None:
+                        menthik.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        menthik.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+                    
+                elif e.pk == 31:
+                    if ambilinduk['nominal__avg'] == None:
+                        ir.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        ir.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+                
+                elif e.pk == 37:
+                    if ambilinduk['nominal__avg'] == None:
+                        bloiler.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        bloiler.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+
+                elif e.pk == 38:
+                    if ambilinduk['nominal__avg'] == None:
+                        kampung.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        kampung.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+
+                elif e.pk == 39:
+                    if ambilinduk['nominal__avg'] == None:
+                        besar.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        besar.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+                
+                elif e.pk == 40:
+                    if ambilinduk['nominal__avg'] == None:
+                        kriting.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        kriting.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+
+                elif e.pk == 41:
+                    if ambilinduk['nominal__avg'] == None:
+                        rawit.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        rawit.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+                
+                elif e.pk == 42:
+                    if ambilinduk['nominal__avg'] == None:
+                        merah.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        merah.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+
+                elif e.pk == 43:
+                    if ambilinduk['nominal__avg'] == None:
+                        putih.append({"tanggal":a['tanggal'],"nama":e,"harga":0})
+                    else:
+                        putih.append({"tanggal":a['tanggal'],"nama":e,"harga":round(ambilinduk['nominal__avg'])})
+    
+    telur.append({"bloiler":bloiler,"kampung":kampung})
+    cabe.append({"merah":besar,"rawit":rawit,"kriting":kriting})
+    bawang.append({"merah":merah,"putih":putih})
+    beras.append({"bramo":bramo,"bengawan":bengawan,"menthik":menthik,"ir":ir})
+    return render(request,'admin_pasar/Grafik.html',{'pasar':ambil_pasar,'sembako':ambil_Sembako,'data':data1,'pencarian1':pencarian1,'tabel':tabel,"tanggal":past30day,"induk":induk1,"beras":beras,"telur":telur,"cabe":cabe,"bawang":bawang})
 
 def maps(request):
+    request.session['url'] = request.get_full_path()
     api_key = "pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg"
     pasar = []
     harga = []

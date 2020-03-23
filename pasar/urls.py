@@ -21,14 +21,14 @@ from django.conf.urls.i18n import i18n_patterns
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('',pasar.maps, name="maps"),
-    path('login', pasar.Login, name="login"),
-    path('tabel', pasar.index, name="index"),
-    path('logout', pasar.Logout, name="logout"),
+    path('login/', pasar.Login, name="login"),
+    path('tabel/', pasar.index, name="index"),
+    path('logout/', pasar.Logout, name="logout"),
     # CHANGE PASSWORD
     path('changepassword/<int:pk>', pasar.changepassword , name='changepassword'),
     path('profile/<int:pk>', pasar.profile, name='profile'),
-    path('harga', pasar.view_harga , name='list_harga_sembako'),
+    path('harga/', pasar.view_harga , name='list_harga_sembako'),
     path('harga/<int:pk>', pasar.update_harga , name='update_harga'),
-    path('grafik', pasar.view_grafik , name='grafik'),
+    path('grafik/', pasar.view_grafik , name='grafik'),
     prefix_default_language=False
 )

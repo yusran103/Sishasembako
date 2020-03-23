@@ -5,27 +5,34 @@
 {% load mathfilters %}
 {% block extrastyle %}
 <style>
-    @media screen and (max-width: 600px) {
-        .tableBodyScroll tbody {
-            display: block;
-            max-height: 300px;
-            overflow-y: scroll;
+    @media screen and (max-width: 575px) {
+		label.kosong{
+			display: none;
         }
-        
-        .tableBodyScroll thead,
-        tbody tr {
-            display: table;
-            width: 100%;
+        th{
+            font-size: 8px;
+        }
+        td{
+            font-size: 7px;
+        }
+	}
+    @media screen and (max-width: 750px) {
+        .table-responsive{
+            height:868px;  
+            overflow:scroll;
+        }
+        thead tr:nth-child(1) th{
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
             table-layout: fixed;
         }
         th{
+            font-size: 8px;
+        }
+        td{
             font-size: 7px;
-          }
-          td{
-            font-size: 7px;
-          }
-        label.kosong{
-            display: none;
         }
     }
 </style>
@@ -33,42 +40,42 @@
 {% block content %}
 <section class="content-header">
     <div style="text-align: center;">
-        {% if request.session.nama %}
-        <h3 class="judul">SELAMAT DATANG {{request.session.nama}}</h3>
-        {% else %}
         <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
-        {% endif %}
     </div>
     <br>
     <form action="{% url 'index' %}" method="POST">
         {% csrf_token %}
-        <div class="row" class="col-md-12" style="width: 100%;">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Pilih Nama Pasar</label>
-                    <div class="input-group">
-                        <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
-                            <option value="">-------</option>
-                            {% for list_pasar in pasar %}
-                            <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
-                            {% endfor %}
-                        </select>
+        <div class="card">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label >Pilih Nama Pasar</label>
+                            <div class="input-group">
+                                <select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
+                                    <option value="">-------</option>
+                                    {% for list_pasar in pasar %}
+                                    <option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label>Pilih Tanggal</label>
-                    <div class="input-group">
-                        <input type="text" name="tanggal" class="form-control" placeholder="Tanggal" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tanggal">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label>Pilih Tanggal</label>
+                            <div class="input-group">
+                                <input type="text" name="tanggal" class="form-control" placeholder="Tanggal" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tanggal">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-1" style="display: inline-block;">
-                <div class="form-group">
-                    <label class="kosong">&nbsp;</label>
-                    <div class="input-group">
-                        <button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="kosong">&nbsp;</label>
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-primary" style="width: 100%;"> Cari</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,69 +83,73 @@
     </form>
     {% if pencarian != None %}
     {% for i in pencarian %}
-    <p class="alert alert-success" style="text-align: center;" >Menampilkan data di {{i.pasar}} pada {{i.tanggal|date:"j F Y"}}</p>
+    <h6 class="alert alert-success" style="text-align: center;" >Menampilkan data di {{i.pasar}} pada {{i.tanggal|date:"j F Y"}}</h6>
     {% endfor %}
     {% endif %}
-    <table class="table table-bordered tableBodyScroll">
-        <thead>
-            <tr valign="middle" style="text-align: center;">
-                <th>Nama Bahan Pokok</th>
-                <th>Satuan</th>
-                <th>Harga Kemarin</th>
-                <th>Harga Sekarang</th>
-                <th>Perubahan (Rp)</th>
-                <th>Perubahan (%)</th>
-            </tr>
-        </thead>
-        <tbody style="width: 100%;">
-            {% for list_sembako1 in sembakosemua %}
-            <tr>
-                {% if not list_sembako1.induk %}
-                <td colspan = "6" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
-                {% else %}
-                    <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
-                    <td id = "satuan">{{ list_sembako1.satuan }}</td>
-                    {% if not list_sembako1.kemarin == 0 %}
+    <div class="table-responsive">
+        <div class="card">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                    <tr valign="middle" style="text-align: center;">
+                        <th>Nama Bahan Pokok</th>
+                        <th>Satuan</th>
+                        <th>Harga Kemarin</th>
+                        <th>Harga Sekarang</th>
+                        <th>Perubahan (Rp)</th>
+                        <th>Perubahan (%)</th>
+                    </tr>
+                </thead>
+                <tbody style="width: 100%;">
+                    {% for list_sembako1 in sembakosemua %}
+                    <tr>
+                        {% if not list_sembako1.induk %}
+                        <td colspan = "6" id="exclude"><b>{{ list_sembako1.jenis }}</b></td>
+                        {% else %}
+                        <td id="{{ list_sembako1.induk}}">- {{ list_sembako1.jenis }}</td>
+                        <td id = "satuan">{{ list_sembako1.satuan }}</td>
+                        {% if not list_sembako1.kemarin == 0 %}
                         <td id = "hargakemarin" style="text-align: right;">Rp{{list_sembako1.kemarin|intcomma}},00.</td>
-                    {% else %}
+                        {% else %}
                         <td id = "hargakemarin" style="text-align: right;"> - </td>
-                    {% endif %}
-                    {% if not list_sembako1.sekarang == 0 %}
+                        {% endif %}
+                        {% if not list_sembako1.sekarang == 0 %}
                         <td id = "hargasekarang" style="text-align: right;">Rp{{ list_sembako1.sekarang|intcomma}},00.</td>
-                    {% else %}
+                        {% else %}
                         <td id = "hargasekarang" style="text-align: right;"> - </td>
-                    {% endif %}
-                    {% if list_sembako1.sekarang and list_sembako1.kemarin %}
+                        {% endif %}
+                        {% if list_sembako1.sekarang and list_sembako1.kemarin %}
                         {% with list_sembako1.perubahan|abs as perubahan %}
-                            {% if list_sembako1.perubahan > 0 %}
-                                <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-angle-up" style="color: red;" ></i></td>
-                            {% elif list_sembako1.perubahan == 0 %}
-                                <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-equals" style="color: grey;"></i></td>
-                            {% elif list_sembako1.perubahan < 0 %}
-                                <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-angle-down" style="color: green;"></i></td>
-                            {% endif %}
+                        {% if list_sembako1.perubahan > 0 %}
+                        <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-angle-up" style="color: red;" ></i></td>
+                        {% elif list_sembako1.perubahan == 0 %}
+                        <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-equals" style="color: grey;"></i></td>
+                        {% elif list_sembako1.perubahan < 0 %}
+                        <td id = "hargaperubahan" style="text-align: right;">Rp{{perubahan|intcomma}},00. <i class="fas fa-angle-down" style="color: green;"></i></td>
+                        {% endif %}
                         {% endwith %}
-                    {% else %}
+                        {% else %}
                         <td id = "hargaperubahan" style="text-align: right;"> - </td>
-                    {% endif %}
-                    {% if list_sembako1.sekarang and list_sembako1.kemarin %}
+                        {% endif %}
+                        {% if list_sembako1.sekarang and list_sembako1.kemarin %}
                         {% with list_sembako1.persen|abs as persen %}
-                            {% if list_sembako1.persen > 0 %}
-                                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-up" style="color: red;" ></i></td>
-                            {% elif list_sembako1.perubahan == 0 %}
-                                <td style="text-align: right;">{{persen}} % <i class="fas fa-equals" style="color: grey;" ></i></td>
-                            {% elif list_sembako1.perubahan < 0 %}
-                                <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-down" style="color: green;" ></i></td>
-                            {% endif %}
+                        {% if list_sembako1.persen > 0 %}
+                        <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-up" style="color: red;" ></i></td>
+                        {% elif list_sembako1.perubahan == 0 %}
+                        <td style="text-align: right;">{{persen}} % <i class="fas fa-equals" style="color: grey;" ></i></td>
+                        {% elif list_sembako1.perubahan < 0 %}
+                        <td style="text-align: right;">{{persen}} % <i class="fas fa-angle-down" style="color: green;" ></i></td>
+                        {% endif %}
                         {% endwith %}
-                    {% else %}
+                        {% else %}
                         <td style="text-align: right;"> - </td>
-                    {% endif %}
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
 {% endblock content %}
 {% block extrajs %}

@@ -5,61 +5,94 @@
 
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'assets_page/plugins/chart.js/Chart.min.css'%}">
+<style>
+	.table-responsive{
+		height:868px;  
+		overflow:scroll;
+	}
+	thead tr:nth-child(1) th{
+		background: white;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		table-layout: fixed;
+	}
+    @media screen and (max-width: 575px) {
+		label.kosong{
+			display: none;
+		}
+	}
 
+	@media screen and (max-width: 750px) {
+		.table-responsive{
+			height:200px;  
+			overflow:scroll;
+		}
+		thead tr:nth-child(1) th{
+			background: white;
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		label.label {
+			font-size: small;
+		}	
+	}
+</style>
 {% endblock extrastyle %}
 
 {% block content %}
 <section class="content-header">
-    <div style="text-align: center;">
-        {% if request.session.nama %}
-        <h3 class="judul">SELAMAT DATANG {{request.session.nama}}</h3>
-        {% else %}
-        <h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
-        {% endif %}
-    </div>
+	<div style="text-align: center;">
+		<h3 class="judul">SELAMAT DATANG DI SISTEM INFORMASI SEMBILAN HARGA BAHAN POKOK</h3>
+	</div>
 	<br>
 	<form action="{% url 'grafik' %}" method="POST">
 		{% csrf_token %}
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label>Pilih Nama Pasar</label>
-					<div class="input-group">
-						<select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
-							<option value="">-------</option>
-							{% for list_pasar in pasar %}
-							<option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
-							{% endfor %}
-						</select>
+		<div class="card">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="label">Pilih Nama Pasar</label>
+							<div class="input-group">
+								<select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
+									<option value="">-------</option>
+									{% for list_pasar in pasar %}
+									<option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label>Pilih Nama Bahan Pokok</label>
-					<div class="input-group">
-						<select class="form-control selectpicker" name="nama_bahan" required data-live-search="True">
-							<option value="">-------</option>
-							{% for list_sembako in sembako %}
-							<option value="{{list_sembako.id}}">{{list_sembako.nama_sembako}} - {{list_sembako.jenis_sembako}}</option>
-							{% endfor %}
-						</select>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="label">Pilih Nama Bahan Pokok</label>
+							<div class="input-group">
+								<select class="form-control selectpicker" name="nama_bahan" required data-live-search="True">
+									<option value="">-------</option>
+									{% for list_sembako in sembako %}
+									<option value="{{list_sembako.id}}">{{list_sembako.nama_sembako}} - {{list_sembako.jenis_sembako}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group">
-					<label>Pilih Tahun</label>
-					<div class="input-group">
-						<input type="text" name="tahun" class="form-control" placeholder="Tahun" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tahun">
+					<div class="col-sm-2">
+						<div class="form-group">
+							<label class="label">Pilih Tahun</label>
+							<div class="input-group">
+								<input type="text" name="tahun" class="form-control" placeholder="Tahun" autocomplete="off" onkeypress="return false;" onkeydown="return false;" required id="id_tahun">
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group">
-					<label>&nbsp;</label>
-					<div class="input-group">
-						<button type="submit" class="btn btn-primary" style="width: auto; height: auto;"> Cari</button>
+					<div class="col-sm-2">
+						<div class="form-group">
+							<label class="kosong">&nbsp;</label>
+							<div class="input-group">
+								<button type="submit" class="btn btn-primary" style="width: 100%;"> Cari</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -67,35 +100,88 @@
 	</form>
 	{% if pencarian1 != None %}
 	{% for i in pencarian1 %}
-	<p class="alert alert-success" style="text-align: center;" >Menampilkan data {{i.nama_bahan}} {{i.nama_jenis}} di {{i.pasar}} perbulan pada tahun {{i.tahun}}</p>
+	<h5 class="alert alert-success" style="text-align: center;" >Menampilkan data {{i.nama_bahan}} {{i.nama_jenis}} di {{i.pasar}} perbulan pada tahun {{i.tahun}}</h5>
 	{% endfor %}
 	{% endif %}
-		<div class="col-md-12" style="display: inline-block;">
-			<canvas class="col-md-8 float-left" id="myChart"></canvas>
-			<div class="col-md-4 float-right" style="width: 100%; display: inline-block;">
-				<p>*rata-rata harga seluruh pasar hari ini</p>
-				<table class="table table-bordered">
-					<thead>
-						<tr valign="top" style="text-align: center; font-size: small;">
-							<th>Nama Bahan Pokok</th>
-							<th>Harga</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for nama in tabel %}
-						<tr>
-							<td>{{nama.sembako}}</td>
-							{% if nama.harga %}
-							<td>Rp{{nama.harga|intcomma}}0.</td>
-							{% else %}
-							<td> - </td>
-							{% endif %}
-						</tr>
+	<!-- Grafik Besar -->
+	<div class="row">
+		<div class="col-md-8" style="display: inline-block;">
+			<div class="card">
+				<div class="card-header">
+					<div class="d-flex justify-content-between">
+						{% if pencarian1 != None %}
+						{% for i in pencarian1 %}
+						<h3 class="card-title">Grafik harga rata-rata : {{i.nama_bahan}} {{i.nama_jenis}} / {{i.satuan}}</h3>
 						{% endfor %}
-					</tbody>
-				</table>
+						{% endif %}
+					</div>
+				</div>
+				<div class="card-body">
+					<canvas id="myChart" style="width: 100%;"></canvas>
+				</div>
 			</div>
+			<!-- end Grafik Besar -->
+			<!-- /.card -->
+			<!-- Grafik 4 sembako -->
+			<div class="row">
+				{% for z in induk %}
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="d-flex justify-content-between">
+								<h3 class="card-title">Harga rata-rata <strong>{{z.nama_sembako}}/{{z.satuan}}</strong> 30 hari terakhir</h3>
+							</div>
+						</div>
+						<div class="card-body">
+							<canvas id="{{z.id}}" style="width: 100%;"></canvas>
+							<!-- /.d-flex -->
+						</div>
+					</div>
+					<!-- /.card -->
+				</div>
+				<!-- /.col-md-6 -->
+				{% endfor %}
+				<!-- /.col-md-6 -->
+			</div>
+			<!-- end grafik 4 sembako -->
 		</div>
+		<!-- tabel harga -->
+		<div class="col-md-4 float-right">
+			<div class="card">
+				<div class="card-header">
+					<div class="d-flex justify-content-between">
+						<h3 class="card-title">*rata-rata harga seluruh pasar hari ini</h3>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered">
+							<thead>
+								<tr valign="top" style="text-align: center; font-size: small;">
+									<th>Nama Bahan Pokok</th>
+									<th>Harga</th>
+								</tr>
+							</thead>
+							<tbody style="width: 100%;">
+								{% for nama in tabel %}
+								<tr style="font-size: smaller;">
+									<td>{{nama.sembako}}</td>
+									{% if nama.harga %}
+									<td>Rp{{nama.harga|intcomma}}0.</td>
+									{% else %}
+									<td> - </td>
+									{% endif %}
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- /.card -->
+		</div>
+	</div>
+	<!-- end tabel harga -->	
 </section>
 {% endblock content %}
 {% block extrajs %}
@@ -133,40 +219,92 @@
 		data: {
 			labels: MONTHS,
 			datasets: [{
-				label: 'Rata - rata Harga',
+				label: '{% for i in pencarian1 %} {{i.nama_bahan}} {{i.nama_jenis}}/{{i.satuan}}{% endfor %}',
 				data: [{% for i in data %}{{i}},{% endfor %}],
-				backgroundColor: [
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(255, 206, 86, 0.2)',
-				'rgba(75, 192, 192, 0.2)',
-				'rgba(153, 102, 255, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(255, 206, 86, 0.2)',
-				'rgba(75, 192, 192, 0.2)',
-				'rgba(153, 102, 255, 0.2)',
-				'rgba(255, 159, 64, 0.2)'
-				],
-				borderColor: [
-				'rgba(255, 99, 132, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(255, 206, 86, 1)',
-				'rgba(75, 192, 192, 1)',
-				'rgba(153, 102, 255, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 99, 132, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(255, 206, 86, 1)',
-				'rgba(75, 192, 192, 1)',
-				'rgba(153, 102, 255, 1)',
-				'rgba(255, 159, 64, 1)'
-				],
-				borderWidth: 1
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "red", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
 			}]
 		},
 		options: {
+			legend: {
+				display: false
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			}
+		}
+		
+	});
+	{% for o in induk %}
+	{% if o.id == 19 %}
+	var gr{{o.id}} = document.getElementById('{{o.id}}');
+	var MONTH{{o.id}} = [{% for i in tanggal %}'{{i.tanggal|date:'Y-m-d'}}',{% endfor%}];
+	var myChart{{o.id}} = new Chart(gr{{o.id}}, {
+		type: 'line',
+		data: {
+			labels: MONTH{{o.id}},
+			datasets: [
+			{% for a in beras %}
+			{
+				label: 'Harga Beras Bramo/kg',
+				data: [{% for z in a.bramo %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "red", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Beras Bengawan/kg',
+				data: [{% for z in a.bengawan %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "green", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Beras Menthik/kg',
+				data: [{% for z in a.menthik %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "blue", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Beras IR 64/kg',
+				data: [{% for z in a.ir %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "cyan", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},
+			{% endfor %}
+			]
+		},
+		options: {
+			elements:{
+				point:{
+					radius: 2
+				}
+			},
+			legend: {
+				display: false
+			},
 			scales: {
 				yAxes: [{
 					ticks: {
@@ -176,5 +314,159 @@
 			}
 		}
 	});
+	{% endif %}
+	{% if o.id == 23 %}
+	var gr{{o.id}} = document.getElementById('{{o.id}}');
+	var MONTH{{o.id}} = [{% for i in tanggal %}'{{i.tanggal|date:'Y-m-d'}}',{% endfor%}];
+	var myChart{{o.id}} = new Chart(gr{{o.id}}, {
+		type: 'line',
+		data: {
+			labels: MONTH{{o.id}},
+			datasets: [
+			{% for a in telur %}
+			{
+				label: 'Harga Telur Ayam Bloiler/kg',
+				data: [{% for z in a.bloiler %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "red", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Telur Ayam Kampung/Perbiji',
+				data: [{% for z in a.kampung %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "green", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},
+			{% endfor %}
+			]
+		},
+		options: {
+			elements:{
+				point:{
+					radius: 2
+				}
+			},
+			legend: {
+				display: false
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			}
+		}
+	});
+	{% endif %}
+	{% if o.id == 24 %}
+	var gr{{o.id}} = document.getElementById('{{o.id}}');
+	var MONTH{{o.id}} = [{% for i in tanggal %}'{{i.tanggal|date:'Y-m-d'}}',{% endfor%}];
+	var myChart{{o.id}} = new Chart(gr{{o.id}}, {
+		type: 'line',
+		data: {
+			labels: MONTH{{o.id}},
+			datasets: [
+			{% for a in cabe %}
+			{
+				label: 'Harga Cabe Merah/kg',
+				data: [{% for z in a.merah %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "red", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Cabe Rawit/kg',
+				data: [{% for z in a.rawit %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "green", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Cabe Kriting/kg',
+				data: [{% for z in a.kriting %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "green", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			}
+			{% endfor %}
+			]
+		},
+		options: {
+			elements:{
+				point:{
+					radius: 2
+				}
+			},
+			legend: {
+				display: false
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			}
+		}
+	});
+	{% endif %}
+	{% if o.id == 25 %}
+	var gr{{o.id}} = document.getElementById('{{o.id}}');
+	var MONTH{{o.id}} = [{% for i in tanggal %}'{{i.tanggal|date:'Y-m-d'}}',{% endfor%}];
+	var myChart{{o.id}} = new Chart(gr{{o.id}}, {
+		type: 'line',
+		data: {
+			labels: MONTH{{o.id}},
+			datasets: [
+			{% for a in bawang %}
+			{
+				label: 'Harga Bawang Merah/kg',
+				data: [{% for z in a.merah %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "red", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},{
+				label: 'Harga Bawang Putih/kg',
+				data: [{% for z in a.putih %}{{z.harga}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "green", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+			},
+			{% endfor %}
+			]
+		},
+		options: {
+			elements:{
+				point:{
+					radius: 2
+				}
+			},
+			legend: {
+				display: false
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			}
+		}
+	});
+	{% endif %}
+	{% endfor %}
 </script>
 {% endblock extrajs %}

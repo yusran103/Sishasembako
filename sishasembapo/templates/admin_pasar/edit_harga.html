@@ -1,29 +1,35 @@
     {% extends "layout/pengunjung/base_pengunjung.html" %}
-
-{% load static %}
-{% load humanize %}
-
-{% block extrastyle %}
-<link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
-<style type="text/css">
-    #navbar-hide{ display:none; }
-  </style>
-{% endblock extrastyle %}
-
-{% block content %}
-<section class="content-header">
-    <div class="box box-primary col-md-12 col-xs-12">
-        <div class="box-header with-border" style="text-align: left;">
-            <h4 class="box-title" style="text-align: center; font-size: 14px;"><b>Ubah Harga Bahan Pokok {{harga.nama_sembako}}</b></h4>
-        </div>
-        <form method="POST" action="{% url 'update_harga' pk=harga.pk %}">
-            {% csrf_token %}
-            {{form.as_p}}
-            <div style="text-align: center;">
-                <button type="button" class="btn btn-warning" onclick="return window.close();">Batal</button>
-                <button type="input" class="btn btn-primary" onclick="return btn_simpan();">Simpan</button>
+    
+    {% load static %}
+    {% load humanize %}
+    
+    {% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
+    <style type="text/css">
+        #navbar-hide{ display:none; }
+        label{
+            font-size: small;
+        }
+        html, body {margin: 0; height: 100%; overflow: hidden}
+    </style>
+    {% endblock extrastyle %}
+    
+    {% block content %}
+    <section class="content-header">
+        <div class="card">
+            <div class="card-header" style="text-align: center;">
+                <h4><b>Ubah Harga Bahan Pokok {{harga.nama_sembako}}</b></h4>
             </div>
-            </form>
+            <div class="card-body">
+                <form method="POST" action="{% url 'update_harga' pk=harga.pk %}">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div style="text-align: center;">
+                        <button type="button" class="btn btn-warning btn-s" onclick="return window.close();">Batal</button>
+                        <button type="input" class="btn btn-primary btn-s" onclick="return btn_simpan();">Simpan</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
     {% endblock content %}
@@ -37,7 +43,7 @@
             format : "yyyy-mm-dd",
             autoclose: true
         });
-
+        
         function btn_simpan() {
             window.onunload = refreshParent;
             function refreshParent() {
