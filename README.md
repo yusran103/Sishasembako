@@ -4,15 +4,10 @@ Sistem Informasi Sembilan Harga Bahan Pokok di Kota Kediri
 
 # Important
  - Python 3.x
- 
+
 # Needed
 ```bash
-pip install django
-pip install sslserver
-pip install mathfilters
-pip install django-location-field
-pip install django_extensions
-mysqlclient
+pip install requirements.txt
 ```
 
 # Step - Step
