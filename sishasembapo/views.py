@@ -15,7 +15,6 @@ from django.utils import translation
 from django.db.models.functions import Coalesce
 from django.db import connection
 
-# Create your views here.
 def Login(request):
     if request.POST:
         user = authenticate(username=request.POST['login_username'], password=request.POST['login_password'])
@@ -27,7 +26,6 @@ def Login(request):
                     request.session['nama'] = profil.nama
                     request.session['pasar'] = profil.pasar.nama_pasar
                     request.session['id'] = user.id
-                    # if request.session['url'] == None:
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
@@ -56,12 +54,15 @@ def index(request):
     else:
         ambiltanggal = datetime.datetime.now().date()
         ambiltanggal1 = datetime.datetime.strftime(ambiltanggal,'%Y-%m-%d')
-        ambilpasar1 = 1
+        if 'pasar' not in request.session:
+            ambilpasar1 = 1
+        else:
+            ambilpasar1 = ambilpasar.get(nama_pasar=request.session['pasar']).id
         kemarin = datetime.timedelta(days=1)
         date_isi.append({ "kemarin":ambiltanggal - kemarin, "tanggal":ambiltanggal,'pasar':ambilpasar1})
         pencarian.append({ "pasar":Pasar.objects.get(id=ambilpasar1).nama_pasar,"tanggal":ambiltanggal})
    
-    data = [];
+    data = []
     for sem in ambilsembakosemua:
         sekarang = 0
         kemarin = 0
@@ -125,7 +126,6 @@ def profile(request,pk):
 def view_harga(request):
     penambahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
-    # list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal = datetime.date.today())
     list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal__year=datetime.datetime.now().year,tanggal__month=datetime.datetime.now().month).order_by('-id')
     translation.activate('id')
     if request.method == "POST":
@@ -150,7 +150,6 @@ def view_harga(request):
 
 @login_required(login_url='/login')
 def update_harga(request,pk):
-    perubahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
     harga = Harga.objects.get(pk=pk)
     sembako = Sembako.objects.get(pk=harga.nama_sembako.id)
@@ -167,7 +166,7 @@ def update_harga(request,pk):
             tanggals = datetime.datetime.strptime(Tanggal,'%Y-%m-%d')
     else:
         form = Harga_form(instance=harga)
-    return render(request,'admin_pasar/edit_harga.html',{'form':form,'perubahan':perubahan,'harga':harga})
+    return render(request,'admin_pasar/edit_harga.html',{'form':form,'harga':harga})
 
 def view_grafik(request):
     request.session['url'] = request.get_full_path()
@@ -183,7 +182,10 @@ def view_grafik(request):
         data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})
         pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako,"satuan":Sembako.objects.get(id=nama_bahan).satuan})
     else:
-        nama_pasar = 1 
+        if 'pasar' not in request.session:
+            nama_pasar = 1
+        else:
+            nama_pasar = ambil_pasar.get(nama_pasar=request.session['pasar']).id
         nama_bahan = 28
         tahun = x.year
         data_isi1.append({"nama_pasar":nama_pasar,"nama_bahan":nama_bahan,"tahun":tahun})

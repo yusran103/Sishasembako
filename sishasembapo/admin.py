@@ -3,7 +3,6 @@ from sishasembapo.models import *
 from sishasembapo.form import *
 from django.db.models import F
 from django.utils.translation import ugettext_lazy as _
-import xlwt
 import datetime
 from django.http import HttpResponse
 from sishasembapo.actions import export_as_xls

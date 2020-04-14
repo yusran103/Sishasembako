@@ -13,5 +13,6 @@ pip install requirements.txt
 # Step - Step
 Langkah - langkah yang dibutuhkan seperti berikut:
 1. py manage.py migrate
-2. py manage.py loaddata datapasar.json
-3. py manage.py runserver
+2. Truncate DB
+3. py manage.py loaddata datapasar.json
+4. py manage.py runserver

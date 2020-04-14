@@ -18,7 +18,8 @@
     <section class="content-header">
         <div class="card">
             <div class="card-header" style="text-align: center;">
-                <h4><b>Ubah Harga Bahan Pokok {{harga.nama_sembako}}</b></h4>
+                <h4><b>Ubah Harga {{harga.nama_sembako}}</b></h4>
+                <h5>tanggal: {{harga.tanggal}}</h5>
             </div>
             <div class="card-body">
                 <form method="POST" action="{% url 'update_harga' pk=harga.pk %}">
@@ -26,7 +27,7 @@
                     {{form.as_p}}
                     <div style="text-align: center;">
                         <button type="button" class="btn btn-warning btn-s" onclick="return window.close();">Batal</button>
-                        <button type="input" class="btn btn-primary btn-s" onclick="return btn_simpan();">Simpan</button>
+                        <button type="submit" class="btn btn-primary btn-s">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -35,15 +36,14 @@
     {% endblock content %}
     
     {% block extrajs %}
-    {% comment %} <script src="{% static 'DataTables/datatables.min.js' %}"></script> {% endcomment %}
     <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
     <script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
         $('#id_tanggal').datepicker({
             format : "yyyy-mm-dd",
             autoclose: true
         });
-        
         function btn_simpan() {
             window.onunload = refreshParent;
             function refreshParent() {
@@ -51,5 +51,44 @@
             }
             window.close()
         }
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            buttonsStyling: true
+          })
+
+        $(document).ready(function() {
+            $("form").submit(function() {
+                swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Tidak',
+                    reverseButtons: true
+                  }).then((result) => {
+                    if (result.value) {
+                    $.post($("form").attr('action'), $("form").serializeArray());
+                      swal.fire({
+                        icon: 'success',
+                        title: 'Data Berhasil di rubah',
+                        showConfirmButton: false,
+                        timer: 1500
+                      }).then(function() {
+                        btn_simpan();
+                      })
+                    } else if (
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                      swal.fire(
+                        'Batal',
+                        '',
+                        'error'
+                      )
+                    }
+                  })
+              return false;
+            });
+          });
     </script>
     {% endblock extrajs %}
