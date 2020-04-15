@@ -38,12 +38,12 @@
             </a>
             <strong><h5><center>SISHASEMBAPO</center></h5></strong>
             <h6 style="font-size: 15px;"><center>Sistem Informasi Harga Sembilan Bahan Pokok</center></h6>
-            <input type="text" name="login_username" placeholder="Username" required class="form-control input-lg" />
-            <input type="password" name="login_password" placeholder="Password" required class="form-control input-lg" />
+            <input type="text" name="login_username" placeholder="Nama Pengguna" required class="form-control input-lg" />
+            <input type="password" name="login_password" placeholder="Kata Sandi" required class="form-control input-lg" />
             {% if request.GET.next %}
             <input type="hidden" name="next" value="{{request.GET.next}}">
             {% endif %}
-            <input class="btn btn-lg btn-success btn-block" type="submit" value="Sign In" />
+            <input class="btn btn-lg btn-success btn-block" type="submit" value="Masuk" />
             <p style="text-align: center;">Admin PD.Pasar? <a href="/admin" style="text-align: center;">Klik di sini</a></p>
         </form>
     </section>

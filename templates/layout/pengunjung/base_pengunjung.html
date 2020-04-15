@@ -70,11 +70,11 @@
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
       <div class="p-3">
-          <a href="{% url 'changepassword' request.session.id %}">Ubah Password</a>
+          <a href="{% url 'changepassword' request.session.id %}">Ubah Kata Sandi</a>
           <br>
           <a href="{% url 'profile' pk=request.session.id %}">Profil</a>
           <br>
-          <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'logout' %}">Keluar</a>
       </div>
     </aside>
     {% endif %}
@@ -86,7 +86,7 @@
         By Anasztaz Dev Team
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; 2019 - 2020 <a href="#" style="color: gray;">PD.PASAR Kota Kediri</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; 2019 - {% now "Y" %} <a style="color: gray;">PD.PASAR Kota Kediri</a>.</strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->

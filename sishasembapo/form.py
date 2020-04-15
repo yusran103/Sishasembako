@@ -2,8 +2,10 @@ from django import forms
 from django.forms import ModelForm,Select
 from sishasembapo.models import *
 from django.db.models import Q
+import datetime
 
-YEARS= [x for x in range(1940,2021)]
+z = datetime.datetime.now().year
+YEARS= [x for x in range(1940,z+1)]
 class Profile_form(ModelForm):
     nama = forms.CharField(
         widget=forms.TextInput(

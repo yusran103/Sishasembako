@@ -28,14 +28,19 @@ def Login(request):
                     request.session['id'] = user.id
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
-                    else:
+                    elif 'url' in request.session:
                         return redirect(request.session['url'])
+                    else:
+                        return redirect('/')
                 except PetugasPasar.DoesNotExist:
-                    messages.add_message(request, messages.INFO, 'Akun Tersebut Belum Terintegrasi Dengan Petugas Pasar Manapun, Silahkan Hubungi Admin PD. Pasar')  
+                    messages.add_message(request, messages.INFO, 'Akun Tersebut Belum Terintegrasi Dengan Petugas Pasar Manapun, Silahkan Hubungi Admin PD. Pasar')
+                    return redirect(request.META['HTTP_REFERER'])
             else:
-                messages.add_message(request, messages.INFO, 'Akun Tersebut Bukan Termasuk Akun Petugas Pasar') 
+                messages.add_message(request, messages.INFO, 'Akun Tersebut Bukan Termasuk Akun Petugas Pasar')
+                return redirect(request.META['HTTP_REFERER'])
         else:
             messages.add_message(request, messages.INFO, 'Username atau password Anda salah')
+            return redirect(request.META['HTTP_REFERER'])
     return render(request, 'login.html')
 
 def index(request):
@@ -104,23 +109,19 @@ def changepassword(request,pk):
     if request.method == "POST":
         form = User_form(request.POST, instance=user)
         if form.is_valid():
-            url = '/login'
-            resp_body = '<script>alert("Password user %s Berhasil di rubah, Silahkan Login Kembali");\
-            window.location="%s"</script>' % (user.username , url)
             cursor = connection.cursor()
             cursor.execute("update auth_user set password='%s' where id='%s'"%(make_password(request.POST['password']),user.id))
             logout(request)
-            return HttpResponse(resp_body)
     else:
         form = User_form(instance=user)
-    return render(request, 'changepassword.html', {'form': form, 'user' : user,'messages':messages})
+    return render(request, 'changepassword.html', {'form': form, 'user' : user})
 
 @login_required(login_url='/login')
 def profile(request,pk):
     request.session['url'] = request.get_full_path()
     user = PetugasPasar.objects.filter(akun_id = request.session['id']).first()
     translation.activate('id')
-    return render(request, 'changeprofile.html', {'user' : user,'messages':messages})
+    return render(request, 'changeprofile.html', {'user' : user})
 
 @login_required(login_url='/login')
 def view_harga(request):
