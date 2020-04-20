@@ -21,13 +21,12 @@ Langkah - langkah yang dibutuhkan seperti berikut:
 py manage.py migrate
 ```
 2. Truncate DB
-
 3. Load data
-> - jika ingin ada data harga pasar
+* jika ingin ada data harga pasar
 ```bash
 py manage.py loaddata datapasar1.json
 ```
-> - jika ingin data harga pasar kosong
+* jika ingin data harga pasar kosong
 ```bash
 py manage.py loaddata datapasar.json
 ```
