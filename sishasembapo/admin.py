@@ -9,6 +9,8 @@ from sishasembapo.actions import export_as_xls
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
+admin.site.site_header = 'SISHASEMBAPO Apps'
+admin.site.site_title = 'SISHASEMBAPO Apps'
 
 class SembakoListFilter(admin.SimpleListFilter):
     title = ('Nama Sembako')
