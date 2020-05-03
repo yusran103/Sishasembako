@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404 ,redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
 from sishasembapo.models import *
@@ -7,13 +7,10 @@ from django.db import connection
 from django.http import HttpResponse,FileResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-from django.template import context
-from django.views.generic.edit import CreateView
 import datetime
 from django.db.models import Q, Avg
 from django.utils import translation
 from django.db.models.functions import Coalesce
-from django.db import connection
 
 def Login(request):
     if request.POST:
