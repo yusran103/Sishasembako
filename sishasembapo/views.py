@@ -5,7 +5,7 @@ from sishasembapo.models import *
 from sishasembapo.form import *
 from django.db import connection
 from django.http import HttpResponse,FileResponse, Http404, HttpResponseRedirect
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.db.models import Q, Avg
@@ -92,26 +92,35 @@ def index(request):
         data.append({"induk":sem.nama_sembako,'jenis':sem.jenis_sembako,"sekarang":sekarang,"kemarin":kemarin,"satuan":sem.satuan,"perubahan":perubahan,"persen":persen})
     return render(request, 'pengunjung/index.html',{'pasar':ambilpasar,'sembakosemua':data,"pencarian":pencarian})
 
-@login_required(login_url='/login')
 def Logout(request):
     logout(request)
     for key in request.session.keys():
         del request.session[key]
-    return redirect(request.META['HTTP_REFERER']) 
+    return redirect('/') 
 
 # CHANGEPASSWORD 
 @login_required(login_url='/login')
 def changepassword(request,pk):
+    pesan = []
     user = User.objects.filter(id = request.session['id']).first()
     if request.method == "POST":
+        old_password = request.POST['old_password']
+        comnewpassword = request.POST['confrim_password']
+        newpassword = request.POST['password']
         form = User_form(request.POST, instance=user)
-        if form.is_valid():
-            cursor = connection.cursor()
-            cursor.execute("update auth_user set password='%s' where id='%s'"%(make_password(request.POST['password']),user.id))
-            logout(request)
+        if check_password(old_password, user.password):
+            if newpassword == comnewpassword:
+                if form.is_valid():
+                    cursor = connection.cursor()
+                    cursor.execute("update auth_user set password='%s' where id='%s'"%(make_password(newpassword),user.id))
+                    pesan.append({"id":"1","status":"success","messages":"Sandi berhasil dirubah"})
+            else:
+                pesan.append({"id":"2","status":"danger","messages":"Sandi baru tidak cocok. Masukkan sekali lagi."})
+        else:
+            pesan.append({"id":"3","status":"danger","messages":"Sandi lama yang anda masuk salah. Masukkan sekali lagi."})
     else:
         form = User_form(instance=user)
-    return render(request, 'changepassword.html', {'form': form, 'user' : user})
+    return render(request, 'changepassword.html', {'form': form, 'user' : user,'pesan':pesan})
 
 @login_required(login_url='/login')
 def profile(request,pk):
@@ -161,7 +170,6 @@ def update_harga(request,pk):
             nama_pasar = ambil_pasar,
             tanggal = Tanggal,
             hargas.save()
-            tanggals = datetime.datetime.strptime(Tanggal,'%Y-%m-%d')
     else:
         form = Harga_form(instance=harga)
     return render(request,'admin_pasar/edit_harga.html',{'form':form,'harga':harga})
@@ -181,7 +189,7 @@ def view_grafik(request):
         pencarian1.append({ "pasar":Pasar.objects.get(id=nama_pasar).nama_pasar,"tahun":tahun,"nama_bahan":Sembako.objects.get(id=nama_bahan).nama_sembako.jenis_sembako,"nama_jenis":Sembako.objects.get(id=nama_bahan).jenis_sembako,"satuan":Sembako.objects.get(id=nama_bahan).satuan})
     else:
         if 'pasar' not in request.session:
-            nama_pasar = 1
+            nama_pasar = ambil_pasar.first().id
         else:
             nama_pasar = ambil_pasar.get(nama_pasar=request.session['pasar']).id
         nama_bahan = 28

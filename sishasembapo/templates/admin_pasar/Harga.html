@@ -141,7 +141,11 @@
 <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script>
-    //alert(screen.width)
+    $('#id_tanggal').datepicker({
+        format : "yyyy-mm-dd",
+        autoclose: true
+    });
+
     $('#myTable').DataTable({
           "paging": true,
           "lengthChange": false,
@@ -153,11 +157,6 @@
     });
     $('#id_nama_sembako').select2({
         theme: 'bootstrap4'
-    });
-    
-    $('#id_tanggal').datepicker({
-        format : "yyyy-mm-dd",
-        autoclose: true
     });
     
     function windowpop(url, width, height) {

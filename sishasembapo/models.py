@@ -20,20 +20,15 @@ class Pasar(models.Model):
     def __str__(self):
         return self.nama_pasar
 
-class Satuan(models.Model):
-    satuan = models.CharField(max_length=50)
-
-    class Meta:
-        db_table = "Tb_Satuan"
-        verbose_name_plural = "Satuan"
-    
-    def __str__(self):
-        return self.satuan
-
 class Sembako(models.Model):
+    S_CHOICES = [
+        ('Kg', 'Kg'),
+        ('Perbiji', 'Perbiji'),
+        ('Liter', 'Liter')
+    ]
     nama_sembako = models.ForeignKey('self',null = True,blank=True,on_delete=models.CASCADE)
     jenis_sembako = models.CharField(max_length=50)
-    satuan = models.ForeignKey(Satuan, verbose_name="Satuan", on_delete=models.CASCADE)
+    satuan = models.CharField(max_length=20, choices=S_CHOICES, default='Kg')
 
     class Meta:
         db_table = "Tb_Sembako"

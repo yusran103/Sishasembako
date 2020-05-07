@@ -84,7 +84,7 @@ class User_form(ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Isikan username'
+                'placeholder':'Isikan nama pengguna'
                 }
             ),
             required=True
@@ -93,7 +93,7 @@ class User_form(ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Isikan password'
+                'placeholder':'Isikan Sandi Baru'
                 }
             ),
             required=True
