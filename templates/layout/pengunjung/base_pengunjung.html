@@ -74,7 +74,7 @@
           <br>
           <a href="{% url 'profile' pk=request.session.id %}">Profil</a>
           <br>
-          <a href="{% url 'logout' %}">Keluar</a>
+          <a onclick="return alert1(event)" href="#">Keluar</a>
       </div>
     </aside>
     {% endif %}
@@ -103,6 +103,21 @@
   <script src="{% static 'assets_page/plugins/select2/js/select2.full.min.js'%}"></script>
   <script src="{% static 'assets_page/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
   <script src="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.js' %}"></script>
+  <!-- Sweetalert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script type="text/javascript">
+    function alert1(ev){
+      ev.preventDefault();
+      swal.fire({
+        icon: 'success',
+        title: 'Berhasil Logout',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(function() {
+        window.location.replace("{% url 'logout' %}")
+      })
+    }
+  </script>
   {% block extrajs %}
   {% endblock %}
 </body>

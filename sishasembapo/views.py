@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import authenticate, logout, login, update_session_auth_hash
 from sishasembapo.models import *
 from sishasembapo.form import *
 from django.db import connection
@@ -111,9 +111,12 @@ def changepassword(request,pk):
         if check_password(old_password, user.password):
             if newpassword == comnewpassword:
                 if form.is_valid():
-                    cursor = connection.cursor()
-                    cursor.execute("update auth_user set password='%s' where id='%s'"%(make_password(newpassword),user.id))
+                    newpw = form.save(commit=False)
+                    newpw.username = user.username
+                    newpw.password = make_password(newpassword)
+                    newpw.save()
                     pesan.append({"id":"1","status":"success","messages":"Sandi berhasil dirubah"})
+                    update_session_auth_hash(request, form.instance)
             else:
                 pesan.append({"id":"2","status":"danger","messages":"Sandi baru tidak cocok. Masukkan sekali lagi."})
         else:
@@ -133,14 +136,13 @@ def profile(request,pk):
 def view_harga(request):
     penambahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
-    list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal__year=datetime.datetime.now().year,tanggal__month=datetime.datetime.now().month).order_by('-id')
+    list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal=datetime.datetime.now()).order_by('-id')
     translation.activate('id')
     if request.method == "POST":
         form = Harga_form(request.POST)
         sembako = Sembako.objects.get(pk=request.POST.get('nama_sembako'))
         tanggal = request.POST['tanggal']
         if form.is_valid():
-            url = '/harga'
             hargasembako = Harga(
                 nama_sembako = sembako,
                 nominal = request.POST['nominal'],
