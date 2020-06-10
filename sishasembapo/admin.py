@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 import datetime
 from django.http import HttpResponse
 from sishasembapo.actions import export_as_xls
+from mapbox_location_field.admin import MapAdmin
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
@@ -74,7 +75,8 @@ class formadminpasar(admin.ModelAdmin):
         else:
             return []
 
-admin.site.register(Pasar,pasarAdmin)
+# admin.site.register(Pasar,pasarAdmin)
+admin.site.register(Pasar, MapAdmin)
 admin.site.register(Sembako,sembakoAdmin)
 admin.site.register(Harga,hargaAdmin)
 admin.site.register(PetugasPasar,formadminpasar)

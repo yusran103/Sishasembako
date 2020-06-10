@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm,Select
 from sishasembapo.models import *
 from django.db.models import Q
+from location_field.forms.plain import PlainLocationField
 import datetime
 
 z = datetime.datetime.now().year
@@ -64,6 +65,7 @@ class Profile_form(ModelForm):
     class Meta:
         model = PetugasPasar
         exclude=('akun','pasar')
+
 class AdminPasarForm(ModelForm):
     akun = forms.ModelChoiceField(
         queryset = User.objects.filter(~Q(id__in=PetugasPasar.objects.all()),Q(is_staff=False)),

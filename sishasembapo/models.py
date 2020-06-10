@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.defaultfilters import date
 from location_field.models.plain import PlainLocationField
+from mapbox_location_field.models import LocationField
 
 # Create your models here.
 class Pasar(models.Model):
@@ -11,8 +12,7 @@ class Pasar(models.Model):
     kelurahan = models.CharField(max_length=100,null=True)
     kecamatan = models.CharField(max_length=100,null=True)
     notlp = models.CharField(max_length=13,null=True)
-    lokasi = PlainLocationField(help_text='(Latitude,Longtitude)',based_fields=['nama_pasar'], zoom=7,null=True)
-    
+    lokasi = LocationField(map_attrs={"center": [111.999458,-7.817179], "marker_color": "blue", "placeholder": "Silahkan Pilih lokasi"})
     class Meta:
         db_table = "Tb_Pasar"
         verbose_name_plural = "Pasar"

@@ -1,0 +1,431 @@
+[
+    {
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "Admin PD. Pasar",
+            "permissions": [
+                9,
+                10,
+                11,
+                12,
+                26,
+                28,
+                13,
+                14,
+                15,
+                16,
+                21,
+                22,
+                23,
+                24,
+                17,
+                18,
+                19,
+                20
+            ]
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 1,
+        "fields": {
+            "nama_pasar": "Pasar Setono Betek",
+            "alamat_pasar": "JL. Patimura 64129",
+            "kelurahan": "Setono Pande",
+            "kecamatan": "Kota",
+            "notlp": "0354-698508",
+            "lokasi": "-7.821692,112.016371"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 2,
+        "fields": {
+            "nama_pasar": "Pasar Pahing",
+            "alamat_pasar": "JL. HOS. Cokroaminoto 64123",
+            "kelurahan": "Singonegaran",
+            "kecamatan": "Pesantren",
+            "notlp": "0354-696874",
+            "lokasi": "-7.823028,112.022077"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 7,
+        "fields": {
+            "nama_pasar": "Pasar Banjaran",
+            "alamat_pasar": "Jl. IR.Sutami No. 33",
+            "kelurahan": "Banjaran",
+            "kecamatan": "Kota",
+            "notlp": "0354 - 699442",
+            "lokasi": "-7.81437,112.034833"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 8,
+        "fields": {
+            "nama_pasar": "Pasar Bawang",
+            "alamat_pasar": "JL.Raya Bawang No.5 64136",
+            "kelurahan": "Bawang",
+            "kecamatan": "Pesantren",
+            "notlp": "-",
+            "lokasi": "-7.863294, 112.059610"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 9,
+        "fields": {
+            "nama_pasar": "Pasar Grosir",
+            "alamat_pasar": "JL. N. Supersemar",
+            "kelurahan": "Ngronggo",
+            "kecamatan": "Kota",
+            "notlp": "-",
+            "lokasi": "-7.846194, 112.027071"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 10,
+        "fields": {
+            "nama_pasar": "Pasar Bandar Ngalim",
+            "alamat_pasar": "JL. Bandar Ngalim No. 17",
+            "kelurahan": "Bandar Kidul",
+            "kecamatan": "Mojoroto",
+            "notlp": "-",
+            "lokasi": "-7.827450, 112.007350"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 11,
+        "fields": {
+            "nama_pasar": "Pasar Bandar",
+            "alamat_pasar": "Jl. Wachid Hasyim 64114",
+            "kelurahan": "Bandar Lor",
+            "kecamatan": "Mojoroto",
+            "notlp": "0354 - 779605",
+            "lokasi": "-7.814803, 112.005829"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 12,
+        "fields": {
+            "nama_pasar": "Pasar Mrican",
+            "alamat_pasar": "JL. Gatot Subroto 64111",
+            "kelurahan": "Mrican",
+            "kecamatan": "Mojoroto",
+            "notlp": "-",
+            "lokasi": "-7.782398, 112.000119"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 19,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Beras",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 20,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Gula",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 21,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Daging",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 22,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Minyak",
+            "satuan": "Liter"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 23,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Telur",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 24,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Cabe",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 25,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Bawang",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 26,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Olahan Ikan",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 27,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Sayur Mayur",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 28,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "Bramo",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 29,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "Bengawan",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 30,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "Menthik",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 31,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "IR 64",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 32,
+        "fields": {
+            "nama_sembako": 20,
+            "jenis_sembako": "Gula Dalam Negeri",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 33,
+        "fields": {
+            "nama_sembako": 22,
+            "jenis_sembako": "Minyak Goreng",
+            "satuan": "Liter"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 34,
+        "fields": {
+            "nama_sembako": 21,
+            "jenis_sembako": "Ayam Bloiler",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 35,
+        "fields": {
+            "nama_sembako": 21,
+            "jenis_sembako": "Ayam Kampung",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 36,
+        "fields": {
+            "nama_sembako": 21,
+            "jenis_sembako": "Sapi",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 37,
+        "fields": {
+            "nama_sembako": 23,
+            "jenis_sembako": "Ayam Bloiler",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 38,
+        "fields": {
+            "nama_sembako": 23,
+            "jenis_sembako": "Ayam Kampung",
+            "satuan": "Perbiji"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 39,
+        "fields": {
+            "nama_sembako": 24,
+            "jenis_sembako": "Merah",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 40,
+        "fields": {
+            "nama_sembako": 24,
+            "jenis_sembako": "Kriting",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 41,
+        "fields": {
+            "nama_sembako": 24,
+            "jenis_sembako": "Rawit",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 42,
+        "fields": {
+            "nama_sembako": 25,
+            "jenis_sembako": "Merah",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 43,
+        "fields": {
+            "nama_sembako": 25,
+            "jenis_sembako": "Putih",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 44,
+        "fields": {
+            "nama_sembako": 26,
+            "jenis_sembako": "Ikan Asin",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 45,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Kacang Hijau",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 46,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Kacang Tanah",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 47,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Ketela Pohon",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 48,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Gobis(Kol)",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 49,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Kentang",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 50,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Tomat",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 51,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Wortel",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 52,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Buncis",
+            "satuan": "Kg"
+        }
+    }
+]

@@ -164,10 +164,10 @@
 							</thead>
 							<tbody style="width: 100%;">
 								{% for nama in tabel %}
-								<tr style="font-size: smaller;">
+								<tr style="font-size: 12px;">
 									<td>{{nama.sembako}}</td>
 									{% if nama.harga %}
-									<td>Rp{{nama.harga|intcomma}}0.</td>
+									<td>Rp{{nama.harga|intcomma}}0. /{{nama.satuan}}</td>
 									{% else %}
 									<td> - </td>
 									{% endif %}

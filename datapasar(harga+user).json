@@ -1,0 +1,2155 @@
+[
+    {
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "Admin PD. Pasar",
+            "permissions": [
+                9,
+                10,
+                11,
+                12,
+                26,
+                28,
+                13,
+                14,
+                15,
+                16,
+                21,
+                22,
+                23,
+                24,
+                17,
+                18,
+                19,
+                20
+            ]
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$KXQ8PSJHiJoY$U9Ob3t5kx9kcm9MfFUDbWOkqhWeQpCQtcHotFvt9eUU=",
+            "last_login": "2020-05-25T05:25:12.957Z",
+            "is_superuser": false,
+            "username": "adminpdpasar",
+            "first_name": "",
+            "last_name": "",
+            "email": "adminpdpasar@admin.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-05-25T03:03:49Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$NUEbL15Suf4C$97y2OgDr7WrQJkkRDLM+GTNfYGvD0AFHb3yi189/7+k=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "adminpahing",
+            "first_name": "",
+            "last_name": "",
+            "email": "adminpahing@admin.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-05-25T03:04:14Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$6zZDMv1CfJl2$NuvdymsIXoXw7uoqz7vy2LthmQVovqZal1LBeRINYcg=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "adminsetono",
+            "first_name": "",
+            "last_name": "",
+            "email": "adminsetono@admin.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-05-25T03:04:36Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$e1eO5tqytwJs$PAYwd2XImyUgmBHSFq6x2eYUbe/3wRFol/42gBBsctM=",
+            "last_login": "2020-05-25T03:05:54.495Z",
+            "is_superuser": true,
+            "username": "superadmin",
+            "first_name": "",
+            "last_name": "",
+            "email": "superadmin@admin.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-05-25T03:05:42.296Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 1,
+        "fields": {
+            "nama_pasar": "Pasar Setono Betek",
+            "alamat_pasar": "JL. Patimura 64129",
+            "kelurahan": "Setono Pande",
+            "kecamatan": "Kota",
+            "notlp": "0354-698508",
+            "lokasi": "112.016371,-7.821692"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 2,
+        "fields": {
+            "nama_pasar": "Pasar Pahing",
+            "alamat_pasar": "JL. HOS. Cokroaminoto 64123",
+            "kelurahan": "Singonegaran",
+            "kecamatan": "Pesantren",
+            "notlp": "0354-696874",
+            "lokasi": "112.022077,-7.823028"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 7,
+        "fields": {
+            "nama_pasar": "Pasar Banjaran",
+            "alamat_pasar": "Jl. IR.Sutami No. 33",
+            "kelurahan": "Banjaran",
+            "kecamatan": "Kota",
+            "notlp": "0354 - 699442",
+            "lokasi": "112.034833,-7.81437"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 8,
+        "fields": {
+            "nama_pasar": "Pasar Bawang",
+            "alamat_pasar": "JL.Raya Bawang No.5 64136",
+            "kelurahan": "Bawang",
+            "kecamatan": "Pesantren",
+            "notlp": "-",
+            "lokasi": "112.05961,-7.863294"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 9,
+        "fields": {
+            "nama_pasar": "Pasar Grosir",
+            "alamat_pasar": "JL. N. Supersemar",
+            "kelurahan": "Ngronggo",
+            "kecamatan": "Kota",
+            "notlp": "-",
+            "lokasi": "112.027071,-7.846194"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 10,
+        "fields": {
+            "nama_pasar": "Pasar Bandar Ngalim",
+            "alamat_pasar": "JL. Bandar Ngalim No. 17",
+            "kelurahan": "Bandar Kidul",
+            "kecamatan": "Mojoroto",
+            "notlp": "-",
+            "lokasi": "112.00735,-7.82745"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 11,
+        "fields": {
+            "nama_pasar": "Pasar Bandar",
+            "alamat_pasar": "Jl. Wachid Hasyim 64114",
+            "kelurahan": "Bandar Lor",
+            "kecamatan": "Mojoroto",
+            "notlp": "0354 - 779605",
+            "lokasi": "112.005829,-7.814803"
+        }
+    },
+    {
+        "model": "sishasembapo.pasar",
+        "pk": 12,
+        "fields": {
+            "nama_pasar": "Pasar Mrican",
+            "alamat_pasar": "JL. Gatot Subroto 64111",
+            "kelurahan": "Mrican",
+            "kecamatan": "Mojoroto",
+            "notlp": "-",
+            "lokasi": "112.000119,-7.782398"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 19,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Beras",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 20,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Gula",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 21,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Daging",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 22,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Minyak",
+            "satuan": "Liter"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 23,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Telur",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 24,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Cabe",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 25,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Bawang",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 26,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Olahan Ikan",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 27,
+        "fields": {
+            "nama_sembako": null,
+            "jenis_sembako": "Sayur Mayur",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 28,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "Bramo",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 29,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "Bengawan",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 30,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "Menthik",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 31,
+        "fields": {
+            "nama_sembako": 19,
+            "jenis_sembako": "IR 64",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 32,
+        "fields": {
+            "nama_sembako": 20,
+            "jenis_sembako": "Gula Dalam Negeri",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 33,
+        "fields": {
+            "nama_sembako": 22,
+            "jenis_sembako": "Minyak Goreng",
+            "satuan": "Liter"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 34,
+        "fields": {
+            "nama_sembako": 21,
+            "jenis_sembako": "Ayam Bloiler",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 35,
+        "fields": {
+            "nama_sembako": 21,
+            "jenis_sembako": "Ayam Kampung",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 36,
+        "fields": {
+            "nama_sembako": 21,
+            "jenis_sembako": "Sapi",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 37,
+        "fields": {
+            "nama_sembako": 23,
+            "jenis_sembako": "Ayam Bloiler",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 38,
+        "fields": {
+            "nama_sembako": 23,
+            "jenis_sembako": "Ayam Kampung",
+            "satuan": "Perbiji"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 39,
+        "fields": {
+            "nama_sembako": 24,
+            "jenis_sembako": "Merah",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 40,
+        "fields": {
+            "nama_sembako": 24,
+            "jenis_sembako": "Kriting",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 41,
+        "fields": {
+            "nama_sembako": 24,
+            "jenis_sembako": "Rawit",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 42,
+        "fields": {
+            "nama_sembako": 25,
+            "jenis_sembako": "Merah",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 43,
+        "fields": {
+            "nama_sembako": 25,
+            "jenis_sembako": "Putih",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 44,
+        "fields": {
+            "nama_sembako": 26,
+            "jenis_sembako": "Ikan Asin",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 45,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Kacang Hijau",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 46,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Kacang Tanah",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 47,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Ketela Pohon",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 48,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Gobis(Kol)",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 49,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Kentang",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 50,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Tomat",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 51,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Wortel",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.sembako",
+        "pk": 52,
+        "fields": {
+            "nama_sembako": 27,
+            "jenis_sembako": "Buncis",
+            "satuan": "Kg"
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 1,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 28,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 2,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 29,
+            "nama_pasar": 2,
+            "nominal": 10200,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 3,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 30,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 4,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 31,
+            "nama_pasar": 2,
+            "nominal": 8800,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 5,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 32,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 6,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 33,
+            "nama_pasar": 2,
+            "nominal": 11500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 7,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 34,
+            "nama_pasar": 2,
+            "nominal": 30000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 8,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 35,
+            "nama_pasar": 2,
+            "nominal": 55000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 9,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 36,
+            "nama_pasar": 2,
+            "nominal": 100000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 10,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 37,
+            "nama_pasar": 2,
+            "nominal": 22000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 11,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 38,
+            "nama_pasar": 2,
+            "nominal": 2000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 12,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 39,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 13,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 40,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 14,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 41,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 15,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 42,
+            "nama_pasar": 2,
+            "nominal": 35000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 16,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 43,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 17,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 44,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 18,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 45,
+            "nama_pasar": 2,
+            "nominal": 18000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 19,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 46,
+            "nama_pasar": 2,
+            "nominal": 26000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 20,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 47,
+            "nama_pasar": 2,
+            "nominal": 4000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 21,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 48,
+            "nama_pasar": 2,
+            "nominal": 7000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 22,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 49,
+            "nama_pasar": 2,
+            "nominal": 13000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 23,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 50,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 24,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 51,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 25,
+        "fields": {
+            "tanggal": "2019-11-25",
+            "nama_sembako": 52,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 26,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 28,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 27,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 29,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 28,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 30,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 29,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 31,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 30,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 32,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 31,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 33,
+            "nama_pasar": 2,
+            "nominal": 11500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 32,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 34,
+            "nama_pasar": 2,
+            "nominal": 30000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 33,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 35,
+            "nama_pasar": 2,
+            "nominal": 55000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 34,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 36,
+            "nama_pasar": 2,
+            "nominal": 100000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 35,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 37,
+            "nama_pasar": 2,
+            "nominal": 22500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 36,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 38,
+            "nama_pasar": 2,
+            "nominal": 2000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 37,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 39,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 38,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 40,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 39,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 41,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 40,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 42,
+            "nama_pasar": 2,
+            "nominal": 35000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 41,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 43,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 42,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 44,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 43,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 45,
+            "nama_pasar": 2,
+            "nominal": 17000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 44,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 46,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 45,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 47,
+            "nama_pasar": 2,
+            "nominal": 4000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 46,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 48,
+            "nama_pasar": 2,
+            "nominal": 7000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 47,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 49,
+            "nama_pasar": 2,
+            "nominal": 13000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 48,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 50,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 49,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 51,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 50,
+        "fields": {
+            "tanggal": "2019-11-26",
+            "nama_sembako": 52,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 51,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 28,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 52,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 29,
+            "nama_pasar": 2,
+            "nominal": 10200,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 53,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 30,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 54,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 31,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 55,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 32,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 56,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 33,
+            "nama_pasar": 2,
+            "nominal": 11500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 57,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 34,
+            "nama_pasar": 2,
+            "nominal": 30000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 58,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 35,
+            "nama_pasar": 2,
+            "nominal": 53000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 59,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 36,
+            "nama_pasar": 2,
+            "nominal": 100000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 60,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 37,
+            "nama_pasar": 2,
+            "nominal": 22500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 61,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 38,
+            "nama_pasar": 2,
+            "nominal": 2000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 62,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 39,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 63,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 40,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 64,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 41,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 65,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 42,
+            "nama_pasar": 2,
+            "nominal": 34000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 66,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 43,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 67,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 44,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 68,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 45,
+            "nama_pasar": 2,
+            "nominal": 17000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 69,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 46,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 70,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 47,
+            "nama_pasar": 2,
+            "nominal": 4000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 71,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 48,
+            "nama_pasar": 2,
+            "nominal": 7000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 72,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 49,
+            "nama_pasar": 2,
+            "nominal": 13000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 73,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 50,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 74,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 51,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 75,
+        "fields": {
+            "tanggal": "2019-11-27",
+            "nama_sembako": 52,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 76,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 28,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 77,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 29,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 78,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 30,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 79,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 31,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 80,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 32,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 81,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 33,
+            "nama_pasar": 2,
+            "nominal": 11500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 82,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 34,
+            "nama_pasar": 2,
+            "nominal": 31000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 83,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 35,
+            "nama_pasar": 2,
+            "nominal": 54000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 84,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 36,
+            "nama_pasar": 2,
+            "nominal": 100000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 85,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 37,
+            "nama_pasar": 2,
+            "nominal": 22500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 86,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 38,
+            "nama_pasar": 2,
+            "nominal": 2000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 87,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 39,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 88,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 40,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 89,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 41,
+            "nama_pasar": 2,
+            "nominal": 30000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 90,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 42,
+            "nama_pasar": 2,
+            "nominal": 33000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 91,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 43,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 92,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 44,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 93,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 45,
+            "nama_pasar": 2,
+            "nominal": 17000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 94,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 46,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 95,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 47,
+            "nama_pasar": 2,
+            "nominal": 4000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 96,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 48,
+            "nama_pasar": 2,
+            "nominal": 7000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 97,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 49,
+            "nama_pasar": 2,
+            "nominal": 13000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 98,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 50,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 99,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 51,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 100,
+        "fields": {
+            "tanggal": "2019-11-28",
+            "nama_sembako": 52,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 101,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 28,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 102,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 29,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 103,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 30,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 104,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 31,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 105,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 32,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 106,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 33,
+            "nama_pasar": 2,
+            "nominal": 11500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 107,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 34,
+            "nama_pasar": 2,
+            "nominal": 31000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 108,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 35,
+            "nama_pasar": 2,
+            "nominal": 53000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 109,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 36,
+            "nama_pasar": 2,
+            "nominal": 100000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 110,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 37,
+            "nama_pasar": 2,
+            "nominal": 22000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 111,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 38,
+            "nama_pasar": 2,
+            "nominal": 2000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 112,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 39,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 113,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 40,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 114,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 41,
+            "nama_pasar": 2,
+            "nominal": 30000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 115,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 42,
+            "nama_pasar": 2,
+            "nominal": 33000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 116,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 43,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 117,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 44,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 118,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 45,
+            "nama_pasar": 2,
+            "nominal": 17000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 119,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 46,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 120,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 47,
+            "nama_pasar": 2,
+            "nominal": 4000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 121,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 48,
+            "nama_pasar": 2,
+            "nominal": 7000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 122,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 49,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 123,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 50,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 124,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 51,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 125,
+        "fields": {
+            "tanggal": "2019-11-29",
+            "nama_sembako": 52,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 126,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 28,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 127,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 29,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 128,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 30,
+            "nama_pasar": 2,
+            "nominal": 10500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 129,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 31,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 130,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 32,
+            "nama_pasar": 2,
+            "nominal": 12000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 131,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 33,
+            "nama_pasar": 2,
+            "nominal": 11500,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 132,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 34,
+            "nama_pasar": 2,
+            "nominal": 32000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 133,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 35,
+            "nama_pasar": 2,
+            "nominal": 54000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 134,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 36,
+            "nama_pasar": 2,
+            "nominal": 100000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 135,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 37,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 136,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 38,
+            "nama_pasar": 2,
+            "nominal": 2000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 137,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 39,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 138,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 40,
+            "nama_pasar": 2,
+            "nominal": 23000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 139,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 41,
+            "nama_pasar": 2,
+            "nominal": 35000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 140,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 42,
+            "nama_pasar": 2,
+            "nominal": 35000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 141,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 43,
+            "nama_pasar": 2,
+            "nominal": 26000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 142,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 44,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 143,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 45,
+            "nama_pasar": 2,
+            "nominal": 17000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 144,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 46,
+            "nama_pasar": 2,
+            "nominal": 25000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 145,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 47,
+            "nama_pasar": 2,
+            "nominal": 4000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 146,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 48,
+            "nama_pasar": 2,
+            "nominal": 7000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 147,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 49,
+            "nama_pasar": 2,
+            "nominal": 13000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 148,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 50,
+            "nama_pasar": 2,
+            "nominal": 10000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 149,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 51,
+            "nama_pasar": 2,
+            "nominal": 9000,
+            "validasi": true
+        }
+    },
+    {
+        "model": "sishasembapo.harga",
+        "pk": 150,
+        "fields": {
+            "tanggal": "2019-11-30",
+            "nama_sembako": 52,
+            "nama_pasar": 2,
+            "nominal": 20000,
+            "validasi": true
+        }
+    }
+]

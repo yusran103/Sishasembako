@@ -25,7 +25,7 @@ SECRET_KEY = 'or_@#i50xkh7u=m6kg39$fphapb2@3$cfkt&m0nqe!a7$$&_5('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.137.1','127.0.0.1','192.168.43.55']
+ALLOWED_HOSTS = ['192.168.137.1','127.0.0.1','192.168.43.55','192.168.9.139']
 
 
 # Application definition
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'sslserver',
     'django.contrib.auth',
     'sishasembapo',
+    'mapbox_location_field',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,15 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django_extensions',
     'mathfilters',
-    'location_field.apps.DefaultConfig'
 ]
-
-LOCATION_FIELD = {
-    'map.provider':'mapbox',
-    'provider.mapbox.access_token': 'pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg',
-    'provider.mapbox.max_zoom': 18,
-    'provider.mapbox.id': 'mapbox.streets',
-}
 
 GRAPH_MODELS = {
   'all_applications': True,
@@ -148,3 +141,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+MAPBOX_KEY = 'pk.eyJ1IjoieXVzcmFuMTAzIiwiYSI6ImNrMWo0MDNpdjAyMDQzaHA0aHdkcjhtbTUifQ.2S8rcVwnT1x4-41R20FBWg'

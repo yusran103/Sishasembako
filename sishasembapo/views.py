@@ -213,9 +213,9 @@ def view_grafik(request):
     for a in ambil_Sembako:
         rata_rata = Harga.objects.filter(nama_sembako=a,tanggal=x,validasi=True).aggregate(Avg('nominal'))
         if rata_rata:
-            tabel.append({"sembako":a,"harga":rata_rata['nominal__avg']})
+            tabel.append({"sembako":a,"harga":rata_rata['nominal__avg'],"satuan":a.satuan})
         else:
-            tabel.append({"sembako":a,"harga":0})    
+            tabel.append({"sembako":a,"harga":0})
     
     past30day = []
     for i in reversed(range(0,31)):
@@ -337,8 +337,8 @@ def maps(request):
     for pasar1 in list_pasar:
         rata_rata = Harga.objects.filter(nama_pasar = pasar1,tanggal=x,validasi=True)
         koordinat = pasar1.lokasi
-        pecah = koordinat.split(',')
-        lat = pecah[0]
-        lng = pecah[1]
+        lngraw , latraw = koordinat
+        lat = str(latraw).replace(',','.')
+        lng = str(lngraw).replace(',','.')
         pasar.append({"id":pasar1.id,"nama_pasar":pasar1.nama_pasar,"lat":lat,"lng":lng,"alamat":pasar1.alamat_pasar,"kel":pasar1.kelurahan,"kec":pasar1.kecamatan,"tlp":pasar1.notlp,"harga":rata_rata})
     return render(request,'admin_pasar/maps.html',{'api':api_key,'pasar':pasar,'time':x.date()})
