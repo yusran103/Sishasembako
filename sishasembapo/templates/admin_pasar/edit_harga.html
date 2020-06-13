@@ -5,12 +5,16 @@
     
     {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/select2/3.5.2/select2.css">
     <style type="text/css">
         #navbar-hide{ display:none; }
         label{
             font-size: small;
         }
         html, body {margin: 0; height: 100%; overflow: hidden}
+        form{
+          font-size: medium;
+        }
     </style>
     {% endblock extrastyle %}
     
@@ -26,8 +30,8 @@
                     {% csrf_token %}
                     {{form.as_p}}
                     <div style="text-align: center;">
-                        <button type="button" class="btn btn-warning btn-s" onclick="return window.close();">Batal</button>
-                        <button type="submit" class="btn btn-primary btn-s">Simpan</button>
+                        <button type="submit" class="btn btn-s" style="background-color:#417690; color: white;">Simpan</button>
+                        <button type="button" class="btn btn-s" style="background-color:#79aec8; color: white;" onclick="return window.close();">Batal</button>
                     </div>
                 </form>
             </div>
@@ -36,19 +40,18 @@
     {% endblock content %}
     
     {% block extrajs %}
-    <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
-    <script src="{% static 'assets_page/plugins/datatables-bs4/js/dataTables.bootstrap4.js'%}"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/select2/3.4.6/select2.min.js"></script>
     <script>
-        $('#id_tanggal').datepicker({
-            format : "yyyy-mm-dd",
-            autoclose: true
+        $('#id_nama_sembako').select2({
+            theme: "bootstrap 4"
         });
+
         function btn_simpan() {
-            window.onunload = refreshParent;
-            function refreshParent() {
-                window.opener.location.replace("{% url 'list_harga_sembako' %}");
-            }
-            window.close()
+          window.onunload = refreshParent;
+          function refreshParent() {
+            window.opener.location.replace("{% url 'list_harga_sembako' %}");
+          }
+          window.close()
         }
 
         const swalWithBootstrapButtons = Swal.mixin({
@@ -63,8 +66,10 @@
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: 'Ya',
+                    confirmButtonColor:'#417690',
                     cancelButtonText: 'Tidak',
-                    reverseButtons: true
+                    cancelButtonColor: '#79aec8',
+                    reverseButtons: false
                   }).then((result) => {
                     if (result.value) {
                     $.post($("form").attr('action'), $("form").serializeArray());

@@ -10,20 +10,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>SISHASEMBAPO ~ PD.PASAR KOTA KEDIRI</title>
+  <title>SISHASEMBAKO ~ PD.PASAR KOTA KEDIRI</title>
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{% static 'assets_page/plugins/fontawesome-free/css/all.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'assets_page/dist/css/adminlte.min.css'%}">
-  <link rel="stylesheet" href="{% static 'assets_page/plugins/select2/css/select2.min.css'%}">
-  <link rel="stylesheet" href="{% static 'assets_page/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <!-- <link rel="stylesheet" href="{% static 'assets_page/plugins/select2/css/select2.min.css'%}"> -->
+  <!-- <link rel="stylesheet" href="{% static 'assets_page/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}"> -->
   <link rel="stylesheet" href="{% static 'assets_page/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
-  <link rel="stylesheet" href="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.css' %}"> -->
+  <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
   <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> -->
   <link rel="icon" href="{% static "Images/kota_kediri.png" %}">
-  <style>   
+  <style>
+    @media screen and (max-width:450px) {
+      .topnav-centered {
+        position: absolute;
+        font-size: large;
+        left: 50%;
+        transform: translate(-80px,-14px);
+      }
+    }
     @media screen and (max-width: 600px) {
         section.content-header {
             font-size: 10px;
@@ -44,6 +53,21 @@
         h5{
           font-size:small;
         }
+        h6.footer{
+          text-align: center;
+          font-size: 12px;
+        }
+    }
+    @media screen and (max-width: 750px) {
+      .topnav-centered {
+        position: absolute;
+        font-size: large; 
+        left: 50%;
+        transform: translate(-80px,-14px);
+      }
+    }
+    body {
+      font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
     }
 </style>
   {% block extrastyle %}
@@ -69,7 +93,7 @@
     {% if request.session.nama %}
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
-      <div class="p-3">
+      <div class="p-3" style="position: absolute;">
           <a href="{% url 'changepassword' request.session.id %}">Ubah Kata Sandi</a>
           <br>
           <a href="{% url 'profile' pk=request.session.id %}">Profil</a>
@@ -80,13 +104,13 @@
     {% endif %}
     <!-- /.control-sidebar -->
     <!-- Main Footer -->
-    <footer class="main-footer" id="navbar-hide">
+    <footer class="main-footer" id="navbar-hide" style="background-color: #417690; color: white;" >
       <!-- To the right -->
       <div class="float-right d-none d-sm-inline">
         By Anasztaz Dev Team
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; 2019 - {% now "Y" %} <a style="color: gray;">PD.PASAR Kota Kediri</a>.</strong> All rights reserved.
+      <h6 class="footer"><strong>Copyright &copy; 2019 - {% now "Y" %} <a style="color: white;">PD.PASAR Kota Kediri</a>.</strong> All rights reserved.</h6>
     </footer>
   </div>
   <!-- ./wrapper -->
@@ -100,9 +124,9 @@
   <script src="{% static 'assets_page/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
   <!-- AdminLTE App -->
   <script src="{% static 'assets_page/dist/js/adminlte.min.js'%}"></script>
-  <script src="{% static 'assets_page/plugins/select2/js/select2.full.min.js'%}"></script>
   <script src="{% static 'assets_page/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
-  <script src="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.js' %}"></script>
+  <!-- <script src="{% static 'assets_page/plugins/bootstrap-select/bootstrap-select.min.js' %}"></script> -->
+  <!-- <script src="{% static 'assets_page/plugins/select2/js/select2.full.min.js'%}"></script> -->
   <!-- Sweetalert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script type="text/javascript">

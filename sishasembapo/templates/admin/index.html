@@ -10,7 +10,7 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-<div id="content-main" style="width: 900px;">
+<div id="content-main">
 {% if app_list %}
     {% for app in app_list %}
         <div class="app-{{ app.app_label }} module">
@@ -52,6 +52,19 @@
     <p>{% trans "You don't have permission to view or edit anything." %}</p>
 {% endif %}
 </div>
+<script>
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    //pass
+  }else{
+    document.getElementById("content-main").style.width = "1000px";
+  }
+}
+
+var x = window.matchMedia("(max-width: 1025px)")
+myFunction(x) // Call listener function at run time
+x.addListener(myFunction) // Attach listener function on state changes
+</script>
 {% endblock %}
 
 {% block sidebar %}

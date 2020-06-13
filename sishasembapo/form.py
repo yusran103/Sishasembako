@@ -112,13 +112,12 @@ class Harga_form(ModelForm):
         queryset = Sembako.objects.filter(nama_sembako__isnull=False).order_by('nama_sembako'),
         widget = Select(
             attrs = {
-                'class':'form-control selectpicker',
-                'data-live-search':'true',
+                'style':'width:100%'
             }
         )
     )
     nominal = forms.CharField(
-        widget=forms.TextInput(
+        widget=forms.NumberInput(
             attrs={
                 'class':'form-control',
                 'placeholder':'Isikan harga'
@@ -126,23 +125,11 @@ class Harga_form(ModelForm):
             ),
             required=True
         )
-    tanggal = forms.DateField(
-        widget=forms.TextInput(
-            attrs={
-                'class':'form-control',
-                'placeholder':'Tanggal',
-                'autocomplete':'off',
-                'onkeypress':'return false;',
-                 'onkeydown':'return false;',
-                }
-            ),
-        )
     class Meta:
         model = Harga
         fields = [
             'nama_sembako',
-            'nominal',
-            'tanggal'
+            'nominal'
         ]
 
 class Harga_form_admin(ModelForm):

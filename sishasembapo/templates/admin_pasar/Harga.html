@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/select2/3.5.2/select2.css">
 <style>
     .dataTables_filter {
         float: left !important;
@@ -21,9 +21,14 @@
         text-decoration: none;
     }
     @media screen and (max-width: 450px) {
+        .isi th{
+            font-size: medium;
+        }
+        .isi td{
+            font-size: medium;
+        }
         .dataTables_filter {
             float: right !important;
-            
             position: relative;
             right: 5%; /* or right 50% */
             text-align: left;
@@ -59,8 +64,11 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <h3 class="card-title"><b>List Harga Bahan Pokok di {{request.session.pasar}}</b></h3>
-                <button class="btn btn-primary float-right btn-xs" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah</button>
+                <h3 class="card-title"><b>Daftar Harga Bahan Pokok di {{request.session.pasar}}</b></h3>
+                <div class="float-right">
+                    <button class="btn btn-xs" data-toggle="modal" style="background-color:#417690; color: white;" data-target="#exampleModal1"><i class="fa fa-archive"></i> Harga Kemarin</button>
+                    <button class="btn btn-xs" data-toggle="modal" style="background-color:#417690; color: white;" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah</button>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -69,7 +77,11 @@
             <h5 class="alert alert-success" style="text-align: center;" >Berhasil Menambah Data Harga {{i.sembako}} di tanggal {{i.tanggal|date:"j F Y"}} </h5>
             {% endfor %}
             {% endif %}
-            <div id="perubahan"></div>
+            {% if perubahan %}
+            {% for i in perubahan %}
+            <h5 class="alert alert-success" style="text-align: center;" >Berhasil Merubah Data Harga {{i.sembako}}</h5>
+            {% endfor %}
+            {% endif %}
             <div class="table-responsive" style="width: 100%;">
                 <table class="table cell-border" id ="myTable">
                     <thead>
@@ -88,14 +100,14 @@
                         <tr>
                             <td style="text-align: center;">{{forloop.counter}}</td>
                             <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
-                            <td>{{list_harga.nama_sembako}}</td>
+                            <td id="nm_smbk">{{list_harga.nama_sembako}}</td>
                             <td>Rp{{list_harga.nominal|intcomma}},00.</td>
                             {% if list_harga.validasi == 0 %}
                             <td>Belum di validasi</td>
-                            <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
+                            <td style="text-align: center;"><a class="btn btn-sm btn-xs" style="background-color:#417690; color: white;" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
                             {% else %}
                             <td>Sudah di validasi</td>
-                            <td style="text-align: center;"><a class="btn btn-warning btn-sm btn-xs isDisabled" > <i class="fa fa-edit"></i> Ubah</a></td>
+                            <td style="text-align: center;"><a class="btnbtn-sm btn-xs isDisabled" style="background-color:#417690; color: white;"><i class="fa fa-edit"></i> Ubah</a></td>
                         </tr>
                         {% endif %}
                         {% endfor %}
@@ -122,14 +134,71 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{% url 'list_harga_sembako' %}">
+                <form method="POST" name ="form-tambah" action="{% url 'list_harga_sembako' %}">
                     {% csrf_token %}
+                    <label for="aksi">Aksi Tambah : </label>
+                    <select name="aksi" id="aksi" class="form-control" onclick="pilihaksi()">
+                        <option value="">Pilih Aksi</option>
+                        <option value="1">Harga Baru</option>
+                        <option value="2">Harga yang Ada</option>
+                    </select>
+                    <p><input type="hidden" name="stid" id="stid"></p>
+                    <div id="hargalama" hidden>
+                        <p>
+                            <label for="mySelect">Cari Bahan Pokok : </label>
+                            <select id="mySelect" style="width: 100%;" data-live-search="true" onclick="myFunction()">
+                                <option value=" | | " selected="">----------</option>    
+                                {% if kemarin %}
+                                {% for a in kemarin %}
+                                <option value="{{a.nama_sembako.id}}|{{a.nama_sembako}}|{{a.nominal}}">{{a.nama_sembako}}</option>
+                                {% endfor %}
+                                {% else %}
+                                <option value="">Tidak Ada Data</option>
+                                {% endif %}
+                            </select>
+                        </p>
+                    <p hidden><label for="semid1">id:</label> <input type="text" name="semid1" class="form-control" readonly id="semid1"></p>
+                    <p><label for="sembako_id">Nama Sembako:</label> <input type="text" name="sembako_lama" class="form-control" readonly id="sembako_id"></p>
+                    <p><label for="nominal_id">Nominal:</label> <input type="text" name="nominal_lama" class="form-control" readonly id="nominal_id"></p>
+                </div>
+                <div id="hargabaru" hidden>
                     {{form.as_p}}
+                </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                        <button type="input" class="btn btn-primary">Simpan</button>
+                        <button type="input" class="btn" style="background-color:#417690; color: white;">Simpan</button>
+                        <button type="button" class="btn" style="background-color:#79aec8; color: white;" data-dismiss="modal">Batal</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="font-size: larger;" class="modal-title" id="exampleModalLabel">Daftar Harga Bahan Pokok Kemarin</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered isi">
+                    <thead>
+                        <tr class="isi">
+                            <th style="text-align: center;">Nama Bahan Pokok</th>
+                            <th style="text-align: center;">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in kemarin %}
+                        <tr class="isi">
+                            <td>{{i.nama_sembako}}</td>
+                            <td>Rp{{i.nominal|intcomma}},00.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -140,11 +209,42 @@
 <script src="{% static 'DataTables/datatables.min.js' %}"></script>
 <script src="{% static 'assets_page/plugins/datatables/jquery.dataTables.js'%}"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/select2/3.4.6/select2.min.js"></script>
 <script>
-    $('#id_tanggal').datepicker({
-        format : "yyyy-mm-dd",
-        autoclose: true
+    $('#mySelect').select2({
+        theme: "bootstrap 4"
     });
+    $('#id_nama_sembako').select2({
+        theme: 'bootstrap4'
+    });
+    
+    function pilihaksi(){
+        var l = document.getElementById("aksi").value;
+        if (l == 1){ /* Harga Baru */
+            document.getElementById('stid').value = l
+            $("#hargalama").attr("hidden",true);
+            $("#hargabaru").removeAttr("hidden");
+        }else if(l == 2){ /* Harga Lama */
+            document.getElementById('stid').value = l
+            $("#hargabaru").attr("hidden",true);
+            $("#id_nominal").hide().prop('required',false)
+            $("#id_nama_sembako").hide().prop('required',false)
+            $("#hargalama").removeAttr("hidden");
+        }else{ /* tidak pilih */
+            $("#hargalama").attr("hidden",true);
+            $("#hargabaru").attr("hidden",true);
+        }
+    }
+    function myFunction() {
+        var x = document.getElementById("mySelect").value;
+        var y = x.split("|");
+        var a = y[0];
+        var b = y[1];
+        var c = y[2];
+        document.getElementById('semid1').value = a
+        document.getElementById('sembako_id').value = b
+        document.getElementById('nominal_id').value = c
+    };
     
     var table = $('#myTable').DataTable({
         "paging": true,
@@ -161,9 +261,6 @@
         language: {
             searchPlaceholder: "Nama Barang"
         },
-    });
-    $('#id_nama_sembako').select2({
-        theme: 'bootstrap4'
     });
     
     function windowpop(url, width, height) {

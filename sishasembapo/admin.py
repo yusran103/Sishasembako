@@ -10,8 +10,8 @@ from mapbox_location_field.admin import MapAdmin
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
-admin.site.site_header = 'SISHASEMBAPO Apps'
-admin.site.site_title = 'SISHASEMBAPO Apps'
+admin.site.site_header = 'SISHASEMBAKO Apps'
+admin.site.site_title = 'SISHASEMBAKO Apps'
 
 class SembakoListFilter(admin.SimpleListFilter):
     title = ('Nama Sembako')

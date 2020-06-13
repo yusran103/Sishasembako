@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'assets_page/plugins/chart.js/Chart.min.css'%}">
 <style>
 	.table-responsive{
-		height:868px;  
+		height:968px;  
 		overflow:scroll;
 	}
 	thead tr:nth-child(1) th{
@@ -36,8 +36,14 @@
 		}
 		label.label {
 			font-size: small;
-		}	
+		}
+		.card-body p{
+			font-size: medium;
+		}
 	}
+			h3.card-title{
+				font-size: medium;
+			  }	
 </style>
 {% endblock extrastyle %}
 
@@ -90,7 +96,7 @@
 						<div class="form-group">
 							<label class="kosong">&nbsp;</label>
 							<div class="input-group">
-								<button type="submit" class="btn btn-primary" style="width: 100%;"> Cari</button>
+								<button type="submit" class="btn" style="width: 100%;background-color:#417690; color: white;"> Cari</button>
 							</div>
 						</div>
 					</div>
@@ -124,25 +130,72 @@
 			<!-- /.card -->
 			<!-- Grafik 4 sembako -->
 			<div class="row">
-				{% for z in induk %}
 				<div class="col-lg-6">
 					<div class="card">
 						<div class="card-header">
 							<div class="d-flex justify-content-between">
-								<h3 class="card-title">Harga rata-rata <strong>{{z.nama_sembako}}/{{z.satuan}}</strong> 30 hari terakhir</h3>
+								<h3 class="card-title">Harga rata-rata <strong>Beras/Kg</strong> 30 hari terakhir</h3>
 							</div>
 						</div>
 						<div class="card-body">
-							<canvas id="{{z.id}}" style="width: 100%;"></canvas>
+							<canvas id="19" style="width: 100%;"></canvas>
+							<p><i class="fas fa-square" style="color: green;"></i> Beras Begawan &nbsp;<i class="fas fa-square" style="color: red;"></i> Beras Bramo &nbsp;<br><i class="fas fa-square" style="color: blue;"></i> Beras Menthik &nbsp;&nbsp;&nbsp;<i class="fas fa-square" style="color: cyan;"></i> Beras IR 64</p>
 							<!-- /.d-flex -->
 						</div>
 					</div>
 					<!-- /.card -->
+					</div>
+				<!-- /.col-md-6 -->
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="d-flex justify-content-between">
+								<h3 class="card-title">Harga rata-rata <strong>Telur/Kg</strong> 30 hari terakhir</h3>
+							</div>
+						</div>
+						<div class="card-body">
+							<canvas id="23" style="width: 100%;"></canvas>
+							<p><i class="fas fa-square" style="color: green;"></i> Telur Ayam Kampung &nbsp;<br><i class="fas fa-square" style="color: red;"></i> Telur Ayam Bloiler &nbsp;</p>
+							<!-- /.d-flex -->
+						</div>
+					</div>
+					<!-- /.card -->
+					</div>
+				<!-- /.col-md-6 -->
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="d-flex justify-content-between">
+								<h3 class="card-title">Harga rata-rata <strong>Cabe/Kg</strong> 30 hari terakhir</h3>
+							</div>
+						</div>
+						<div class="card-body">
+							<canvas id="24" style="width: 100%;"></canvas>
+							<p><i class="fas fa-square" style="color: green;"></i> Cabe Rawit &nbsp;<i class="fas fa-square" style="color: red;"></i> Cabe Merah &nbsp;<i class="fas fa-square" style="color: blue;"></i>Cabe Kriting</p>
+							<!-- /.d-flex -->
+						</div>
+					</div>
+					<!-- /.card -->
+					</div>
+				<!-- /.col-md-6 -->
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="d-flex justify-content-between">
+								<h3 class="card-title">Harga rata-rata <strong>Bawang/Kg</strong> 30 hari terakhir</h3>
+							</div>
+						</div>
+						<div class="card-body">
+							<canvas id="25" style="width: 100%;"></canvas>
+							<p><i class="fas fa-square" style="color: green;"></i> Bawang Putih&nbsp;<i class="fas fa-square" style="color: red;"></i> Bawang Merah &nbsp;</p>
+							<!-- /.d-flex -->
+						</div>
+					</div>
+					<!-- /.card -->
+					</div>
+				<!-- /.col-md-6 -->
+				<!-- /.col-md-6 -->
 				</div>
-				<!-- /.col-md-6 -->
-				{% endfor %}
-				<!-- /.col-md-6 -->
-			</div>
 			<!-- end grafik 4 sembako -->
 		</div>
 		<!-- tabel harga -->
@@ -167,7 +220,7 @@
 								<tr style="font-size: 12px;">
 									<td>{{nama.sembako}}</td>
 									{% if nama.harga %}
-									<td>Rp{{nama.harga|intcomma}}0. /{{nama.satuan}}</td>
+									<td>Rp{{nama.harga|intcomma}}/{{nama.satuan}}</td>
 									{% else %}
 									<td> - </td>
 									{% endif %}
@@ -297,13 +350,14 @@
 			]
 		},
 		options: {
+			responsive: true,
 			elements:{
 				point:{
 					radius: 2
 				}
 			},
 			legend: {
-				display: false
+				display: false,
 			},
 			scales: {
 				yAxes: [{
@@ -392,7 +446,7 @@
 				label: 'Harga Cabe Kriting/kg',
 				data: [{% for z in a.kriting %}{{z.harga}},{% endfor %}],
 				backgroundColor: "rgba(225,0,0,0.4)",
-				borderColor: "green", // The main line color
+				borderColor: "blue", // The main line color
 				pointBorderColor: "black",
 				pointBackgroundColor: "white",
 				fill: false,

@@ -137,40 +137,59 @@ def view_harga(request):
     penambahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
     list_harga = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal=datetime.datetime.now()).order_by('-id')
+    kemarin = datetime.date.today() - datetime.timedelta(days=1)
+    harga_kemarin = Harga.objects.filter(nama_pasar = ambil_pasar.id,tanggal=kemarin,validasi=True)
+    Tanggal = datetime.date.today()
     translation.activate('id')
     if request.method == "POST":
-        form = Harga_form(request.POST)
-        sembako = Sembako.objects.get(pk=request.POST.get('nama_sembako'))
-        tanggal = request.POST['tanggal']
-        if form.is_valid():
-            hargasembako = Harga(
-                nama_sembako = sembako,
-                nominal = request.POST['nominal'],
-                nama_pasar = ambil_pasar,
-                tanggal = tanggal,
-                validasi = False
+        status = request.POST.get('stid')
+        if status == "1": #Harga Baru   
+            form = Harga_form(request.POST)
+            sembako = Sembako.objects.get(pk=request.POST.get('nama_sembako'))
+            if form.is_valid():
+                hargasembako = Harga(
+                    nama_sembako = sembako,
+                    nominal = request.POST['nominal'],
+                    nama_pasar = ambil_pasar,
+                    tanggal = Tanggal,
+                    validasi = False
+                )
+                hargasembako.save()
+                form = Harga_form()
+                penambahan.append({"tanggal":Tanggal,"sembako":sembako})
+                return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan})
+        elif status == "2": #Harga Lama
+            form = Harga_form(request.POST)
+            smbk = request.POST['semid1']
+            nml = request.POST['nominal_lama']
+            smbklm=Sembako.objects.get(pk=smbk)
+            hargalama = Harga(
+                tanggal=Tanggal,
+                nama_sembako=smbklm,
+                nama_pasar=ambil_pasar,
+                nominal=nml,
+                validasi=False
             )
-            hargasembako.save()
-            Tanggal = datetime.datetime.strptime(tanggal,'%Y-%m-%d')
-            penambahan.append({"tanggal":Tanggal,"sembako":sembako})
+            hargalama.save()
+            form = Harga_form()
+            penambahan.append({"tanggal":Tanggal,"sembako":smbklm})
+            return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan})
     else:
         form = Harga_form()
-    return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan})
+    return render(request,'admin_pasar/Harga.html', {'form':form,'harga':list_harga,'penambahan':penambahan,'kemarin':harga_kemarin})
 
 @login_required(login_url='/login')
 def update_harga(request,pk):
+    perubahan = []
     ambil_pasar = Pasar.objects.get(nama_pasar=request.session['pasar'])
     harga = Harga.objects.get(pk=pk)
     sembako = Sembako.objects.get(pk=harga.nama_sembako.id)
     if request.method == "POST":
-        Tanggal = request.POST['tanggal']
         form = Harga_form(request.POST, instance=harga)
         if form.is_valid():
             hargas = form.save(commit=False)
             nama_sembako = sembako,
             nominal = request.POST['nominal'],
-            nama_pasar = ambil_pasar,
-            tanggal = Tanggal,
             hargas.save()
     else:
         form = Harga_form(instance=harga)
@@ -212,8 +231,8 @@ def view_grafik(request):
     tabel = []
     for a in ambil_Sembako:
         rata_rata = Harga.objects.filter(nama_sembako=a,tanggal=x,validasi=True).aggregate(Avg('nominal'))
-        if rata_rata:
-            tabel.append({"sembako":a,"harga":rata_rata['nominal__avg'],"satuan":a.satuan})
+        if rata_rata['nominal__avg']:
+            tabel.append({"sembako":a,"harga":round(rata_rata['nominal__avg']),"satuan":a.satuan})
         else:
             tabel.append({"sembako":a,"harga":0})
     
