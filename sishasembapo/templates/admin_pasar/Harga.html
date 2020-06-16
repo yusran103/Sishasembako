@@ -2,7 +2,8 @@
 
 {% load static %}
 {% load humanize %}
-
+{% block extrahead %}
+{% endblock extrahead %}
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'DataTables/datatables.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
@@ -12,8 +13,14 @@
     .dataTables_filter {
         float: left !important;
     }
-    .table th {  white-space: nowrap; }
-    .table td {  white-space: nowrap; }
+    .table th {  
+        max-width:100%;
+        white-space: nowrap; 
+    }
+    .table td {  
+        max-width:100%;
+        white-space: nowrap; 
+    }
     .isDisabled {
         color: currentColor;
         cursor: not-allowed;
@@ -21,11 +28,10 @@
         text-decoration: none;
     }
     @media screen and (max-width: 450px) {
-        .isi th{
-            font-size: medium;
-        }
-        .isi td{
-            font-size: medium;
+        .tabel{
+            display:block;
+            height : 450px;
+            overflow-y : scroll;
         }
         .dataTables_filter {
             float: right !important;
@@ -33,32 +39,29 @@
             right: 5%; /* or right 50% */
             text-align: left;
         }
-        th{
-            font-size: 9px;
-        }
-        td{
-            font-size: 9px;
+        .kecil{
+            font-size: 8px;
         }
     }
     
     @media screen and (max-width: 750px) {
+        .tabel{
+            display:block;
+            height : 450px;
+            overflow-y : scroll;
+        }
         .dataTables_filter {
             float: right !important;
-            
             position: relative;
             right: 29%; /* or right 50% */
             text-align: left;
         }
-        th{
-            font-size: 9px;
-        }
-        td{
+        .kecil{
             font-size: 9px;
         }
     }
 </style>
 {% endblock extrastyle %}
-
 {% block content %}
 <section class="content-header">
     <div class="card">
@@ -66,8 +69,7 @@
             <div class="d-flex justify-content-between">
                 <h3 class="card-title"><b>Daftar Harga Bahan Pokok di {{request.session.pasar}}</b></h3>
                 <div class="float-right">
-                    <button class="btn btn-xs" data-toggle="modal" style="background-color:#417690; color: white;" data-target="#exampleModal1"><i class="fa fa-archive"></i> Harga Kemarin</button>
-                    <button class="btn btn-xs" data-toggle="modal" style="background-color:#417690; color: white;" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah</button>
+                    <button class="btn btn-xs" data-toggle="modal" style="background-color:#417690; color: white;" data-target="#exampleModal1"><i class="fa fa-plus"></i> Harga</button>
                 </div>
             </div>
         </div>
@@ -86,34 +88,37 @@
                 <table class="table cell-border" id ="myTable">
                     <thead>
                         <tr>
-                            <th style="text-align:center;"> No </th>
-                            <th style="text-align:center;"> Tanggal </th>
-                            <th style="text-align:center;"> Nama Barang</th> 
-                            <th style="text-align:center;"> Harga </th> 
-                            <th style="text-align:center;"> Status </th>
-                            <th style="text-align:center;"> Aksi </th> 
+                            <th class="kecil" style="text-align:center;"> No </th>
+                            <th class="kecil" style="text-align:center;"> Tanggal </th>
+                            <th class="kecil" style="text-align:center;"> Nama Barang</th> 
+                            <th class="kecil" style="text-align:center;"> Harga </th> 
+                            <th class="kecil" style="text-align:center;"> Status </th>
+                            <th class="kecil" style="text-align:center;"> Aksi </th> 
                         </tr>
                     </thead>
                     <tbody>
                         {% if harga %}
                         {% for list_harga in harga %}
                         <tr>
-                            <td style="text-align: center;">{{forloop.counter}}</td>
-                            <td>{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
-                            <td id="nm_smbk">{{list_harga.nama_sembako}}</td>
-                            <td>Rp{{list_harga.nominal|intcomma}},00.</td>
-                            {% if list_harga.validasi == 0 %}
-                            <td>Belum di validasi</td>
-                            <td style="text-align: center;"><a class="btn btn-sm btn-xs" style="background-color:#417690; color: white;" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
-                            {% else %}
-                            <td>Sudah di validasi</td>
-                            <td style="text-align: center;"><a class="btnbtn-sm btn-xs isDisabled" style="background-color:#417690; color: white;"><i class="fa fa-edit"></i> Ubah</a></td>
+                            <td class="kecil"  style="text-align: center;">{{forloop.counter}}</td>
+                            <td class="kecil" >{{list_harga.tanggal|date:"l"}} , {{list_harga.tanggal|date:"j F Y"}}</td>                        
+                            <td class="kecil" id="nm_smbk">{{list_harga.nama_sembako}}</td>
+                            <td class="kecil" >Rp{{list_harga.nominal|intcomma}},00.</td>
+                            {% if list_harga.validasi == "1" %}
+                            <td class="kecil" >Sudah di Validasi</td>
+                            <td class="kecil"  style="text-align: center;"><a class="btnbtn-sm btn-xs isDisabled" style="background-color:#417690; color: white;"><i class="fa fa-edit"></i> Ubah</a></td>
+                            {% elif list_harga.validasi == "3" %}
+                            <td class="kecil" >Menunggu Validasi</td>
+                            <td class="kecil"  style="text-align: center;"><a class="btn btn-sm btn-xs" style="background-color:#417690; color: white;" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
+                            {% elif list_harga.validasi == "2" %}
+                            <td class="kecil" >Ditolak</td>
+                            <td class="kecil" style="text-align: center;"><a class="btn btn-sm btn-xs isDisabled" style="background-color:#417690; color: white;"> <i class="fa fa-edit"></i> Ubah</a></td>
                         </tr>
                         {% endif %}
                         {% endfor %}
                         {% else %}
                         <tr>
-                            <td colspan="6"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
+                            <td class="kecil" colspan="6"><center>Tidak ada data harga di {{request.session.pasar}} Hari ini</center></td>
                         </tr>
                         {% endif %}
                     </tbody>
@@ -124,82 +129,47 @@
 </section>
 <!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Tambah Harga Bahan Pokok</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" name ="form-tambah" action="{% url 'list_harga_sembako' %}">
-                    {% csrf_token %}
-                    <label for="aksi">Aksi Tambah : </label>
-                    <select name="aksi" id="aksi" class="form-control" onclick="pilihaksi()">
-                        <option value="">Pilih Aksi</option>
-                        <option value="1">Harga Baru</option>
-                        <option value="2">Harga yang Ada</option>
-                    </select>
-                    <p><input type="hidden" name="stid" id="stid"></p>
-                    <div id="hargalama" hidden>
-                        <p>
-                            <label for="mySelect">Cari Bahan Pokok : </label>
-                            <select id="mySelect" style="width: 100%;" data-live-search="true" onclick="myFunction()">
-                                <option value=" | | " selected="">----------</option>    
-                                {% if kemarin %}
-                                {% for a in kemarin %}
-                                <option value="{{a.nama_sembako.id}}|{{a.nama_sembako}}|{{a.nominal}}">{{a.nama_sembako}}</option>
-                                {% endfor %}
-                                {% else %}
-                                <option value="">Tidak Ada Data</option>
-                                {% endif %}
-                            </select>
-                        </p>
-                    <p hidden><label for="semid1">id:</label> <input type="text" name="semid1" class="form-control" readonly id="semid1"></p>
-                    <p><label for="sembako_id">Nama Sembako:</label> <input type="text" name="sembako_lama" class="form-control" readonly id="sembako_id"></p>
-                    <p><label for="nominal_id">Nominal:</label> <input type="text" name="nominal_lama" class="form-control" readonly id="nominal_id"></p>
-                </div>
-                <div id="hargabaru" hidden>
-                    {{form.as_p}}
-                </div>
-                    <div class="modal-footer">
-                        <button type="input" class="btn" style="background-color:#417690; color: white;">Simpan</button>
-                        <button type="button" class="btn" style="background-color:#79aec8; color: white;" data-dismiss="modal">Batal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 style="font-size: larger;" class="modal-title" id="exampleModalLabel">Daftar Harga Bahan Pokok Kemarin</h4>
+                <h4 style="font-size: larger;" class="modal-title w-100 text-center" id="exampleModalLabel">Tambah Harga di {{request.session.pasar}}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered isi">
-                    <thead>
-                        <tr class="isi">
-                            <th style="text-align: center;">Nama Bahan Pokok</th>
-                            <th style="text-align: center;">Harga</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for i in kemarin %}
-                        <tr class="isi">
-                            <td>{{i.nama_sembako}}</td>
-                            <td>Rp{{i.nominal|intcomma}},00.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                <form method="POST" name="form-tambah">
+                    {% csrf_token %}
+                    <input type="text" hidden id="idpasar" value="{{request.session.idpasar}}">
+                    <input type="text" hidden id="tanggals" value="{% now "SHORT_DATE_FORMAT" %}">
+                    <table class="table table-bordered tabel" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Nama Bahan Pokok</th>
+                                <th style="text-align: center;">Harga Kemarin</th>
+                                <th style="text-align: center;">Harga Sekarang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in kemarin %}
+                            <tr>
+                                <td class="align-middle">{{i.nama_sembako}}</td>
+                                <td class="align-middle">Rp{{i.nominal|intcomma}},00.</td>
+                                <td id="hargasekarang" class="align-middle">
+                                    <input type="number" class="form-control" name="harga" style="text-align: right;"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" value="{{i.nominal}}">
+                                    <input type="text" hidden name="id" value="{{i.nama_sembako.id}}">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submit" class="btn" style="background-color:#417690; color: white;">Simpan</button>
+                    <button type="button" class="btn" style="background-color:#79aec8; color: white;" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -217,24 +187,114 @@
     $('#id_nama_sembako').select2({
         theme: 'bootstrap4'
     });
-    
-    function pilihaksi(){
-        var l = document.getElementById("aksi").value;
-        if (l == 1){ /* Harga Baru */
-            document.getElementById('stid').value = l
-            $("#hargalama").attr("hidden",true);
-            $("#hargabaru").removeAttr("hidden");
-        }else if(l == 2){ /* Harga Lama */
-            document.getElementById('stid').value = l
-            $("#hargabaru").attr("hidden",true);
-            $("#id_nominal").hide().prop('required',false)
-            $("#id_nama_sembako").hide().prop('required',false)
-            $("#hargalama").removeAttr("hidden");
-        }else{ /* tidak pilih */
-            $("#hargalama").attr("hidden",true);
-            $("#hargabaru").attr("hidden",true);
+    $.ajaxSetup({ 
+        beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        } 
+    });
+    $("#submit").click(function(e){
+        e.preventDefault()
+        $("head").append("<meta http-equiv='refresh' content=0'>");
+        var globaljson = [];
+        var a = document.getElementById("tanggals").value
+        var b = document.getElementById("idpasar").value
+        var y = a.slice("-")
+        var y = a.split("-")
+        
+        var tanggal = y[2] + "-" +y[1] + "-" +y[0]
+        
+        function GetHarga(tanggal, nominal, validasi,nama_sembako,nama_pasar) {
+            this.tanggal = tanggal
+            this.nominal = nominal
+            this.validasi = validasi
+            this.nama_sembako = nama_sembako
+            this.nama_pasar = nama_pasar
         }
-    }
+        
+        var id = [];
+        $('input[name="id"]').each( function() {
+            id.push(this.value);
+        });
+        var harga = [];
+        $('input[name="harga"]').each( function() {
+            harga.push(this.value);
+        });
+        
+        var tanggals = []
+        for (i = 1; i < harga.length+1; i++) {
+            tanggals.push(tanggal)
+        };
+        var validasis = []
+        for (i = 1; i < harga.length+1; i++) {
+            validasis.push("3")
+        };
+        var idpasar = []
+        for (i = 1; i < harga.length+1; i++) {
+            idpasar.push(b)
+        };
+        
+        listharga = new Array();
+        for(i = 0; i < harga.length;i++){
+            listharga.push(new GetHarga(tanggals[i],harga[i],validasis[i],id[i],idpasar[i]));
+        };
+        
+        for (i = 0; i < listharga.length; i++) {
+            var dict = {}
+            dict['Tanggal'] = listharga[i].tanggal
+            dict['Nominal'] = listharga[i].nominal
+            dict['Validasi'] = listharga[i].validasi
+            dict['Nama_Sembako'] = listharga[i].nama_sembako
+            dict['Nama_Pasar'] = listharga[i].nama_pasar
+            globaljson[i] = dict
+        }
+        
+        function task(i) { 
+            setTimeout(function() { 
+                console.log(i); 
+            }, 1000 * i); 
+        } 
+        for(i=0; i<globaljson.length;i++){
+            $.ajax({
+                url: '{% url 'listharga' %}',
+                type: 'post',
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                },
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "tanggal":globaljson[i]["Tanggal"],
+                    "nominal":globaljson[i]["Nominal"],
+                    "validasi":globaljson[i]["Validasi"],
+                    "nama_sembako":globaljson[i]["Nama_Sembako"],
+                    "nama_pasar":globaljson[i]["Nama_Pasar"]
+                }),
+                success: function() {
+                    event.preventDefault()
+                    location.reload();
+                },
+            });
+        };
+    });
+    
     function myFunction() {
         var x = document.getElementById("mySelect").value;
         var y = x.split("|");

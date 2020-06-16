@@ -30,5 +30,6 @@ urlpatterns = i18n_patterns(
     path('harga/', pasar.view_harga , name='list_harga_sembako'),
     path('harga/<int:pk>', pasar.update_harga , name='update_harga'),
     path('grafik/', pasar.view_grafik , name='grafik'),
+    path('listharga',pasar.HargaList.as_view(), name='listharga'),
     prefix_default_language=False
 )

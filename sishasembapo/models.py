@@ -33,7 +33,7 @@ class Sembako(models.Model):
     class Meta:
         db_table = "Tb_Sembako"
         verbose_name_plural = "Sembako"
-    
+
     def __str__(self):
         if not self.nama_sembako:
             return "%s"%(self.jenis_sembako)
@@ -41,11 +41,16 @@ class Sembako(models.Model):
             return "%s - %s"%(self.nama_sembako,self.jenis_sembako)
 
 class Harga(models.Model):
+    class St(models.TextChoices):
+            setuju = '1', 'Disetujui'
+            tolak = '2', 'Ditolak'
+            belum = '3', 'Belum Diperiksa'
+        
     tanggal = models.DateField()
     nama_sembako = models.ForeignKey(Sembako,on_delete=models.CASCADE)
     nama_pasar = models.ForeignKey(Pasar,on_delete=models.CASCADE)
     nominal = models.IntegerField()
-    validasi = models.BooleanField(default=False)
+    validasi = models.CharField(max_length=2, choices=St.choices, default=St.belum)
 
     class Meta:
         db_table = "Tb_Harga"

@@ -6,6 +6,12 @@
 {% block extrastyle %}
 <link rel="stylesheet" href="{% static 'assets_page/plugins/chart.js/Chart.min.css'%}">
 <style>
+	br.kecil{
+		display: none;
+	}
+	br.sedang{
+		display: none;
+	}
 	.table-responsive{
 		height:968px;  
 		overflow:scroll;
@@ -17,13 +23,14 @@
 		z-index: 10;
 		table-layout: fixed;
 	}
-    @media screen and (max-width: 575px) {
-		label.kosong{
+	
+	@media only screen and (max-width: 750px) {
+		br.kecil{
 			display: none;
 		}
-	}
-
-	@media screen and (max-width: 750px) {
+		br.sedang{
+			display: initial;
+		}
 		.table-responsive{
 			height:200px;  
 			overflow:scroll;
@@ -41,7 +48,26 @@
 			font-size: medium;
 		}
 	}
-			h3.card-title{
+	@media only screen and (max-width: 575px) {
+		br.kecil{
+			display: initial;
+		}
+		br.sedang{
+			display: none;
+		}
+		label.kosong{
+			display: none;
+		}
+	}
+	@media only screen and (max-width: 450px) {
+		br.kecil{
+			display: initial;
+		}
+		br.sedang{
+			display: none;
+		}
+	}
+	h3.card-title{
 				font-size: medium;
 			  }	
 </style>
@@ -64,6 +90,7 @@
 							<div class="input-group">
 								<select class="form-control selectpicker" name="nama_pasar" required data-live-search="True">
 									<option value="">-------</option>
+									<option value="semua">Semua Pasar</option>
 									{% for list_pasar in pasar %}
 									<option value="{{list_pasar.id}}">{{list_pasar.nama_pasar}}</option>
 									{% endfor %}
@@ -124,6 +151,7 @@
 				</div>
 				<div class="card-body">
 					<canvas id="myChart" style="width: 100%;"></canvas>
+					<p class="p-kecil"><i class="fas fa-square" style="color: red;"></i> Pasar Setono Betek &nbsp;<i class="fas fa-square" style="color: black;"></i> Pasar Pahing <br class="kecil"><i class="fas fa-square" style="color: green;"></i> Pasar Banjaran &nbsp; <br class="sedang"><i class="fas fa-square" style="color: blue;"></i> Pasar Bawang <br class="kecil"><i class="fas fa-square" style="color: yellow;"></i> Pasar Ngronggo &nbsp;<i class="fas fa-square" style="color: cyan;"></i> Pasar Bandar Ngalim &nbsp;<br class="kecil"><br class="sedang" ><i class="fas fa-square" style="color: magenta;"></i> Pasar Mrican &nbsp;<i class="fas fa-square" style="color: purple;"></i> Pasar Bandar</p>
 				</div>
 			</div>
 			<!-- end Grafik Besar -->
@@ -241,6 +269,9 @@
 <script src="{% static 'assets_page/plugins/chart.js/Chart.min.js'%}"></script>
 <script src="{% static 'assets_page/plugins/chart.js/Chart.bundle.min.js'%}"></script>
 <script>
+	if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
 	$('#id_tahun').datepicker({
 		format: "yyyy",
 		weekStart: 1,
@@ -271,9 +302,11 @@
 		type: 'line',
 		data: {
 			labels: MONTHS,
-			datasets: [{
-				label: '{% for i in pencarian1 %} {{i.nama_bahan}} {{i.nama_jenis}}/{{i.satuan}}{% endfor %}',
-				data: [{% for i in data %}{{i}},{% endfor %}],
+			datasets: [
+			{% for i in data %}
+			{
+				label: 'Pasar Setono',
+				data: [{% for o in i.Setono %}{{o}},{% endfor %}],
 				backgroundColor: "rgba(225,0,0,0.4)",
 				borderColor: "red", // The main line color
 				pointBorderColor: "black",
@@ -287,7 +320,121 @@
 				pointHoverBorderWidth: 2,
 				pointRadius: 4,
 				pointHitRadius: 10,
-			}]
+			},{
+				label: 'Pasar Pahing',
+				data: [{% for o in i.Pahing %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "black", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},{
+				label: 'Pasar Banjaran',
+				data: [{% for o in i.Banjaran %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "green", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},{
+				label: 'Pasar Bawang',
+				data: [{% for o in i.Bawang %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "blue", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},{
+				label: 'Pasar Ngronggo',
+				data: [{% for o in i.Ngronggo %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "yellow", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},{
+				label: 'Pasar Bandar Ngalim',
+				data: [{% for o in i.Ngalim %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "cyan", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},{
+				label: 'Pasar Bandar',
+				data: [{% for o in i.Bandar %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "purple", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},{
+				label: 'Pasar Mrican',
+				data: [{% for o in i.Mrican %}{{o}},{% endfor %}],
+				backgroundColor: "rgba(225,0,0,0.4)",
+				borderColor: "magenta", // The main line color
+				pointBorderColor: "black",
+				pointBackgroundColor: "white",
+				fill: false,
+				lineTension: 0.1,
+				pointBorderWidth: 1,
+				pointHoverRadius: 8,
+				pointHoverBackgroundColor: "yellow",
+				pointHoverBorderColor: "brown",
+				pointHoverBorderWidth: 2,
+				pointRadius: 4,
+				pointHitRadius: 10,
+			},
+			{% endfor %}
+			]
 		},
 		options: {
 			legend: {

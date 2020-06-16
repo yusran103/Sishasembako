@@ -26,6 +26,14 @@ def convert_boolean_field(value):
         return 'Ya'
     return 'Tidak'
 
+def convert_status_field(value):
+    if value == "<img src='/static/icon/ok.png'  width='20' height='20' />":
+        return 'Sudah Divalidasi'
+    elif value == "<img src='/static/icon/cancel.png'  width='20' height='20' />":
+        return 'Validasi Ditolak'
+    elif value == "<img src='/static/icon/important.png'  width='20' height='20' />":
+        return "Menunggu Validasi"
+
 def export_as_xls(self, request, queryset):
     if not request.user.is_staff:
         raise PermissionDenied
@@ -40,15 +48,25 @@ def export_as_xls(self, request, queryset):
     for obj in queryset:
         row = []
         for field in field_names:
-            is_admin_field = hasattr(self, field)
-            if is_admin_field:
+            if field == "status":
                 value = getattr(self, field)(obj)
+                if value == "<img src='/static/icon/ok.png'  width='20' height='20' />":
+                    value = "Sudah Divalidasi"
+                elif value == "<img src='/static/icon/cancel.png'  width='20' height='20' />":
+                    value = "Validasi Ditolak"
+                elif value == "<img src='/static/icon/important.png'  width='20' height='20' />":
+                    value = "Menunggu Validasi"
             else:
-                value = getattr(obj, field)
-                if isinstance(value, datetime) or isinstance(value, date):
-                    value = convert_data_date(value)
-                elif isinstance(value, bool):
-                    value = convert_boolean_field(value)
+                is_admin_field = hasattr(self, field)
+                if is_admin_field:
+                    value = getattr(self, field)(obj)
+                else:
+                    value = getattr(obj, field)
+                    if isinstance(value, datetime) or isinstance(value, date):
+                        value = convert_data_date(value)
+                    elif isinstance(value, bool):
+                        value = convert_boolean_field(value)
+            print(str(value))
             row.append(str(value))
         ws.append(row)
 

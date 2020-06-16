@@ -7,6 +7,7 @@ import datetime
 from django.http import HttpResponse
 from sishasembapo.actions import export_as_xls
 from mapbox_location_field.admin import MapAdmin
+from django.utils.html import mark_safe
 # Register your models here.
 
 admin.site.index_title = 'ADMIN PD. PASAR'
@@ -28,18 +29,32 @@ class SembakoListFilter(admin.SimpleListFilter):
 
 class hargaAdmin(admin.ModelAdmin):
     readonly_fields = ('Tanggal','nama_sembako','nama_pasar','harga')
-    list_display = ['Tanggal','nama_sembako','harga','nama_pasar','validasi']
+    list_display = ['Tanggal','nama_sembako','harga','nama_pasar','status']
     list_filter = ['nama_pasar__nama_pasar',SembakoListFilter]
     form = Harga_form_admin
     list_per_page = 10
     date_hierarchy = 'tanggal'
-    actions = ['validasi_harga','hapuspilih',export_as_xls]
-    
+    actions = ['validasi_harga','tolak_harga','hapuspilih',export_as_xls]
+
+    def status(self,obj):
+        if obj.validasi == "1": # Setuju
+            return mark_safe("<img src='/static/icon/ok.png'  width='20' height='20' />")
+        elif obj.validasi == "2": # tolak
+            return mark_safe("<img src='/static/icon/cancel.png'  width='20' height='20' />")
+        elif obj.validasi == "3": # menunggu
+            return mark_safe("<img src='/static/icon/important.png'  width='20' height='20' />")
+    status.allow_tags = True
+            
     def validasi_harga(self, request, queryset):
         for harga in queryset:
-            harga.validasi = True
+            harga.validasi = Harga.St.setuju
             harga.save()
-    validasi_harga.short_description = 'Validasi Harga Bahan Pokok'
+    validasi_harga.short_description = 'Validasi Disetujui'
+    def tolak_harga(self, request, queryset):
+        for harga in queryset:
+            harga.validasi = Harga.St.tolak
+            harga.save()
+    tolak_harga.short_description = 'Validasi Ditolak'
 
     def hapuspilih(self, request, queryset):
         for harga in queryset:
