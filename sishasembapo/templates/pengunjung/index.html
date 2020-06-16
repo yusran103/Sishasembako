@@ -5,17 +5,6 @@
 {% load mathfilters %}
 {% block extrastyle %}
 <style>
-    @media screen and (max-width: 575px) {
-		label.kosong{
-			display: none;
-        }
-        th{
-            font-size: 8px;
-        }
-        td{
-            font-size: 7px;
-        }
-	}
     @media screen and (max-width: 750px) {
         .table-responsive{
             height:868px;  
@@ -35,6 +24,17 @@
             font-size: 7px;
         }
     }
+    @media screen and (max-width: 575px) {
+		label.kosong{
+			display: none;
+        }
+        th{
+            font-size: 8px;
+        }
+        td{
+            font-size: 7px;
+        }
+	}
 </style>
 {% endblock extrastyle %}
 {% block content %}
