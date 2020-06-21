@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="{% static 'assets_page/plugins/toastr/toastr.min.css'%}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/select2/3.5.2/select2.css">
     <style type="text/css">
-        #navbar-hide{ display:none; }
+      #navbar-hide{ display:none; }
+      label[for="id_validasi"]
+      {
+          display:none;
+      }
         label{
             font-size: small;
         }
@@ -42,10 +46,7 @@
     {% block extrajs %}
     <script type="text/javascript" src="http://cdn.jsdelivr.net/select2/3.4.6/select2.min.js"></script>
     <script>
-        $('#id_nama_sembako').select2({
-            theme: "bootstrap 4"
-        });
-
+        $("#id_nama_sembako").attr("disabled",true);
         function btn_simpan() {
           window.onunload = refreshParent;
           function refreshParent() {

@@ -112,7 +112,7 @@
                             <td class="kecil"  style="text-align: center;"><a class="btn btn-sm btn-xs" style="background-color:#417690; color: white;" href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
                             {% elif list_harga.validasi == "2" %}
                             <td class="kecil" >Ditolak</td>
-                            <td class="kecil" style="text-align: center;"><a class="btn btn-sm btn-xs isDisabled" style="background-color:#417690; color: white;"> <i class="fa fa-edit"></i> Ubah</a></td>
+                            <td class="kecil" style="text-align: center;"><a class="btn btn-sm btn-xs" style="background-color:#417690; color: white; " href="{% url 'update_harga' pk=list_harga.pk %}" target="_blank" onclick="return windowpop(this.href, 545, 433)"> <i class="fa fa-edit"></i> Ubah</a></td>
                         </tr>
                         {% endif %}
                         {% endfor %}

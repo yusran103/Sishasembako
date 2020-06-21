@@ -8,6 +8,7 @@ from django.http import HttpResponse,FileResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth.decorators import login_required
 import datetime
+from django.db import connection
 from django.db.models import Q, Avg
 from django.utils import translation
 from django.db.models.functions import Coalesce
@@ -151,12 +152,8 @@ def update_harga(request,pk):
     harga = Harga.objects.get(pk=pk)
     sembako = Sembako.objects.get(pk=harga.nama_sembako.id)
     if request.method == "POST":
-        form = Harga_form(request.POST, instance=harga)
-        if form.is_valid():
-            hargas = form.save(commit=False)
-            nama_sembako = sembako,
-            nominal = request.POST['nominal'],
-            hargas.save()
+        cursor = connection.cursor()
+        cursor.execute("update tb_harga set nominal='%s' , validasi=3 where id='%s'"%(request.POST['nominal'],pk))
     else:
         form = Harga_form(instance=harga)
     return render(request,'admin_pasar/edit_harga.html',{'form':form,'harga':harga})
